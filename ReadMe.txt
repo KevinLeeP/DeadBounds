@@ -1,16 +1,3 @@
-These files accompany "Introduction to Embedded Systems using the MSPM0+" 
-Jonathan W. Valvano, ISBN: 9798852536594, copyright (c) 2026
-
-Most of the folders contain CCS projects. Folders that begin with the name ECE319K_Lab are ECE319K lab starter projects
-
-These folders do not contain CCS projects
-  The documentation folder contains html descriptions created by Doxygen
-  The datasheets folder contains data sheets for components used in this curriculum 
-  The inc folder contains shared files. For example, code you use in one lab that you will need in the next lab will be located in the inc folder. The inc folder also contains starter code used throughout the curriculum.
-  The WavePlay folder contains some sounds an a MatLab script to convert
-
-TExaSdisplay is a Windows application that implements a serial terminal, oscilloscope and logic analyzer.
-
-Built January 12, 2026
-
-
+DeadBounds
+Kevin Pfeffer and Charlie Nguyen
+DeadBounds is a Wolfenstein and DOOM-inspired first-person shooter game where the player continuously shoots zombies on a playing field. The objective is to eliminate zombies to survive as long as possible. However, as time progresses, more zombies spawn at random locations on the map at faster rates. When the player loses, they are met with a “Game Over” screen. From there, they can press a button to play again. This game is 3D, hence we intend to implement our game using raycasting, which is an early rendering technique used to create a 3D perspective on a 2D map. The UI will consist of the duration of time the player has survived for, the number of zombies killed, and an animation of a first-person perspective of our character holding a weapon. We will interface LEDs to depict the player’s health and ammunition with red and yellow LEDs respectively. To move and look around the map, we will use 2 joysticks, which are made using two potentiometers for the x and y direction. To toggle between languages, we will use the button built into the right joystick. To pause the game, we will use the button built into the left joystick. Finally, to shoot enemies, we will use a separate button.
