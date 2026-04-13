@@ -12,8 +12,13 @@ GEN_CMDS__FLAG :=
 ORDERED_OBJS += \
 "./ADC1.o" \
 "./Arabic.o" \
+"./Audio_DAC6.o" \
 "./Clock.o" \
+"./DAC4_0.o" \
+"./DAC4_1.o" \
 "./DAC5.o" \
+"./JoystickLeft.o" \
+"./JoystickRight.o" \
 "./LED.o" \
 "./Lab9Main.o" \
 "./LaunchPad.o" \
@@ -157,8 +162,8 @@ ECE319K_Lab9.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ADC1.o" "Arabic.o" "Clock.o" "DAC5.o" "LED.o" "Lab9Main.o" "LaunchPad.o" "SPI.o" "ST7735.o" "SmallFont.o" "Sound.o" "Switch.o" "TExaS.o" "Timer.o" "images\pipedreams\PipeSound.o" "ticlang\startup_mspm0g3507_ticlang.o" 
-	-$(RM) "ADC1.d" "Arabic.d" "Clock.d" "DAC5.d" "LED.d" "Lab9Main.d" "LaunchPad.d" "SPI.d" "ST7735.d" "SmallFont.d" "Sound.d" "Switch.d" "TExaS.d" "Timer.d" "images\pipedreams\PipeSound.d" "ticlang\startup_mspm0g3507_ticlang.d" 
+	-$(RM) "ADC1.o" "Arabic.o" "Audio_DAC6.o" "Clock.o" "DAC4_0.o" "DAC4_1.o" "DAC5.o" "JoystickLeft.o" "JoystickRight.o" "LED.o" "Lab9Main.o" "LaunchPad.o" "SPI.o" "ST7735.o" "SmallFont.o" "Sound.o" "Switch.o" "TExaS.o" "Timer.o" "images\pipedreams\PipeSound.o" "ticlang\startup_mspm0g3507_ticlang.o" 
+	-$(RM) "ADC1.d" "Arabic.d" "Audio_DAC6.d" "Clock.d" "DAC4_0.d" "DAC4_1.d" "DAC5.d" "JoystickLeft.d" "JoystickRight.d" "LED.d" "Lab9Main.d" "LaunchPad.d" "SPI.d" "ST7735.d" "SmallFont.d" "Sound.d" "Switch.d" "TExaS.d" "Timer.d" "images\pipedreams\PipeSound.d" "ticlang\startup_mspm0g3507_ticlang.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
