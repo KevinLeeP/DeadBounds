@@ -17,7 +17,6 @@
 "./Switch.o"
 "./TExaS.o"
 "./Timer.o"
-"./fp.o"
 "./Math/fix/fix16.o"
 "./Math/fix/fix16_exp.o"
 "./Math/fix/fix16_sqrt.o"

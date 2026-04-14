@@ -34,7 +34,7 @@ Lab9Main.o: ../Lab9Main.c \
  ../../inc/ST7735.h ../../inc/Clock.h ../../inc/LaunchPad.h \
  ../../inc/TExaS.h ../../inc/Timer.h ../../inc/ADC1.h ../../inc/DAC5.h \
  ../../inc/Arabic.h ../SmallFont.h ../LED.h ../Switch.h ../Sound.h \
- ../images/images.h ../JoystickLeft.h ../JoystickRight.h ../fp.h
+ ../images/images.h ../JoystickLeft.h ../JoystickRight.h
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h:
@@ -80,4 +80,3 @@ C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysct
 ../images/images.h:
 ../JoystickLeft.h:
 ../JoystickRight.h:
-../fp.h:
