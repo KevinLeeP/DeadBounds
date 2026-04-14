@@ -92,7 +92,7 @@
                         </toolChain>
                     </folderInfo>
                     <sourceEntries>
-                        <entry excluding="Math/libfixmatrix/fixvector3d_unittests.c|Math/libfixmatrix/fixquat_unittests.c|Math/libfixmatrix/fixmatrix_unittests.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
                     </sourceEntries>
                 </configuration>
             </storageModule>
