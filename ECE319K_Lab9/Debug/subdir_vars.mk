@@ -10,12 +10,12 @@ CMD_SRCS += \
 
 C_SRCS += \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/ADC1.c \
+../AMDAC4.c \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Arabic.c \
-../Audio_DAC6.c \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Clock.c \
-../DAC4_0.c \
-../DAC4_1.c \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/DAC5.c \
+../DAC6.c \
+../HPDAC4.c \
 ../JoystickLeft.c \
 ../JoystickRight.c \
 ../LED.c \
@@ -27,16 +27,17 @@ C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/ST7735.c \
 ../Sound.c \
 ../Switch.c \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/TExaS.c \
-C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Timer.c 
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Timer.c \
+../fp.c 
 
 C_DEPS += \
 ./ADC1.d \
+./AMDAC4.d \
 ./Arabic.d \
-./Audio_DAC6.d \
 ./Clock.d \
-./DAC4_0.d \
-./DAC4_1.d \
 ./DAC5.d \
+./DAC6.d \
+./HPDAC4.d \
 ./JoystickLeft.d \
 ./JoystickRight.d \
 ./LED.d \
@@ -48,16 +49,17 @@ C_DEPS += \
 ./Sound.d \
 ./Switch.d \
 ./TExaS.d \
-./Timer.d 
+./Timer.d \
+./fp.d 
 
 OBJS += \
 ./ADC1.o \
+./AMDAC4.o \
 ./Arabic.o \
-./Audio_DAC6.o \
 ./Clock.o \
-./DAC4_0.o \
-./DAC4_1.o \
 ./DAC5.o \
+./DAC6.o \
+./HPDAC4.o \
 ./JoystickLeft.o \
 ./JoystickRight.o \
 ./LED.o \
@@ -69,16 +71,17 @@ OBJS += \
 ./Sound.o \
 ./Switch.o \
 ./TExaS.o \
-./Timer.o 
+./Timer.o \
+./fp.o 
 
 OBJS__QUOTED += \
 "ADC1.o" \
+"AMDAC4.o" \
 "Arabic.o" \
-"Audio_DAC6.o" \
 "Clock.o" \
-"DAC4_0.o" \
-"DAC4_1.o" \
 "DAC5.o" \
+"DAC6.o" \
+"HPDAC4.o" \
 "JoystickLeft.o" \
 "JoystickRight.o" \
 "LED.o" \
@@ -90,16 +93,17 @@ OBJS__QUOTED += \
 "Sound.o" \
 "Switch.o" \
 "TExaS.o" \
-"Timer.o" 
+"Timer.o" \
+"fp.o" 
 
 C_DEPS__QUOTED += \
 "ADC1.d" \
+"AMDAC4.d" \
 "Arabic.d" \
-"Audio_DAC6.d" \
 "Clock.d" \
-"DAC4_0.d" \
-"DAC4_1.d" \
 "DAC5.d" \
+"DAC6.d" \
+"HPDAC4.d" \
 "JoystickLeft.d" \
 "JoystickRight.d" \
 "LED.d" \
@@ -111,16 +115,17 @@ C_DEPS__QUOTED += \
 "Sound.d" \
 "Switch.d" \
 "TExaS.d" \
-"Timer.d" 
+"Timer.d" \
+"fp.d" 
 
 C_SRCS__QUOTED += \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/ADC1.c" \
+"../AMDAC4.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Arabic.c" \
-"../Audio_DAC6.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Clock.c" \
-"../DAC4_0.c" \
-"../DAC4_1.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/DAC5.c" \
+"../DAC6.c" \
+"../HPDAC4.c" \
 "../JoystickLeft.c" \
 "../JoystickRight.c" \
 "../LED.c" \
@@ -132,6 +137,7 @@ C_SRCS__QUOTED += \
 "../Sound.c" \
 "../Switch.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/TExaS.c" \
-"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Timer.c" 
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Timer.c" \
+"../fp.c" 
 
 

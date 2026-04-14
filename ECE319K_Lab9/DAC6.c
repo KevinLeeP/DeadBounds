@@ -1,6 +1,4 @@
-/** @}*/
-/* template.c
-*/
+
 #include <ti/devices/msp/msp.h>
 #define PB0INDEX 12
 #define PB1INDEX 39
@@ -30,13 +28,11 @@ void DAC6_Init(void){
   GPIOB->DOE31_0 = 0x0000009F;
 }
 
-/**
- * Output to 6-bit DAC
- */
+//Output to 6-Bit DAC
 void DAC6_Out(uint32_t data){
   uint32_t temp = data;
   temp &= 0x00000020;
-  temp << 2; //shift bit 5 to bit 7
+  temp = temp << 2; //shift bit 5 to bit 7
 
   data &= (0x0000001F);
   data |= temp;

@@ -29,3 +29,5 @@ void DAC6_Init(void);
  * @brief  Output to DAC6
  */
 void DAC6_Out(uint32_t data);
+
+#endif

@@ -20,6 +20,9 @@
 #include "Switch.h"
 #include "Sound.h"
 #include "images/images.h"
+#include "JoystickLeft.h"
+#include "JoystickRight.h"
+#include "fp.h"
 // ****note to ECE319K students****
 // the data sheet says the ADC does not work when clock is 80 MHz
 // however, the ADC seems to work on my boards at 80 MHz
@@ -37,17 +40,15 @@ Arabic_t WeAreHonoredByYourPresence[]={alif,noon,waaw,ta,faa,raa,sheen,null}; //
 int main(void){ // main 0, demonstrate Arabic output
   Clock_Init80MHz(0);
   LaunchPad_Init();
-  ST7735_InitR(INITR_REDTAB); // INITR_REDTAB for AdaFruit, INITR_BLACKTAB for HiLetGo
-  ST7735_FillScreen(ST7735_WHITE);
-  Arabic_SetCursor(0,15);
-  Arabic_OutString(Hello);
-  Arabic_SetCursor(0,31);
-  Arabic_OutString(WeAreHonoredByYourPresence);
-  Arabic_SetCursor(0,63);
-  Arabic_OutString(ArabicAlphabet);
+  ST7735_InitR(INITR_BLACKTAB); // INITR_REDTAB for AdaFruit, INITR_BLACKTAB for HiLetGo
+  ST7735_FillScreen(ST7735_BLACK);
+  JoystickRight_Init();
   while(1){
+    ST7735_SetCursor(0,2);
+    
   }
 }
+
 uint32_t M=1;
 uint32_t Random32(void){
   M = 1664525*M+1013904223;
