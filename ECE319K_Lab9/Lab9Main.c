@@ -59,8 +59,9 @@ uint32_t Random(uint32_t n){
 
 
 // games  engine runs at 30Hz
-void TIMG12_IRQHandler(void){uint32_t pos,msg;
-  if((TIMG12->CPU_INT.IIDX) == 1){ // this will acknowledge
+void TIMG12_IRQHandler(void) {
+  uint32_t pos, msg;
+  if ((TIMG12->CPU_INT.IIDX) == 1) { // this will acknowledge
     GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
     GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
 // game engine goes here
