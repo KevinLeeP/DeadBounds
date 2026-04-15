@@ -46,6 +46,16 @@ static inline fix16_t fix16_from_int(int a)     { return a * fix16_one; }
 static inline float   fix16_to_float(fix16_t a) { return (float)a / fix16_one; }
 static inline double  fix16_to_dbl(fix16_t a)   { return (double)a / fix16_one; }
 
+
+static inline fix16_t fix16_from_parts(uint32_t integer, uint32_t thousandths) { 
+
+  int whole = integer * fix16_one;
+  int fraction = (thousandths * fix16_one) / 1000;
+
+  return whole + fraction;
+
+  } /* Also custom - Kevin */
+
 static inline int fix16_to_int(fix16_t a)
 {
 #ifdef FIXMATH_NO_ROUNDING

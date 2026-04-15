@@ -3,10 +3,10 @@
 */
 #include <ti/devices/msp/msp.h>
 
-#define PB16INDEX 11
-#define PB17INDEX 18
-#define PB18INDEX 25
-#define PB19INDEX 23
+#define PB16INDEX 32
+#define PB17INDEX 42
+#define PB18INDEX 43
+#define PB19INDEX 44
 
 /**
  * Initialize 4-bit DAC for HP Display

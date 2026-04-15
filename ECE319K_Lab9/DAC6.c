@@ -1,15 +1,15 @@
 
 #include <ti/devices/msp/msp.h>
-#define PB0INDEX 12
-#define PB1INDEX 39
-#define PB2INDEX 9
-#define PB3INDEX 10
-#define PB4INDEX 40
-#define PB7INDEX 14
+#define PB0INDEX 11
+#define PB1INDEX 12
+#define PB2INDEX 14
+#define PB3INDEX 15
+#define PB4INDEX 16
+#define PB22INDEX 49
 
 /**
  * Initialize 6-bit DAC for speaker driving
- *    - PB7 MSBit
+ *    - PB22 MSBit
  *    - PB4 
  *    - PB3 
  *    - PB2
@@ -22,7 +22,7 @@ void DAC6_Init(void){
   IOMUX->SECCFG.PINCM[PB2INDEX] = 0x00000081;
   IOMUX->SECCFG.PINCM[PB3INDEX] = 0x00000081;
   IOMUX->SECCFG.PINCM[PB4INDEX] = 0x00000081;
-  IOMUX->SECCFG.PINCM[PB7INDEX] = 0x00000081;
+  IOMUX->SECCFG.PINCM[PB22INDEX] = 0x00000081;
 
   GPIOB->DOUT31_0 &= (~0x0000009F);
   GPIOB->DOE31_0 = 0x0000009F;

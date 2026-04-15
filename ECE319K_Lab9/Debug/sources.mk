@@ -120,7 +120,7 @@ GEN_OPTS__QUOTED :=
 SUBDIRS := \
 . \
 Math/fix \
-Math/libfixmatrix \
+Math/lib_fixmatrix \
 images \
 images/pipedreams \
 ticlang \

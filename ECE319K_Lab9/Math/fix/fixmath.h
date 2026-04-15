@@ -10,8 +10,7 @@ extern "C"
 	\file fixmath.h
 	\brief Functions to perform fast accurate fixed-point math operations.
 */
-
-#include "uint32.h"
+#include <stdint.h>
 #include "int64.h"
 #include "fract32.h"
 #include "fix16.h"

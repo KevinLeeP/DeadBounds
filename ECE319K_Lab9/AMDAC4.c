@@ -3,10 +3,10 @@
 */
 #include <ti/devices/msp/msp.h>
 
-#define PB12INDEX 19
-#define PB13INDEX 35
-#define PB23INDEX 3
-#define PB24INDEX 6
+#define PB12INDEX 28
+#define PB13INDEX 29
+#define PB23INDEX 50
+#define PB24INDEX 51
 
 /**
  * Initialize 4-bit DAC for AMMO Display

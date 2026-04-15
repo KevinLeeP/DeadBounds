@@ -1,7 +1,5 @@
 #include <ti/devices/msp/msp.h>
 #include "../inc/Clock.h"
-#define PA27 8
-#define PA26 5 
 
 void JoystickLeft_Init(){
   ADC0->ULLMEM.GPRCM.RSTCTL = 0xB1000003; // 1) reset

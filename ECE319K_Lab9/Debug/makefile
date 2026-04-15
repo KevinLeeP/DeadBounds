@@ -35,12 +35,12 @@ ORDERED_OBJS += \
 "./Math/fix/fix16_str.o" \
 "./Math/fix/fix16_trig.o" \
 "./Math/fix/fract32.o" \
-"./Math/libfixmatrix/fixarray.o" \
-"./Math/libfixmatrix/fixmatrix.o" \
-"./Math/libfixmatrix/fixquat.o" \
-"./Math/libfixmatrix/fixstring.o" \
-"./Math/libfixmatrix/fixvector2d.o" \
-"./Math/libfixmatrix/fixvector3d.o" \
+"./Math/lib_fixmatrix/fixarray.o" \
+"./Math/lib_fixmatrix/fixmatrix.o" \
+"./Math/lib_fixmatrix/fixquat.o" \
+"./Math/lib_fixmatrix/fixstring.o" \
+"./Math/lib_fixmatrix/fixvector2d.o" \
+"./Math/lib_fixmatrix/fixvector3d.o" \
 "./images/pipedreams/PipeSound.o" \
 "./ticlang/startup_mspm0g3507_ticlang.o" \
 "../mspm0g3507.cmd" \
@@ -57,13 +57,13 @@ RMDIR := RMDIR /S/Q
 -include sources.mk
 -include subdir_vars.mk
 -include Math/fix/subdir_vars.mk
--include Math/libfixmatrix/subdir_vars.mk
+-include Math/lib_fixmatrix/subdir_vars.mk
 -include images/subdir_vars.mk
 -include images/pipedreams/subdir_vars.mk
 -include ticlang/subdir_vars.mk
 -include subdir_rules.mk
 -include Math/fix/subdir_rules.mk
--include Math/libfixmatrix/subdir_rules.mk
+-include Math/lib_fixmatrix/subdir_rules.mk
 -include images/subdir_rules.mk
 -include images/pipedreams/subdir_rules.mk
 -include ticlang/subdir_rules.mk
@@ -178,8 +178,8 @@ ECE319K_Lab9.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ADC1.o" "AMDAC4.o" "Arabic.o" "Clock.o" "DAC5.o" "DAC6.o" "HPDAC4.o" "JoystickLeft.o" "JoystickRight.o" "LED.o" "Lab9Main.o" "LaunchPad.o" "SPI.o" "ST7735.o" "SmallFont.o" "Sound.o" "Switch.o" "TExaS.o" "Timer.o" "Math\fix\fix16.o" "Math\fix\fix16_exp.o" "Math\fix\fix16_sqrt.o" "Math\fix\fix16_str.o" "Math\fix\fix16_trig.o" "Math\fix\fract32.o" "Math\libfixmatrix\fixarray.o" "Math\libfixmatrix\fixmatrix.o" "Math\libfixmatrix\fixquat.o" "Math\libfixmatrix\fixstring.o" "Math\libfixmatrix\fixvector2d.o" "Math\libfixmatrix\fixvector3d.o" "images\pipedreams\PipeSound.o" "ticlang\startup_mspm0g3507_ticlang.o" 
-	-$(RM) "ADC1.d" "AMDAC4.d" "Arabic.d" "Clock.d" "DAC5.d" "DAC6.d" "HPDAC4.d" "JoystickLeft.d" "JoystickRight.d" "LED.d" "Lab9Main.d" "LaunchPad.d" "SPI.d" "ST7735.d" "SmallFont.d" "Sound.d" "Switch.d" "TExaS.d" "Timer.d" "Math\fix\fix16.d" "Math\fix\fix16_exp.d" "Math\fix\fix16_sqrt.d" "Math\fix\fix16_str.d" "Math\fix\fix16_trig.d" "Math\fix\fract32.d" "Math\libfixmatrix\fixarray.d" "Math\libfixmatrix\fixmatrix.d" "Math\libfixmatrix\fixquat.d" "Math\libfixmatrix\fixstring.d" "Math\libfixmatrix\fixvector2d.d" "Math\libfixmatrix\fixvector3d.d" "images\pipedreams\PipeSound.d" "ticlang\startup_mspm0g3507_ticlang.d" 
+	-$(RM) "ADC1.o" "AMDAC4.o" "Arabic.o" "Clock.o" "DAC5.o" "DAC6.o" "HPDAC4.o" "JoystickLeft.o" "JoystickRight.o" "LED.o" "Lab9Main.o" "LaunchPad.o" "SPI.o" "ST7735.o" "SmallFont.o" "Sound.o" "Switch.o" "TExaS.o" "Timer.o" "Math\fix\fix16.o" "Math\fix\fix16_exp.o" "Math\fix\fix16_sqrt.o" "Math\fix\fix16_str.o" "Math\fix\fix16_trig.o" "Math\fix\fract32.o" "Math\lib_fixmatrix\fixarray.o" "Math\lib_fixmatrix\fixmatrix.o" "Math\lib_fixmatrix\fixquat.o" "Math\lib_fixmatrix\fixstring.o" "Math\lib_fixmatrix\fixvector2d.o" "Math\lib_fixmatrix\fixvector3d.o" "images\pipedreams\PipeSound.o" "ticlang\startup_mspm0g3507_ticlang.o" 
+	-$(RM) "ADC1.d" "AMDAC4.d" "Arabic.d" "Clock.d" "DAC5.d" "DAC6.d" "HPDAC4.d" "JoystickLeft.d" "JoystickRight.d" "LED.d" "Lab9Main.d" "LaunchPad.d" "SPI.d" "ST7735.d" "SmallFont.d" "Sound.d" "Switch.d" "TExaS.d" "Timer.d" "Math\fix\fix16.d" "Math\fix\fix16_exp.d" "Math\fix\fix16_sqrt.d" "Math\fix\fix16_str.d" "Math\fix\fix16_trig.d" "Math\fix\fract32.d" "Math\lib_fixmatrix\fixarray.d" "Math\lib_fixmatrix\fixmatrix.d" "Math\lib_fixmatrix\fixquat.d" "Math\lib_fixmatrix\fixstring.d" "Math\lib_fixmatrix\fixvector2d.d" "Math\lib_fixmatrix\fixvector3d.d" "images\pipedreams\PipeSound.d" "ticlang\startup_mspm0g3507_ticlang.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

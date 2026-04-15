@@ -1,6 +1,5 @@
 #include <ti/devices/msp/msp.h>
 #include "../inc/Clock.h"
-#define PA15 30
 
 void JoystickRight_Init(){
   ADC1->ULLMEM.GPRCM.RSTCTL = 0xB1000003; // 1) reset
