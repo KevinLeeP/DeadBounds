@@ -37,7 +37,6 @@
 // the data sheet says the ADC does not work when clock is 80 MHz
 // however, the ADC seems to work on my boards at 80 MHz
 // I suggest you try 80MHz, but if it doesn't work, switch to 40MHz
-int32_t joystickTurnInput;
 void PLL_Init(void){ // set phase lock loop (PLL)
   // Clock_Init40MHz(); // run this line for 40MHz
   Clock_Init80MHz(0); // run this line for 80MHz
@@ -131,9 +130,7 @@ int main(void) { // mainDeadBounds
     //rotate in place
     //deltaTheta = fix16_div(fix16_pi, fix16_from_int(60)); //pi/180
     int32_t joystickTurnInput = JoystickRight_getX();
-    Clock_Delay1ms(1);
     int32_t joystickForwardInput = JoystickLeft_getY();
-    Clock_Delay1ms(1);
     int32_t joystickStrafeInput = JoystickLeft_getX();
 
     if(abs(joystickTurnInput) > joystickDeadBand){
@@ -171,12 +168,31 @@ int main(void) { // mainDeadBounds
     else{
       walkSpeedY = 0;
     }
-    
-    pos.x -= fix16_mul(dir.x, walkSpeedX);
-    pos.y -= fix16_mul(dir.y, walkSpeedX);
 
-    pos.x += fix16_mul(dir.y, walkSpeedY);
-    pos.y -= fix16_mul(dir.x, walkSpeedY);
+    //check collisions
+
+
+    //forward vector
+    if(worldMap[ fix16_to_int( pos.x - fix16_mul(dir.x, walkSpeedX))] [ fix16_to_int(pos.y)] == 0){
+      pos.x -= fix16_mul(dir.x, walkSpeedX);
+    }
+    if(worldMap[ fix16_to_int(pos.x)][ fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX))-1] == 0){
+      pos.y -= fix16_mul(dir.y, walkSpeedX);
+    }
+
+
+    
+    uint32_t testX = fix16_to_int(pos.x);
+    uint32_t testY = fix16_to_int(pos.y - fix16_mul(dir.x , walkSpeedX));
+    uint32_t test = worldMap[ testX ][ testY ];
+    //perpendicular strafe vector
+    //check collisions
+    if(worldMap[ fix16_to_int( pos.x + fix16_mul(dir.y, walkSpeedY))] [ fix16_to_int(pos.y)] == 0){
+      pos.x += fix16_mul(dir.y, walkSpeedY);
+    }
+    if(worldMap[ fix16_to_int(pos.x)][ fix16_to_int(pos.y - fix16_mul(dir.x , walkSpeedX))] == 0){
+      pos.y -= fix16_mul(dir.x, walkSpeedY);
+    }
 
 
     fix16_t tempDirX;
@@ -286,8 +302,8 @@ int main(void) { // mainDeadBounds
         drawSkyEnd = 0;
       }
 
-      if(drawFloorStart > 119){
-        drawFloorStart = 119;
+      if(drawFloorStart > screenHeight-1){
+        drawFloorStart = screenHeight-1;
       }
 // int32_t drawEnd;
 //       if(drawEnd > screenHeight - 1){
@@ -320,10 +336,10 @@ int main(void) { // mainDeadBounds
       ST7735_DrawFastVLine(pixelX, drawFloorStart, (screenHeight-drawFloorStart), ST7735_BLACK); //bottom black line
       ST7735_DrawFastVLine(pixelX, drawWallStart, lineHeight, color); //wall line
 
-
-
-
-      //Clock_Delay(100);
+      // ST7735_SetCursor(0,0);
+      // ST7735_OutString("X=");
+      // ST7735_SetCursor(2, 0);
+      // ST7735_OutUDec4(fix16_to_int(pos.x));
     }
 
 
