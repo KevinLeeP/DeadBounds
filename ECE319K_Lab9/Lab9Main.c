@@ -6,13 +6,17 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
+
 #include <ti/devices/msp/msp.h>
 #include "../inc/ST7735.h"
 #include "../inc/Clock.h"
 
 #include "Math/fix/fix16.h"
+#include "Math/fix/fix16_fast_trig_lut.h"
 #include "Math/lib_fixmatrix/fixvector2d.h"
 #include "Math/lib_fixmatrix/fixmatrix.h"
+
 
 #include "../inc/DAC5.h"
 #include "../inc/LaunchPad.h"
@@ -33,6 +37,7 @@
 // the data sheet says the ADC does not work when clock is 80 MHz
 // however, the ADC seems to work on my boards at 80 MHz
 // I suggest you try 80MHz, but if it doesn't work, switch to 40MHz
+int32_t joystickTurnInput;
 void PLL_Init(void){ // set phase lock loop (PLL)
   // Clock_Init40MHz(); // run this line for 40MHz
   Clock_Init80MHz(0); // run this line for 80MHz
@@ -49,10 +54,12 @@ we are honored by your presence
 #define mapWidth 24
 #define mapHeight 24
 #define screenWidth 160
-#define screenHeight 120
+#define screenHeight 128
 #define screenOrientation 1
 
 #define wallHeight 150
+
+#define joystickDeadBand 50
 
 
 #define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
@@ -84,32 +91,103 @@ const uint8_t worldMap[mapWidth][mapHeight] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
 int main(void) { // mainDeadBounds
+
   PLL_Init();
   LaunchPad_Init();
+  JoystickLeft_Init();
+  JoystickRight_Init();
 
   // fix16_t posX = F16(22.0), posY = F16(12.0);
   // fix16_t dirX = F16(-1.0), dirY = F16(0.0);
   // fix16_t planeX = F16(0.0), planeY = F16(0.666);
     
 
-  v2d pos = {F16(22.0), F16(12.0)};
+  v2d pos = {F16(12.0), F16(12.0)}; //{F16(22.0), F16(12.0)};
   v2d dir = {F16(-1.0), F16(0.0)};//{F16(-1.0), F16(0.0)};
   v2d plane = {F16(0.0), F16(0.666)};
 
   ST7735_InitR(INITR_BLACKTAB);
   ST7735_FillScreen(0);
   ST7735_SetRotation(screenOrientation);
-  
-  mf16 rotMatrix;
-  fix16_t radians;
+
+  // fix16_t theta = fix16_div(fix16_pi, fix16_from_int(4));//pi/4
+  // fix16_t sin_theta = fix16_fast_sin(theta);
+
+  // theta = fix16_div(fix16_pi, fix16_from_int(-4));
+  // sin_theta = fix16_fast_sin(theta);
+
+
+
 
   while (1) {
+
     fix16_t cameraX = 0;
+    fix16_t rotSpeed = 0;
+    fix16_t walkSpeedX = 0;
+    fix16_t walkSpeedY = 0;
     v2d rayDir = {0, 0};
+    
 
     //rotate in place
-    // mf16_fill(rotMatrix, 0);
-    // mf16_add(rotMatrix, 0, 0)
+    //deltaTheta = fix16_div(fix16_pi, fix16_from_int(60)); //pi/180
+    int32_t joystickTurnInput = JoystickRight_getX();
+    Clock_Delay1ms(1);
+    int32_t joystickForwardInput = JoystickLeft_getY();
+    Clock_Delay1ms(1);
+    int32_t joystickStrafeInput = JoystickLeft_getX();
+
+    if(abs(joystickTurnInput) > joystickDeadBand){
+      //deltaTheta = joystickTurnInput * pi/ 10000 -> -pi/10 to pi/10
+      rotSpeed = -fix16_div(fix16_mul(fix16_from_int(joystickTurnInput), fix16_pi) ,fix16_from_int(10000));
+    }
+    else{
+      rotSpeed = 0;
+    }
+
+    if(abs(joystickForwardInput) > joystickDeadBand){
+        if(joystickForwardInput > 0){
+          walkSpeedX = F16(0.1);
+        }
+        else{
+          walkSpeedX = F16(-0.1);
+        }
+      //-fix16_div(fix16_from_int(joystickForwardInput), fix16_from_int(1000000));
+    }
+    else{
+      walkSpeedX = 0;
+    }
+
+    if(abs(joystickStrafeInput) > joystickDeadBand){
+      if(joystickStrafeInput > 0){
+        walkSpeedY = F16(0.1);
+      }
+      else{
+        walkSpeedY = F16(-0.1);
+      }
+      
+      
+      //= -fix16_div(fix16_from_int(joystickStrafeInput), fix16_from_int(1000000));
+    }
+    else{
+      walkSpeedY = 0;
+    }
+    
+    pos.x -= fix16_mul(dir.x, walkSpeedX);
+    pos.y -= fix16_mul(dir.y, walkSpeedX);
+
+    pos.x += fix16_mul(dir.y, walkSpeedY);
+    pos.y -= fix16_mul(dir.x, walkSpeedY);
+
+
+    fix16_t tempDirX;
+    fix16_t tempPlaneX;
+    tempDirX = fix16_mul(dir.x, fix16_fast_cos(rotSpeed)) - fix16_mul(dir.y, fix16_fast_sin(rotSpeed));
+    dir.y = fix16_mul(dir.x, fix16_fast_sin(rotSpeed)) +  fix16_mul(dir.y, fix16_fast_cos(rotSpeed));
+    dir.x = tempDirX;
+
+    tempPlaneX = fix16_mul(plane.x, fix16_fast_cos(rotSpeed)) - fix16_mul(plane.y, fix16_fast_sin(rotSpeed));
+    plane.y = fix16_mul(plane.x, fix16_fast_sin(rotSpeed)) +  fix16_mul(plane.y, fix16_fast_cos(rotSpeed));
+    plane.x = tempPlaneX; 
 
 
 
@@ -158,16 +236,12 @@ int main(void) { // mainDeadBounds
       }
       else{
         stepY = 1;
-        sideDistY = fix16_mul((map.y + fix16_from_int(1) - pos.x), deltaDistY);
+        sideDistY = fix16_mul((map.y + fix16_from_int(1) - pos.y), deltaDistY);
       }
 
-      int count = 0;
 
       while(wallHit == 0){
           
-          if(count > 10000){
-            break;
-          }
           if(sideDistX < sideDistY){
             sideDistX += deltaDistX;
             map.x += fix16_from_int(stepX);
@@ -183,10 +257,9 @@ int main(void) { // mainDeadBounds
             wallHit = 1;
           }
 
-          count++;
       }
 
-      if( sideHit == 0){
+      if(sideHit == 0){
         perpWallDist = sideDistX - deltaDistX;
       }
       else{
@@ -195,10 +268,26 @@ int main(void) { // mainDeadBounds
 
       
       int32_t lineHeight = fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1), perpWallDist), fix16_from_int(wallHeight))); //CHECK THIS
-      int32_t drawStart = fix16_to_int(fix16_div(fix16_from_int(screenHeight),fix16_from_int(2)) 
+      int32_t drawWallStart = fix16_to_int(fix16_div(fix16_from_int(screenHeight),fix16_from_int(2)) 
                                       - fix16_div(fix16_from_int(lineHeight), fix16_from_int(2))); // drawStart = (screenHeight/2) - (lineHeight/2)
-      if(drawStart < 0){
-        drawStart = 0;
+
+      int32_t drawSkyEnd = fix16_to_int(fix16_div(fix16_from_int(screenHeight), fix16_from_int(2)) 
+                                      - fix16_div(fix16_from_int(lineHeight), fix16_from_int(2))
+                                      ); //(screenHeight/2) - (lineHeight/2)
+      int32_t drawFloorStart = fix16_to_int(fix16_div(fix16_from_int(screenHeight), fix16_from_int(2)) 
+                                      + fix16_div(fix16_from_int(lineHeight), fix16_from_int(2))
+                                      );    //(screenHeight/2) + (lineHeight/2)
+
+      if(drawWallStart < 0){
+        drawWallStart = 0;
+      }
+
+      if(drawSkyEnd < 0){
+        drawSkyEnd = 0;
+      }
+
+      if(drawFloorStart > 119){
+        drawFloorStart = 119;
       }
 // int32_t drawEnd;
 //       if(drawEnd > screenHeight - 1){
@@ -224,11 +313,17 @@ int main(void) { // mainDeadBounds
       }
 
       if(sideHit == 1){
-        color = color >> 1;
+        color = color & (~0x8410);//color >> 1;
       }
 
-      ST7735_DrawFastVLine(pixelX, drawStart, lineHeight, color);
-      Clock_Delay(100);
+      ST7735_DrawFastVLine(pixelX, 0, drawSkyEnd, ST7735_BLACK);//top black line
+      ST7735_DrawFastVLine(pixelX, drawFloorStart, (screenHeight-drawFloorStart), ST7735_BLACK); //bottom black line
+      ST7735_DrawFastVLine(pixelX, drawWallStart, lineHeight, color); //wall line
+
+
+
+
+      //Clock_Delay(100);
     }
 
 

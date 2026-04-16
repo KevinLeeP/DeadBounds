@@ -14,6 +14,8 @@ static fix16_t _fix16_atan_cache_value[4096] = { 0 };
 #endif
 
 
+
+
 fix16_t fix16_sin_parabola(fix16_t inAngle)
 {
 	fix16_t abs_inAngle, abs_retval, retval;
@@ -48,7 +50,7 @@ fix16_t fix16_sin(fix16_t inAngle)
 {
 	fix16_t tempAngle = inAngle % (fix16_pi << 1);
 
-	#ifdef FIXMATH_SIN_LUT
+	#ifndef FIXMATH_SIN_LUT
 	if(tempAngle < 0)
 		tempAngle += (fix16_pi << 1);
 

@@ -20,5 +20,5 @@ int32_t JoystickRight_getX(){
   ADC1->ULLMEM.CTL1 |= 0x00000100;             // 2) start ADC
   uint32_t volatile delay=ADC1->ULLMEM.STATUS; // 3) time to let ADC start
   while((ADC1->ULLMEM.STATUS&0x01)==0x01){}    // 4) wait for completion
-  return (ADC1->ULLMEM.MEMRES[0]*2000)/4095;               // 5) 12-bit result
+  return ((ADC1->ULLMEM.MEMRES[0]*2000)/4095) -1000;  //  //0 - 4095 scaled to be -1000 to 999            
 }
