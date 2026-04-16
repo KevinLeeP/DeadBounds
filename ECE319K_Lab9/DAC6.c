@@ -24,18 +24,15 @@ void DAC6_Init(void){
   IOMUX->SECCFG.PINCM[PB4INDEX] = 0x00000081;
   IOMUX->SECCFG.PINCM[PB22INDEX] = 0x00000081;
 
-  GPIOB->DOUT31_0 &= (~0x0000009F);
-  GPIOB->DOE31_0 = 0x0000009F;
+  GPIOB->DOUT31_0 &= (~0x0040001F);
+  GPIOB->DOE31_0 = 0x0040001F;
 }
 
 //Output to 6-Bit DAC
 void DAC6_Out(uint32_t data){
-  uint32_t temp = data;
-  temp &= 0x00000020;
-  temp = temp << 2; //shift bit 5 to bit 7
+  uint32_t out = 0;
+  out |= (data & 0x1F);
+  out |= ((data & 0x20) << 17);
 
-  data &= (0x0000001F);
-  data |= temp;
-
-  GPIOB->DOUT31_0 = data;
+  GPIOB->DOUT31_0 = (GPIOB->DOUT31_0 & ~0x0040001F) | out;
 }
