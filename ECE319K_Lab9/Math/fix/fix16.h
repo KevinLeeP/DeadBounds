@@ -58,7 +58,7 @@ static inline fix16_t fix16_from_parts(uint32_t integer, uint32_t thousandths) {
 
 static inline int fix16_to_int(fix16_t a)
 {
-#ifdef FIXMATH_NO_ROUNDING
+#ifndef FIXMATH_NO_ROUNDING
     return (a >> 16);
 #else
 	if (a >= 0)

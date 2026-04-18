@@ -37,7 +37,6 @@
 // the data sheet says the ADC does not work when clock is 80 MHz
 // however, the ADC seems to work on my boards at 80 MHz
 // I suggest you try 80MHz, but if it doesn't work, switch to 40MHz
-int32_t joystickTurnInput;
 void PLL_Init(void){ // set phase lock loop (PLL)
   // Clock_Init40MHz(); // run this line for 40MHz
   Clock_Init80MHz(0); // run this line for 80MHz
@@ -60,6 +59,8 @@ we are honored by your presence
 #define wallHeight 150
 
 #define joystickDeadBand 50
+
+#define margin F16(0.2)
 
 
 #define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
@@ -110,35 +111,27 @@ int main(void) { // mainDeadBounds
   ST7735_FillScreen(0);
   ST7735_SetRotation(screenOrientation);
 
-  // fix16_t theta = fix16_div(fix16_pi, fix16_from_int(4));//pi/4
-  // fix16_t sin_theta = fix16_fast_sin(theta);
-
-  // theta = fix16_div(fix16_pi, fix16_from_int(-4));
-  // sin_theta = fix16_fast_sin(theta);
-
-
-
-
   while (1) {
 
-    fix16_t cameraX = 0;
+    fix16_t cameraX = F16(-1);
+    fix16_t cameraXStep = F16(0.0125);
     fix16_t rotSpeed = 0;
     fix16_t walkSpeedX = 0;
     fix16_t walkSpeedY = 0;
+
+
     v2d rayDir = {0, 0};
     
 
     //rotate in place
     //deltaTheta = fix16_div(fix16_pi, fix16_from_int(60)); //pi/180
     int32_t joystickTurnInput = JoystickRight_getX();
-    Clock_Delay1ms(1);
     int32_t joystickForwardInput = JoystickLeft_getY();
-    Clock_Delay1ms(1);
     int32_t joystickStrafeInput = JoystickLeft_getX();
 
     if(abs(joystickTurnInput) > joystickDeadBand){
       //deltaTheta = joystickTurnInput * pi/ 10000 -> -pi/10 to pi/10
-      rotSpeed = -fix16_div(fix16_mul(fix16_from_int(joystickTurnInput), fix16_pi) ,fix16_from_int(10000));
+      rotSpeed = -fix16_div(fix16_mul(fix16_from_int(joystickTurnInput), fix16_pi) ,F16(10000));
     }
     else{
       rotSpeed = 0;
@@ -171,12 +164,35 @@ int main(void) { // mainDeadBounds
     else{
       walkSpeedY = 0;
     }
-    
-    pos.x -= fix16_mul(dir.x, walkSpeedX);
-    pos.y -= fix16_mul(dir.y, walkSpeedX);
 
-    pos.x += fix16_mul(dir.y, walkSpeedY);
-    pos.y -= fix16_mul(dir.x, walkSpeedY);
+    // fix16_t moveX = 0;
+    // fix16_t moveY = 0;
+
+    // fix16_t checkX = 0;
+    // fix16_t checkY = 0;
+    //check collisions
+    //forward vector
+    if(worldMap[ fix16_to_int( pos.x - fix16_mul(dir.x, walkSpeedX))] [ fix16_to_int(pos.y)] == 0){
+      pos.x -= fix16_mul(dir.x, walkSpeedX);
+    }
+    if(worldMap[ fix16_to_int(pos.x)][ fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX))-1] == 0){
+      pos.y -= fix16_mul(dir.y, walkSpeedX);
+    }
+
+
+    
+    // uint32_t testX = fix16_to_int(pos.x);
+    // uint32_t testY = fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX));
+    // uint32_t test = worldMap[ testX ][ testY ];
+
+    //perpendicular strafe vector
+    //check collisions
+    if(worldMap[ fix16_to_int( pos.x + fix16_mul(dir.y, walkSpeedY))] [ fix16_to_int(pos.y)] == 0){
+      pos.x += fix16_mul(dir.y, walkSpeedY);
+    }
+    if(worldMap[ fix16_to_int(pos.x)][ fix16_to_int(pos.y - fix16_mul(dir.x , walkSpeedX))] == 0){
+      pos.y -= fix16_mul(dir.x, walkSpeedY);
+    }
 
 
     fix16_t tempDirX;
@@ -192,25 +208,29 @@ int main(void) { // mainDeadBounds
 
 
     for (int pixelX = 0; pixelX < screenWidth; pixelX++){
-      cameraX = fix16_div(fix16_mul(fix16_from_int(pixelX), fix16_from_int(2)), fix16_from_int(screenWidth)) - fix16_from_int(1); // (2 * x / screeWidth) - 1
+      //cameraX = fix16_div(fix16_mul(fix16_from_int(pixelX), fix16_from_int(2)), fix16_from_int(screenWidth)) - fix16_from_int(1); // (2 * x / screeWidth) - 1
 
       // rayDir = (plane * cameraX) + dir
       v2d_mul_s(&rayDir, &plane, cameraX);
       v2d_add(&rayDir, &rayDir, &dir);
 
+      cameraX += cameraXStep;
+
       // int32_t mapX = fix16_to_int(pos.x);
       // int32_t mapY = fix16_to_int(pos.y);
 
       //map = [int(pos.x), int(pos.y)]
-      v2d map = {fix16_from_int(fix16_to_int(pos.x)), 
-                 fix16_from_int(fix16_to_int(pos.y))};
+      // v2d map = {fix16_from_int(fix16_to_int(pos.x)), 
+      //            fix16_from_int(fix16_to_int(pos.y))};
+      int32_t mapX  = fix16_to_int(pos.x);
+      int32_t mapY = fix16_to_int(pos.y);
 
 
       fix16_t sideDistX;
       fix16_t sideDistY;
 
-      fix16_t deltaDistX = (rayDir.x == 0) ? fix16_maximum : fix16_abs(fix16_div(fix16_from_int(1), rayDir.x)); //deltaDistX = 1 / |rayDir.x|
-      fix16_t deltaDistY = (rayDir.y == 0) ? fix16_maximum : fix16_abs(fix16_div(fix16_from_int(1), rayDir.y)); //deltaDistY = 1 / |rayDir.y|
+      fix16_t deltaDistX = (rayDir.x == 0) ? fix16_maximum : fix16_abs(fix16_div(F16(1), rayDir.x)); //deltaDistX = 1 / |rayDir.x|
+      fix16_t deltaDistY = (rayDir.y == 0) ? fix16_maximum : fix16_abs(fix16_div(F16(1), rayDir.y)); //deltaDistY = 1 / |rayDir.y|
       fix16_t perpWallDist;
 
       int8_t stepX;
@@ -223,20 +243,20 @@ int main(void) { // mainDeadBounds
 
       if(rayDir.x < 0){
         stepX = -1;
-        sideDistX = fix16_mul((pos.x - map.x), deltaDistX);
+        sideDistX = fix16_mul((pos.x - (mapX << 16 )), deltaDistX);
       }
       else{
         stepX = 1;
-        sideDistX = fix16_mul((map.x + fix16_from_int(1) - pos.x), deltaDistX);
+        sideDistX = fix16_mul(((mapX << 16) + F16(1) - pos.x), deltaDistX);
       }
 
       if(rayDir.y < 0){
         stepY = -1;
-        sideDistY = fix16_mul((pos.y - map.y), deltaDistY);
+        sideDistY = fix16_mul((pos.y - (mapY << 16)), deltaDistY);
       }
       else{
         stepY = 1;
-        sideDistY = fix16_mul((map.y + fix16_from_int(1) - pos.y), deltaDistY);
+        sideDistY = fix16_mul(( (mapY << 16) + F16(1) - pos.y), deltaDistY);
       }
 
 
@@ -244,16 +264,16 @@ int main(void) { // mainDeadBounds
           
           if(sideDistX < sideDistY){
             sideDistX += deltaDistX;
-            map.x += fix16_from_int(stepX);
+            mapX += stepX;
             sideHit = 0;
           }
           else{
             sideDistY += deltaDistY;
-            map.y += fix16_from_int(stepY);
+            mapY += stepY;
             sideHit = 1;
           }
 
-          if(worldMap[fix16_to_int(map.x)][fix16_to_int(map.y)] != 0){
+          if(worldMap[mapX][mapY] != 0){
             wallHit = 1;
           }
 
@@ -267,15 +287,15 @@ int main(void) { // mainDeadBounds
       }
 
       
-      int32_t lineHeight = fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1), perpWallDist), fix16_from_int(wallHeight))); //CHECK THIS
-      int32_t drawWallStart = fix16_to_int(fix16_div(fix16_from_int(screenHeight),fix16_from_int(2)) 
-                                      - fix16_div(fix16_from_int(lineHeight), fix16_from_int(2))); // drawStart = (screenHeight/2) - (lineHeight/2)
+      int32_t lineHeight = (wallHeight << 16) / perpWallDist;//fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1), perpWallDist), fix16_from_int(wallHeight))); //CHECK THIS
+      int32_t drawWallStart = fix16_to_int(fix16_div(F16(screenHeight),F16(2)) 
+                                      - fix16_div(fix16_from_int(lineHeight), F16(2))); // drawStart = (screenHeight/2) - (lineHeight/2)
 
-      int32_t drawSkyEnd = fix16_to_int(fix16_div(fix16_from_int(screenHeight), fix16_from_int(2)) 
-                                      - fix16_div(fix16_from_int(lineHeight), fix16_from_int(2))
+      int32_t drawSkyEnd = fix16_to_int(fix16_div(F16(screenHeight), F16(2)) 
+                                      - fix16_div(fix16_from_int(lineHeight), F16(2))
                                       ); //(screenHeight/2) - (lineHeight/2)
-      int32_t drawFloorStart = fix16_to_int(fix16_div(fix16_from_int(screenHeight), fix16_from_int(2)) 
-                                      + fix16_div(fix16_from_int(lineHeight), fix16_from_int(2))
+      int32_t drawFloorStart = fix16_to_int(fix16_div(F16(screenHeight), F16(2)) 
+                                      + fix16_div(fix16_from_int(lineHeight), F16(2))
                                       );    //(screenHeight/2) + (lineHeight/2)
 
       if(drawWallStart < 0){
@@ -286,8 +306,8 @@ int main(void) { // mainDeadBounds
         drawSkyEnd = 0;
       }
 
-      if(drawFloorStart > 119){
-        drawFloorStart = 119;
+      if(drawFloorStart > screenHeight-1){
+        drawFloorStart = screenHeight-1;
       }
 // int32_t drawEnd;
 //       if(drawEnd > screenHeight - 1){
@@ -299,7 +319,7 @@ int main(void) { // mainDeadBounds
       }
 
       uint16_t color;
-      switch(worldMap[fix16_to_int(map.x)][fix16_to_int(map.y)]){
+      switch(worldMap[mapX][mapY]){
         case 1: 
         color = ST7735_RED; break;
         case 2:
@@ -320,10 +340,12 @@ int main(void) { // mainDeadBounds
       ST7735_DrawFastVLine(pixelX, drawFloorStart, (screenHeight-drawFloorStart), ST7735_BLACK); //bottom black line
       ST7735_DrawFastVLine(pixelX, drawWallStart, lineHeight, color); //wall line
 
-
-
-
-      //Clock_Delay(100);
+      // ST7735_SetCursor(0,0);
+      // ST7735_OutString("X=");
+      //ST7735_DrawCharS(0,0, (fix16_to_int(pos.x) / 10) + 0x30, ST7735_CYAN, ST7735_BLACK, 1);
+      // ST7735_OutChar((fix16_to_int(pos.x) % 10) + 0x30);
+      // ST7735_SetCursor(2, 0);
+      // ST7735_OutUDec4(fix16_to_int(pos.x));
     }
 
 

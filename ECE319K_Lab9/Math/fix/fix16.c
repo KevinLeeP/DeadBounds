@@ -81,7 +81,7 @@ fix16_t fix16_mul(fix16_t inArg0, fix16_t inArg1)
 				return fix16_overflow;
 		#endif
 		
-		#ifndef FIXMATH_NO_ROUNDING
+		#ifdef FIXMATH_NO_ROUNDING
 		// This adjustment is required in order to round -1/2 correctly
 		product--;
 		#endif
