@@ -41,7 +41,6 @@ const extern uint8_t worldMap[mapWidth][mapHeight];
 extern v2d pos;
 extern v2d dir;
 extern v2d plane;
-
 uint16_t displayBuffer[bufferSize];
 //uint16_t displayBuffer[80][128];
 
@@ -51,7 +50,7 @@ void raycast(void){
   fix16_t rotSpeed = 0;
   fix16_t walkSpeedX = 0;
   fix16_t walkSpeedY = 0;
-
+  int count = 0;
 
   v2d rayDir = {0, 0};
   
@@ -103,31 +102,58 @@ void raycast(void){
 
   // fix16_t checkX = 0;
   // fix16_t checkY = 0;
+
+
   //check collisions
   //forward vector
-  if(worldMap[ fix16_to_int( pos.x - fix16_mul(dir.x, walkSpeedX))] [ fix16_to_int(pos.y)] == 0){
+  fix16_t marginX;
+  fix16_t marginY;
+  if(walkSpeedX > 0){
+    marginX = F16(0.04);
+  }
+  else{
+    marginX = F16(-0.04);
+  }
+
+  if(walkSpeedY > 0){
+    marginY = F16(0.04);
+  }
+  else{
+    marginY = F16(-0.04);
+  }
+
+
+
+  if(worldMap[ fix16_to_int( pos.x - fix16_mul(dir.x, walkSpeedX + marginX))] [ fix16_to_int(pos.y + marginY)] == 0){
     pos.x -= fix16_mul(dir.x, walkSpeedX);
   }
-  if(worldMap[ fix16_to_int(pos.x)][ fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX))-1] == 0){
+  if(worldMap[ fix16_to_int(pos.x + marginX)][ fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX + marginY))] == 0){
     pos.y -= fix16_mul(dir.y, walkSpeedX);
   }
 
-
-  
-  // uint32_t testX = fix16_to_int(pos.x);
-  // uint32_t testY = fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX));
-  // uint32_t test = worldMap[ testX ][ testY ];
+  // if(worldMap[ fix16_to_int( pos.x - fix16_mul(dir.x, walkSpeedX + marginX))] [ fix16_to_int(pos.y + marginY)] == 0){
+  //   pos.x -= fix16_mul(dir.x, walkSpeedX);
+  // }
+  // if(worldMap[ fix16_to_int(pos.x + marginX)][ fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX + marginY))] == 0){
+  //   pos.y -= fix16_mul(dir.y, walkSpeedX);
+  // }
 
   //perpendicular strafe vector
   //check collisions
-  if(worldMap[ fix16_to_int( pos.x + fix16_mul(dir.y, walkSpeedY))] [ fix16_to_int(pos.y)] == 0){
+  if(worldMap[ fix16_to_int( pos.x + fix16_mul(dir.y, walkSpeedY + marginY))] [ fix16_to_int(pos.y + marginY)] == 0){
     pos.x += fix16_mul(dir.y, walkSpeedY);
   }
-  if(worldMap[ fix16_to_int(pos.x)][ fix16_to_int(pos.y - fix16_mul(dir.x , walkSpeedX))] == 0){
+  if(worldMap[ fix16_to_int(pos.x + marginX)][ fix16_to_int(pos.y - fix16_mul(dir.x , walkSpeedY + marginY))] == 0){
     pos.y -= fix16_mul(dir.x, walkSpeedY);
   }
 
+  
+  uint32_t testX = fix16_to_int(pos.x);
+  uint32_t testY = fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX));
+  uint32_t test = worldMap[ testX ][ testY ];
 
+
+  //calc direction
   fix16_t tempDirX;
   fix16_t tempPlaneX;
   tempDirX = fix16_mul(dir.x, fix16_fast_cos(rotSpeed)) - fix16_mul(dir.y, fix16_fast_sin(rotSpeed));
@@ -199,7 +225,7 @@ void raycast(void){
           sideDistY += deltaDistY;
           mapY += stepY;
           sideHit = 1;
-        }
+        } 
 
         if(worldMap[mapX][mapY] != 0){
           wallHit = 1;
@@ -216,31 +242,15 @@ void raycast(void){
 
     
     int32_t lineHeight = (wallHeight << 16) / perpWallDist;//fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1), perpWallDist), fix16_from_int(wallHeight))); //CHECK THIS
-    int32_t drawWallStart = fix16_to_int(fix16_div(F16(screenHeight),F16(2)) 
-                                    - fix16_div(fix16_from_int(lineHeight), F16(2))); // drawStart = (screenHeight/2) - (lineHeight/2)
-
-    int32_t drawSkyEnd = fix16_to_int(fix16_div(F16(screenHeight), F16(2)) 
-                                    - fix16_div(fix16_from_int(lineHeight), F16(2))
-                                    ); //(screenHeight/2) - (lineHeight/2)
-    int32_t drawFloorStart = fix16_to_int(fix16_div(F16(screenHeight), F16(2)) 
-                                    + fix16_div(fix16_from_int(lineHeight), F16(2))
-                                    );    //(screenHeight/2) + (lineHeight/2)
+    int32_t drawWallStart = (screenHeight/2) - (lineHeight/2); // drawStart = (screenHeight/2) - (lineHeight/2)
+    int32_t drawWallEnd = (screenHeight /2 ) + (lineHeight/2);
 
     if(drawWallStart < 0){
       drawWallStart = 0;
     }
 
-    if(drawSkyEnd < 0){
-      drawSkyEnd = 0;
-    }
-
-    if(drawFloorStart > screenHeight-1){
-      drawFloorStart = screenHeight-1;
-    }
-
-
-    if(lineHeight > screenHeight){
-      lineHeight = screenHeight;
+    if(drawWallEnd >= screenHeight){
+      drawWallEnd = screenHeight - 1;
     }
 
     uint16_t color;
@@ -261,29 +271,19 @@ void raycast(void){
       color = color & (~0x8410);//color >> 1;
     }
 
-    //render sky part of slice
-    // for(int y = 0; y<drawSkyEnd; y++){
-    //     displayBuffer[(pixelX * 128) + y] = ST7735_BLACK;
-    // }
-    // //render floor part of slice
-    // for(int y = drawFloorStart; y<screenHeight; y++){
-    //   displayBuffer[(pixelX*128) + y] = ST7735_BLACK;
-    // }
-    // //render wall part of slice
-    // for(int y = drawSkyEnd; y<(drawSkyEnd + lineHeight); y++){
-    //    displayBuffer[(pixelX*128) + y] = color;
-    // }
 
-    for(int y = 0; y<drawSkyEnd * 80; y+=80){
+
+    //render sky 
+    for(int y = 0; y<drawWallStart * 80; y+=80){
         displayBuffer[y + pixelX] = ST7735_BLACK;
     }
-    //render floor part of slice
-    for(int y = drawFloorStart * 80; y<screenHeight*80; y+=80){
-      displayBuffer[y + pixelX] = ST7735_BLACK;
-    }
     //render wall part of slice
-    for(int y = drawSkyEnd * 80; y<(drawSkyEnd + lineHeight)*80; y+=80){
+    for(int y = drawWallStart * 80; y<=drawWallEnd * 80; y+=80){
        displayBuffer[y + pixelX] = color;
+    }
+    //render floor part of slice
+    for(int y = drawWallEnd * 80; y<screenHeight*80; y+=80){
+        displayBuffer[y + pixelX] = ST7735_BLACK;
     }
 
     // ST7735_DrawFastVLine(pixelX, 0, drawSkyEnd, ST7735_BLACK);//top black line
@@ -369,31 +369,15 @@ void raycast(void){
 
 
   int32_t lineHeight = (wallHeight << 16) / perpWallDist;//fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1), perpWallDist), fix16_from_int(wallHeight))); //CHECK THIS
-  int32_t drawWallStart = fix16_to_int(fix16_div(F16(screenHeight),F16(2)) 
-                                  - fix16_div(fix16_from_int(lineHeight), F16(2))); // drawStart = (screenHeight/2) - (lineHeight/2)
+  int32_t drawWallStart = (screenHeight/2) - (lineHeight/2); // drawStart = (screenHeight/2) - (lineHeight/2)
+  int32_t drawWallEnd = (screenHeight /2 ) + (lineHeight/2);
 
-  int32_t drawSkyEnd = fix16_to_int(fix16_div(F16(screenHeight), F16(2)) 
-                                  - fix16_div(fix16_from_int(lineHeight), F16(2))
-                                  ); //(screenHeight/2) - (lineHeight/2)
-  int32_t drawFloorStart = fix16_to_int(fix16_div(F16(screenHeight), F16(2)) 
-                                  + fix16_div(fix16_from_int(lineHeight), F16(2))
-                                  );    //(screenHeight/2) + (lineHeight/2)
 
   if(drawWallStart < 0){
     drawWallStart = 0;
   }
-
-  if(drawSkyEnd < 0){
-    drawSkyEnd = 0;
-  }
-
-  if(drawFloorStart > screenHeight-1){
-    drawFloorStart = screenHeight-1;
-  }
-
-
-  if(lineHeight > screenHeight){
-    lineHeight = screenHeight;
+  if(drawWallEnd >= screenHeight){
+    drawWallEnd = screenHeight -1;
   }
 
   uint16_t color;
@@ -414,17 +398,22 @@ void raycast(void){
     color = color & (~0x8410);//color >> 1;
   }
 
-  for(int y = 0; y<drawSkyEnd * 80; y+=80){
-      displayBuffer[y + pixelX-80] = ST7735_BLACK;
-  }
-  //render floor part of slice
-  for(int y = drawFloorStart * 80; y<screenHeight*80; y+=80){
-    displayBuffer[y + pixelX-80] = ST7735_BLACK;
-  }
-  //render wall part of slice
-  for(int y = drawSkyEnd * 80; y<(drawSkyEnd + lineHeight)*80; y+=80){
-      displayBuffer[y + pixelX-80] = color;
-  }
+    //render sky 
+    for(int y = 0; y<drawWallStart * 80; y+=80){
+        displayBuffer[y + pixelX - 80] = ST7735_BLACK;
+    }
+    //render wall part of slice
+    for(int y = drawWallStart * 80; y<=drawWallEnd * 80; y+=80){
+       displayBuffer[y + pixelX - 80] = color;
+    }
+    //render floor part of slice
+    for(int y = drawWallEnd * 80; y<screenHeight*80; y+=80){
+        displayBuffer[y + pixelX - 80] = ST7735_BLACK;
+    }
+
+  // if(pixelX > 160 ){
+  //   count++;
+  // }
   // ST7735_DrawFastVLine(pixelX, 0, drawSkyEnd, ST7735_BLACK);//top black line
   // ST7735_DrawFastVLine(pixelX, drawFloorStart, (screenHeight-drawFloorStart), ST7735_BLACK); //bottom black line
   // ST7735_DrawFastVLine(pixelX, drawWallStart, lineHeight, color); //wall line
