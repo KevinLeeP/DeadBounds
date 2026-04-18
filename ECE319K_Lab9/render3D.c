@@ -257,7 +257,18 @@ void raycast(void){
     } //make a color table later
 
     if(sideHit == 1){
-      color = color & (~0x8410);//color >> 1;
+      uint16_t temp = color;
+      temp = (temp >> 1) & (0x7100);
+      color = (color & ~(0xF100)) | temp;
+
+      temp = color;
+      temp = (temp >> 1) & (0x03E0);
+      color = (color & ~(0x07E0)) | temp;
+
+      temp = color;
+      temp = (temp>>1) & (0x00F);
+      color = (color & ~(0x001F)) | temp;
+      
     }
 
 
@@ -276,9 +287,10 @@ void raycast(void){
     }
   }
 
+  ST7735_DrawTransparentBitmapOnBuffer(59, 127, shotgunnormal, shotgunNormalWidth, shotgunNormalHeight, 1);
   ST7735_DrawBitmap(0, 127, displayBuffer, 80, 128);
 
-  /************
+  /************const uint16_t *image,
   SECOND HALF
   */
   for (int pixelX = screenWidth/2; pixelX < screenWidth; pixelX++){
@@ -380,7 +392,17 @@ void raycast(void){
   }
 
   if(sideHit == 1){
-    color = color & (~0x8410);//color >> 1;
+    uint16_t temp = color;
+      temp = (temp >> 1) & (0x7100);
+      color = (color & ~(0xF100)) | temp;
+
+      temp = color;
+      temp = (temp >> 1) & (0x03E0);
+      color = (color & ~(0x07E0)) | temp;
+
+      temp = color;
+      temp = (temp>>1) & (0x00F);
+      color = (color & ~(0x001F)) | temp;
   }
 
     //render sky 
@@ -403,5 +425,8 @@ void raycast(void){
   // ST7735_DrawFastVLine(pixelX, drawFloorStart, (screenHeight-drawFloorStart), ST7735_BLACK); //bottom black line
   // ST7735_DrawFastVLine(pixelX, drawWallStart, lineHeight, color); //wall line
   }
+  
+  //ST7735_DrawBitmapTransparent(45, 127, shotgunnormal, 50, 31);
+  ST7735_DrawTransparentBitmapOnBuffer(59, 127, shotgunnormal, shotgunNormalWidth, shotgunNormalHeight, 2);
   ST7735_DrawBitmap(80, 127, displayBuffer, 80, 128);
 }

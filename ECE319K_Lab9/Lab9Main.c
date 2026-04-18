@@ -95,6 +95,7 @@ const uint8_t worldMap[mapWidth][mapHeight] = {
   v2d dir = {F16(-1.0), F16(0.0)};//{F16(-1.0), F16(0.0)};
   v2d plane = {F16(0.0), F16(0.666)};
 
+
 int main(void) { // mainDeadBounds
 
   //initialize hardware
@@ -115,11 +116,6 @@ int main(void) { // mainDeadBounds
   while (1) {
     raycast();
   }
-  
-
- 
-
-  
 }
 
 int main0(void) {
@@ -281,18 +277,18 @@ int main4(void) {
   __enable_irq();
   while (1) {
     now = Switch_In(); // one of your buttons
-    if ((last == 0) && (now == 1)) {
-      Sound_Shoot(); // call one of your sounds
-    }
-    if ((last == 0) && (now == 2)) {
-      Sound_Killed(); // call one of your sounds
-    }
-    if ((last == 0) && (now == 4)) {
-      Sound_Explosion(); // call one of your sounds
-    }
-    if ((last == 0) && (now == 8)) {
-      Sound_Fastinvader1(); // call one of your sounds
-    }
+    // if ((last == 0) && (now == 1)) {
+    //   Sound_Shoot(); // call one of your sounds
+    // }
+    // if ((last == 0) && (now == 2)) {
+    //   Sound_Killed(); // call one of your sounds
+    // }
+    // if ((last == 0) && (now == 4)) {
+    //   Sound_Explosion(); // call one of your sounds
+    // }
+    // if ((last == 0) && (now == 8)) {
+    //   Sound_Fastinvader1(); // call one of your sounds
+    // }
     // modify this to test all your sounds
   }
 }

@@ -122,6 +122,7 @@
 #include "file.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "render3D.h"
 
 // 16 rows (0 to 15) and 21 characters (0 to 20)
 // Requires (11 + size*size*6*8) bytes of transmission for each character
@@ -2156,4 +2157,52 @@ void ST7735_DrawBitmapTransparent(int16_t x, int16_t y, const uint16_t *image, i
       index++;
     }
   }
+}
+
+extern uint16_t displayBuffer[80*128];
+
+void ST7735_DrawTransparentBitmapOnBuffer(uint32_t x, uint32_t y, const uint16_t *image, uint32_t w, uint32_t h, uint8_t half) { // Removed 'half' parameter as it's not needed here
+    // Loop through each pixel of the source image
+    y = 127 - y;
+    uint16_t r, g, b;
+    for (int row = 0; row < h; row++) {
+        for (int col = 0; col < w; col++) {
+            uint16_t color = image[row * w + col];
+
+            r = (color >> 11) & 0x1F;
+            g = (color >> 5)  & 0x3F;
+            b = color & 0x1F;
+            // r = color & 0x1F; 
+            // g = (color >> 5)  & 0x3F;
+            // b = (color >> 11) & 0x1F;
+
+            // Check for the transparent color (pure green 0x07E0)
+            if ((g > 20 && r < 10 && b < 10)) {
+                continue; // Skip drawing transparent pixels
+            }
+
+            // Calculate the coordinates relative to the 80x128 displayBuffer
+            int32_t bufferX = x + col;
+            int32_t bufferY = y + row;
+
+            // Boundary check for the 80x128 displayBuffer itself
+            if (half == 1 && bufferX >= 80 || bufferY >= 128 || bufferX < 0 || bufferY < 0) {
+              continue; // Skip if out of this 80x128 buffer's bounds
+            }
+
+            if (half == 2 && bufferX < 80 || bufferY >= 128 || bufferX < 0 || bufferY < 0){
+              continue;
+            }
+
+            // Index for displayBuffer.
+            // Your original code used `(128 - 1 - localY) * 80 + localX`
+            // This confirms:
+            // 1. A bottom-up Y-coordinate system for the buffer.
+            // 2. Each row in the buffer is 80 pixels wide.
+            color &= (~(0xF81F));
+            color |= r;
+            color |= b << 11;
+            displayBuffer[(bufferY) * 80 + bufferX] = color;
+        }
+    }
 }
