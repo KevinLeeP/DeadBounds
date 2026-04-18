@@ -37,12 +37,16 @@
 #define wallHeight 150
 #define bufferSize 10240
 
+#define skyColor 0x79e4
+#define borderColor 0x2587
+#define floorColor 0xc9e4
+
 const extern uint8_t worldMap[mapWidth][mapHeight];
 extern v2d pos;
 extern v2d dir;
 extern v2d plane;
 uint16_t displayBuffer[bufferSize];
-//uint16_t displayBuffer[80][128];
+
 
 void raycast(void){
   fix16_t cameraX = F16(-1);
@@ -76,7 +80,7 @@ void raycast(void){
       else{
         walkSpeedX = F16(-0.1);
       }
-    //-fix16_div(fix16_from_int(joystickForwardInput), fix16_from_int(1000000));
+
   }
   else{
     walkSpeedX = 0;
@@ -90,18 +94,10 @@ void raycast(void){
       walkSpeedY = F16(-0.1);
     }
     
-    
-    //= -fix16_div(fix16_from_int(joystickStrafeInput), fix16_from_int(1000000));
   }
   else{
     walkSpeedY = 0;
   }
-
-  // fix16_t moveX = 0;
-  // fix16_t moveY = 0;
-
-  // fix16_t checkX = 0;
-  // fix16_t checkY = 0;
 
 
   //check collisions
@@ -130,13 +126,6 @@ void raycast(void){
   if(worldMap[ fix16_to_int(pos.x + marginX)][ fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX + marginY))] == 0){
     pos.y -= fix16_mul(dir.y, walkSpeedX);
   }
-
-  // if(worldMap[ fix16_to_int( pos.x - fix16_mul(dir.x, walkSpeedX + marginX))] [ fix16_to_int(pos.y + marginY)] == 0){
-  //   pos.x -= fix16_mul(dir.x, walkSpeedX);
-  // }
-  // if(worldMap[ fix16_to_int(pos.x + marginX)][ fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX + marginY))] == 0){
-  //   pos.y -= fix16_mul(dir.y, walkSpeedX);
-  // }
 
   //perpendicular strafe vector
   //check collisions
@@ -256,7 +245,7 @@ void raycast(void){
     uint16_t color;
     switch(worldMap[mapX][mapY]){
       case 1: 
-      color = ST7735_RED; break;
+      color = borderColor; break;
       case 2:
       color = ST7735_GREEN; break;
       case 3: 
@@ -265,7 +254,7 @@ void raycast(void){
       color = ST7735_WHITE; break;
       default:
       color = ST7735_YELLOW; break;
-    }
+    } //make a color table later
 
     if(sideHit == 1){
       color = color & (~0x8410);//color >> 1;
@@ -275,7 +264,7 @@ void raycast(void){
 
     //render sky 
     for(int y = 0; y<drawWallStart * 80; y+=80){
-        displayBuffer[y + pixelX] = ST7735_BLACK;
+        displayBuffer[y + pixelX] = skyColor;
     }
     //render wall part of slice
     for(int y = drawWallStart * 80; y<=drawWallEnd * 80; y+=80){
@@ -283,12 +272,8 @@ void raycast(void){
     }
     //render floor part of slice
     for(int y = drawWallEnd * 80; y<screenHeight*80; y+=80){
-        displayBuffer[y + pixelX] = ST7735_BLACK;
+        displayBuffer[y + pixelX] = floorColor;
     }
-
-    // ST7735_DrawFastVLine(pixelX, 0, drawSkyEnd, ST7735_BLACK);//top black line
-    // ST7735_DrawFastVLine(pixelX, drawFloorStart, (screenHeight-drawFloorStart), ST7735_BLACK); //bottom black line
-    // ST7735_DrawFastVLine(pixelX, drawWallStart, lineHeight, color); //wall line
   }
 
   ST7735_DrawBitmap(0, 127, displayBuffer, 80, 128);
@@ -383,7 +368,7 @@ void raycast(void){
   uint16_t color;
   switch(worldMap[mapX][mapY]){
     case 1: 
-    color = ST7735_RED; break;
+    color = borderColor; break;
     case 2:
     color = ST7735_GREEN; break;
     case 3: 
@@ -400,7 +385,7 @@ void raycast(void){
 
     //render sky 
     for(int y = 0; y<drawWallStart * 80; y+=80){
-        displayBuffer[y + pixelX - 80] = ST7735_BLACK;
+        displayBuffer[y + pixelX - 80] = skyColor;
     }
     //render wall part of slice
     for(int y = drawWallStart * 80; y<=drawWallEnd * 80; y+=80){
@@ -408,7 +393,7 @@ void raycast(void){
     }
     //render floor part of slice
     for(int y = drawWallEnd * 80; y<screenHeight*80; y+=80){
-        displayBuffer[y + pixelX - 80] = ST7735_BLACK;
+        displayBuffer[y + pixelX - 80] = floorColor;
     }
 
   // if(pixelX > 160 ){
