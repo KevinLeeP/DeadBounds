@@ -506,9 +506,7 @@ static uint8_t Rotation;           // 0 to 3
 static enum initRFlags TabColor;
 static int16_t _width = ST7735_TFTWIDTH;   // this could probably be a constant, except it is used in Adafruit_GFX and depends on image rotation
 static int16_t _height = ST7735_TFTHEIGHT;
-
-
-
+extern displayBuffer;
 
 
 // Rather than a bazillion SPI_OutCommand() and SPI_OutData() calls, screen
@@ -2156,4 +2154,39 @@ void ST7735_DrawBitmapTransparent(int16_t x, int16_t y, const uint16_t *image, i
       index++;
     }
   }
+}
+
+void ST7735_DrawTransparentBitmapOnBuffer(const uint16_t *image, uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint8_t half){
+	uint32_t currentHalf = 0;
+	uint16_t color;
+	int16_t r, g, b;
+	if(half == 2){
+		currentHalf = 80;
+	}
+	for(int row = 0; row < h; row++){
+		for(int col = 0; col < w; col++){
+			color = image[row * w + col];
+			int16_t r, g, b;
+
+			r = (color >> 11) & 0x1F;
+      g = (color >> 5)  & 0x3F;
+      b = color & 0x1F;
+
+			if(g > 20 && r < 20 && b < 20) continue;
+			
+			int32_t screenX = x + col;
+			int32_t screenY = y + row;
+			
+			if(screenX >= 160 || screenY >= 128) continue;
+
+      // check if its going to draw out of bounds of current half of buffer
+			if(screenX < currentHalf || currentHalf >= (currentHalf + 80)) continue;
+
+      			int16_t localX = screenX - currentHalf;
+      			int16_t localY = screenY;
+
+      			// store bottom-up for DrawBitmap
+      			displayBuffer[(128 - 1 - localY) * 80 + localX] = color;
+		}
+	}
 }
