@@ -27,7 +27,8 @@ C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/ST7735.c \
 ../Sound.c \
 ../Switch.c \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/TExaS.c \
-C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Timer.c 
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Timer.c \
+../render3D.c 
 
 C_DEPS += \
 ./ADC1.d \
@@ -48,7 +49,8 @@ C_DEPS += \
 ./Sound.d \
 ./Switch.d \
 ./TExaS.d \
-./Timer.d 
+./Timer.d \
+./render3D.d 
 
 OBJS += \
 ./ADC1.o \
@@ -69,7 +71,8 @@ OBJS += \
 ./Sound.o \
 ./Switch.o \
 ./TExaS.o \
-./Timer.o 
+./Timer.o \
+./render3D.o 
 
 OBJS__QUOTED += \
 "ADC1.o" \
@@ -90,7 +93,8 @@ OBJS__QUOTED += \
 "Sound.o" \
 "Switch.o" \
 "TExaS.o" \
-"Timer.o" 
+"Timer.o" \
+"render3D.o" 
 
 C_DEPS__QUOTED += \
 "ADC1.d" \
@@ -111,7 +115,8 @@ C_DEPS__QUOTED += \
 "Sound.d" \
 "Switch.d" \
 "TExaS.d" \
-"Timer.d" 
+"Timer.d" \
+"render3D.d" 
 
 C_SRCS__QUOTED += \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/ADC1.c" \
@@ -132,6 +137,7 @@ C_SRCS__QUOTED += \
 "../Sound.c" \
 "../Switch.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/TExaS.c" \
-"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Timer.c" 
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Timer.c" \
+"../render3D.c" 
 
 

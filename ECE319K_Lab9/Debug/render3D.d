@@ -1,6 +1,6 @@
 # FIXED
 
-Lab9Main.o: ../Lab9Main.c \
+render3D.o: ../render3D.c \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h \
@@ -31,14 +31,14 @@ Lab9Main.o: ../Lab9Main.c \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_debugss.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h \
- ../../inc/ST7735.h ../../inc/Clock.h ../Math/fix/fix16.h \
- ../Math/fix/fix16_fast_trig_lut.h ../Math/lib_fixmatrix/fixvector2d.h \
+ ../Math/fix/fix16.h ../Math/fix/fix16_fast_trig_lut.h \
+ ../Math/lib_fixmatrix/fixvector2d.h \
  C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/ECE319K_Lab9/Math/fix/fix16.h \
  ../Math/lib_fixmatrix/fixmatrix.h ../../inc/DAC5.h \
- ../../inc/LaunchPad.h ../../inc/TExaS.h ../../inc/Timer.h \
- ../../inc/ADC1.h ../../inc/Arabic.h ../SmallFont.h ../LED.h \
- ../Switch.h ../Sound.h ../JoystickLeft.h ../JoystickRight.h \
- ../render3D.h
+ ../../inc/LaunchPad.h ../../inc/ST7735.h ../../inc/TExaS.h \
+ ../../inc/Timer.h ../../inc/ADC1.h ../../inc/Arabic.h ../SmallFont.h \
+ ../LED.h ../Switch.h ../Sound.h ../images/images.h ../JoystickLeft.h \
+ ../JoystickRight.h
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h:
@@ -69,8 +69,6 @@ C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_cpuss.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_debugss.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h:
-../../inc/ST7735.h:
-../../inc/Clock.h:
 ../Math/fix/fix16.h:
 ../Math/fix/fix16_fast_trig_lut.h:
 ../Math/lib_fixmatrix/fixvector2d.h:
@@ -78,6 +76,7 @@ C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/ECE319K_Lab9/Math/fix/fix16.h
 ../Math/lib_fixmatrix/fixmatrix.h:
 ../../inc/DAC5.h:
 ../../inc/LaunchPad.h:
+../../inc/ST7735.h:
 ../../inc/TExaS.h:
 ../../inc/Timer.h:
 ../../inc/ADC1.h:
@@ -86,6 +85,6 @@ C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/ECE319K_Lab9/Math/fix/fix16.h
 ../LED.h:
 ../Switch.h:
 ../Sound.h:
+../images/images.h:
 ../JoystickLeft.h:
 ../JoystickRight.h:
-../render3D.h:

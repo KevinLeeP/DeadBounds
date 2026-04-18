@@ -17,6 +17,7 @@
 "./Switch.o"
 "./TExaS.o"
 "./Timer.o"
+"./render3D.o"
 "./Math/fix/fix16.o"
 "./Math/fix/fix16_exp.o"
 "./Math/fix/fix16_fast_trig_lut.o"

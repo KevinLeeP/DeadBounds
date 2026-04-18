@@ -1,0 +1,433 @@
+#include <ti/devices/msp/msp.h>
+
+#include "Math/fix/fix16.h"
+#include "Math/fix/fix16_fast_trig_lut.h"
+#include "Math/lib_fixmatrix/fixvector2d.h"
+#include "Math/lib_fixmatrix/fixmatrix.h"
+
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+
+
+#include "../inc/DAC5.h"
+#include "../inc/LaunchPad.h"
+#include "../inc/ST7735.h"
+#include "../inc/TExaS.h"
+#include "../inc/Timer.h"
+#include "../inc/ADC1.h"
+#include "../inc/DAC5.h"
+#include "../inc/Arabic.h"
+#include "SmallFont.h"
+#include "LED.h"
+#include "Switch.h"
+#include "Sound.h"
+#include "images/images.h"
+#include "JoystickLeft.h"
+#include "JoystickRight.h"
+
+#define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
+
+
+#define mapWidth 24
+#define mapHeight 24
+#define screenWidth 160
+#define screenHeight 128
+#define joystickDeadBand 50
+#define wallHeight 150
+#define bufferSize 10240
+
+const extern uint8_t worldMap[mapWidth][mapHeight];
+extern v2d pos;
+extern v2d dir;
+extern v2d plane;
+
+uint16_t displayBuffer[bufferSize];
+//uint16_t displayBuffer[80][128];
+
+void raycast(void){
+  fix16_t cameraX = F16(-1);
+  fix16_t cameraXStep = F16(0.0125);
+  fix16_t rotSpeed = 0;
+  fix16_t walkSpeedX = 0;
+  fix16_t walkSpeedY = 0;
+
+
+  v2d rayDir = {0, 0};
+  
+
+  //rotate in place
+  //deltaTheta = fix16_div(fix16_pi, fix16_from_int(60)); //pi/180
+  int32_t joystickTurnInput = JoystickRight_getX();
+  int32_t joystickForwardInput = JoystickLeft_getY();
+  int32_t joystickStrafeInput = JoystickLeft_getX();
+
+  if(abs(joystickTurnInput) > joystickDeadBand){
+    //deltaTheta = joystickTurnInput * pi/ 10000 -> -pi/10 to pi/10
+    rotSpeed = -fix16_div(fix16_mul(fix16_from_int(joystickTurnInput), fix16_pi) ,F16(10000));
+  }
+  else{
+    rotSpeed = 0;
+  }
+
+  if(abs(joystickForwardInput) > joystickDeadBand){
+      if(joystickForwardInput > 0){
+        walkSpeedX = F16(0.1);
+      }
+      else{
+        walkSpeedX = F16(-0.1);
+      }
+    //-fix16_div(fix16_from_int(joystickForwardInput), fix16_from_int(1000000));
+  }
+  else{
+    walkSpeedX = 0;
+  }
+
+  if(abs(joystickStrafeInput) > joystickDeadBand){
+    if(joystickStrafeInput > 0){
+      walkSpeedY = F16(0.1);
+    }
+    else{
+      walkSpeedY = F16(-0.1);
+    }
+    
+    
+    //= -fix16_div(fix16_from_int(joystickStrafeInput), fix16_from_int(1000000));
+  }
+  else{
+    walkSpeedY = 0;
+  }
+
+  // fix16_t moveX = 0;
+  // fix16_t moveY = 0;
+
+  // fix16_t checkX = 0;
+  // fix16_t checkY = 0;
+  //check collisions
+  //forward vector
+  if(worldMap[ fix16_to_int( pos.x - fix16_mul(dir.x, walkSpeedX))] [ fix16_to_int(pos.y)] == 0){
+    pos.x -= fix16_mul(dir.x, walkSpeedX);
+  }
+  if(worldMap[ fix16_to_int(pos.x)][ fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX))-1] == 0){
+    pos.y -= fix16_mul(dir.y, walkSpeedX);
+  }
+
+
+  
+  // uint32_t testX = fix16_to_int(pos.x);
+  // uint32_t testY = fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX));
+  // uint32_t test = worldMap[ testX ][ testY ];
+
+  //perpendicular strafe vector
+  //check collisions
+  if(worldMap[ fix16_to_int( pos.x + fix16_mul(dir.y, walkSpeedY))] [ fix16_to_int(pos.y)] == 0){
+    pos.x += fix16_mul(dir.y, walkSpeedY);
+  }
+  if(worldMap[ fix16_to_int(pos.x)][ fix16_to_int(pos.y - fix16_mul(dir.x , walkSpeedX))] == 0){
+    pos.y -= fix16_mul(dir.x, walkSpeedY);
+  }
+
+
+  fix16_t tempDirX;
+  fix16_t tempPlaneX;
+  tempDirX = fix16_mul(dir.x, fix16_fast_cos(rotSpeed)) - fix16_mul(dir.y, fix16_fast_sin(rotSpeed));
+  dir.y = fix16_mul(dir.x, fix16_fast_sin(rotSpeed)) +  fix16_mul(dir.y, fix16_fast_cos(rotSpeed));
+  dir.x = tempDirX;
+
+  tempPlaneX = fix16_mul(plane.x, fix16_fast_cos(rotSpeed)) - fix16_mul(plane.y, fix16_fast_sin(rotSpeed));
+  plane.y = fix16_mul(plane.x, fix16_fast_sin(rotSpeed)) +  fix16_mul(plane.y, fix16_fast_cos(rotSpeed));
+  plane.x = tempPlaneX; 
+
+/**********
+  FIRST HALF
+  SEND LEFT SIDE TO BUFFER
+*/
+
+  for (int pixelX = 0; pixelX < (screenWidth/2); pixelX++){
+
+    v2d_mul_s(&rayDir, &plane, cameraX);
+    v2d_add(&rayDir, &rayDir, &dir);
+
+    cameraX += cameraXStep;
+
+    int32_t mapX  = fix16_to_int(pos.x);
+    int32_t mapY = fix16_to_int(pos.y);
+
+
+    fix16_t sideDistX;
+    fix16_t sideDistY;
+
+    fix16_t deltaDistX = (rayDir.x == 0) ? fix16_maximum : fix16_abs(fix16_div(F16(1), rayDir.x)); //deltaDistX = 1 / |rayDir.x|
+    fix16_t deltaDistY = (rayDir.y == 0) ? fix16_maximum : fix16_abs(fix16_div(F16(1), rayDir.y)); //deltaDistY = 1 / |rayDir.y|
+    fix16_t perpWallDist;
+
+    int8_t stepX;
+    int8_t stepY;
+
+    uint8_t wallHit = 0;
+    uint8_t sideHit = 0;
+
+    
+
+    if(rayDir.x < 0){
+      stepX = -1;
+      sideDistX = fix16_mul((pos.x - (mapX << 16 )), deltaDistX);
+    }
+    else{
+      stepX = 1;
+      sideDistX = fix16_mul(((mapX << 16) + F16(1) - pos.x), deltaDistX);
+    }
+
+    if(rayDir.y < 0){
+      stepY = -1;
+      sideDistY = fix16_mul((pos.y - (mapY << 16)), deltaDistY);
+    }
+    else{
+      stepY = 1;
+      sideDistY = fix16_mul(( (mapY << 16) + F16(1) - pos.y), deltaDistY);
+    }
+
+
+    while(wallHit == 0){
+        
+        if(sideDistX < sideDistY){
+          sideDistX += deltaDistX;
+          mapX += stepX;
+          sideHit = 0;
+        }
+        else{
+          sideDistY += deltaDistY;
+          mapY += stepY;
+          sideHit = 1;
+        }
+
+        if(worldMap[mapX][mapY] != 0){
+          wallHit = 1;
+        }
+
+    }
+
+    if(sideHit == 0){
+      perpWallDist = sideDistX - deltaDistX;
+    }
+    else{
+      perpWallDist = sideDistY - deltaDistY;
+    }
+
+    
+    int32_t lineHeight = (wallHeight << 16) / perpWallDist;//fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1), perpWallDist), fix16_from_int(wallHeight))); //CHECK THIS
+    int32_t drawWallStart = fix16_to_int(fix16_div(F16(screenHeight),F16(2)) 
+                                    - fix16_div(fix16_from_int(lineHeight), F16(2))); // drawStart = (screenHeight/2) - (lineHeight/2)
+
+    int32_t drawSkyEnd = fix16_to_int(fix16_div(F16(screenHeight), F16(2)) 
+                                    - fix16_div(fix16_from_int(lineHeight), F16(2))
+                                    ); //(screenHeight/2) - (lineHeight/2)
+    int32_t drawFloorStart = fix16_to_int(fix16_div(F16(screenHeight), F16(2)) 
+                                    + fix16_div(fix16_from_int(lineHeight), F16(2))
+                                    );    //(screenHeight/2) + (lineHeight/2)
+
+    if(drawWallStart < 0){
+      drawWallStart = 0;
+    }
+
+    if(drawSkyEnd < 0){
+      drawSkyEnd = 0;
+    }
+
+    if(drawFloorStart > screenHeight-1){
+      drawFloorStart = screenHeight-1;
+    }
+
+
+    if(lineHeight > screenHeight){
+      lineHeight = screenHeight;
+    }
+
+    uint16_t color;
+    switch(worldMap[mapX][mapY]){
+      case 1: 
+      color = ST7735_RED; break;
+      case 2:
+      color = ST7735_GREEN; break;
+      case 3: 
+      color = ST7735_BLUE; break;
+      case 4:
+      color = ST7735_WHITE; break;
+      default:
+      color = ST7735_YELLOW; break;
+    }
+
+    if(sideHit == 1){
+      color = color & (~0x8410);//color >> 1;
+    }
+
+    //render sky part of slice
+    // for(int y = 0; y<drawSkyEnd; y++){
+    //     displayBuffer[(pixelX * 128) + y] = ST7735_BLACK;
+    // }
+    // //render floor part of slice
+    // for(int y = drawFloorStart; y<screenHeight; y++){
+    //   displayBuffer[(pixelX*128) + y] = ST7735_BLACK;
+    // }
+    // //render wall part of slice
+    // for(int y = drawSkyEnd; y<(drawSkyEnd + lineHeight); y++){
+    //    displayBuffer[(pixelX*128) + y] = color;
+    // }
+
+    for(int y = 0; y<drawSkyEnd * 80; y+=80){
+        displayBuffer[y + pixelX] = ST7735_BLACK;
+    }
+    //render floor part of slice
+    for(int y = drawFloorStart * 80; y<screenHeight*80; y+=80){
+      displayBuffer[y + pixelX] = ST7735_BLACK;
+    }
+    //render wall part of slice
+    for(int y = drawSkyEnd * 80; y<(drawSkyEnd + lineHeight)*80; y+=80){
+       displayBuffer[y + pixelX] = color;
+    }
+
+    // ST7735_DrawFastVLine(pixelX, 0, drawSkyEnd, ST7735_BLACK);//top black line
+    // ST7735_DrawFastVLine(pixelX, drawFloorStart, (screenHeight-drawFloorStart), ST7735_BLACK); //bottom black line
+    // ST7735_DrawFastVLine(pixelX, drawWallStart, lineHeight, color); //wall line
+  }
+
+  ST7735_DrawBitmap(0, 127, displayBuffer, 80, 128);
+
+  /************
+  SECOND HALF
+  */
+  for (int pixelX = screenWidth/2; pixelX < screenWidth; pixelX++){
+
+  v2d_mul_s(&rayDir, &plane, cameraX); // rayDir = (plane * cameraX) + dir
+  v2d_add(&rayDir, &rayDir, &dir);
+
+  cameraX += cameraXStep;
+
+  int32_t mapX  = fix16_to_int(pos.x);
+  int32_t mapY = fix16_to_int(pos.y);
+
+
+  fix16_t sideDistX;
+  fix16_t sideDistY;
+
+  fix16_t deltaDistX = (rayDir.x == 0) ? fix16_maximum : fix16_abs(fix16_div(F16(1), rayDir.x)); //deltaDistX = 1 / |rayDir.x|
+  fix16_t deltaDistY = (rayDir.y == 0) ? fix16_maximum : fix16_abs(fix16_div(F16(1), rayDir.y)); //deltaDistY = 1 / |rayDir.y|
+  fix16_t perpWallDist;
+
+  int8_t stepX;
+  int8_t stepY;
+
+  uint8_t wallHit = 0;
+  uint8_t sideHit = 0;
+
+
+
+  if(rayDir.x < 0){
+    stepX = -1;
+    sideDistX = fix16_mul((pos.x - (mapX << 16 )), deltaDistX);
+  }
+  else{
+    stepX = 1;
+    sideDistX = fix16_mul(((mapX << 16) + F16(1) - pos.x), deltaDistX);
+  }
+
+  if(rayDir.y < 0){
+    stepY = -1;
+    sideDistY = fix16_mul((pos.y - (mapY << 16)), deltaDistY);
+  }
+  else{
+    stepY = 1;
+    sideDistY = fix16_mul(( (mapY << 16) + F16(1) - pos.y), deltaDistY);
+  }
+
+
+  while(wallHit == 0){
+      
+      if(sideDistX < sideDistY){
+        sideDistX += deltaDistX;
+        mapX += stepX;
+        sideHit = 0;
+      }
+      else{
+        sideDistY += deltaDistY;
+        mapY += stepY;
+        sideHit = 1;
+      }
+
+      if(worldMap[mapX][mapY] != 0){
+        wallHit = 1;
+      }
+
+  }
+
+  if(sideHit == 0){
+    perpWallDist = sideDistX - deltaDistX;
+  }
+  else{
+    perpWallDist = sideDistY - deltaDistY;
+  }
+
+
+  int32_t lineHeight = (wallHeight << 16) / perpWallDist;//fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1), perpWallDist), fix16_from_int(wallHeight))); //CHECK THIS
+  int32_t drawWallStart = fix16_to_int(fix16_div(F16(screenHeight),F16(2)) 
+                                  - fix16_div(fix16_from_int(lineHeight), F16(2))); // drawStart = (screenHeight/2) - (lineHeight/2)
+
+  int32_t drawSkyEnd = fix16_to_int(fix16_div(F16(screenHeight), F16(2)) 
+                                  - fix16_div(fix16_from_int(lineHeight), F16(2))
+                                  ); //(screenHeight/2) - (lineHeight/2)
+  int32_t drawFloorStart = fix16_to_int(fix16_div(F16(screenHeight), F16(2)) 
+                                  + fix16_div(fix16_from_int(lineHeight), F16(2))
+                                  );    //(screenHeight/2) + (lineHeight/2)
+
+  if(drawWallStart < 0){
+    drawWallStart = 0;
+  }
+
+  if(drawSkyEnd < 0){
+    drawSkyEnd = 0;
+  }
+
+  if(drawFloorStart > screenHeight-1){
+    drawFloorStart = screenHeight-1;
+  }
+
+
+  if(lineHeight > screenHeight){
+    lineHeight = screenHeight;
+  }
+
+  uint16_t color;
+  switch(worldMap[mapX][mapY]){
+    case 1: 
+    color = ST7735_RED; break;
+    case 2:
+    color = ST7735_GREEN; break;
+    case 3: 
+    color = ST7735_BLUE; break;
+    case 4:
+    color = ST7735_WHITE; break;
+    default:
+    color = ST7735_YELLOW; break;
+  }
+
+  if(sideHit == 1){
+    color = color & (~0x8410);//color >> 1;
+  }
+
+  for(int y = 0; y<drawSkyEnd * 80; y+=80){
+      displayBuffer[y + pixelX-80] = ST7735_BLACK;
+  }
+  //render floor part of slice
+  for(int y = drawFloorStart * 80; y<screenHeight*80; y+=80){
+    displayBuffer[y + pixelX-80] = ST7735_BLACK;
+  }
+  //render wall part of slice
+  for(int y = drawSkyEnd * 80; y<(drawSkyEnd + lineHeight)*80; y+=80){
+      displayBuffer[y + pixelX-80] = color;
+  }
+  // ST7735_DrawFastVLine(pixelX, 0, drawSkyEnd, ST7735_BLACK);//top black line
+  // ST7735_DrawFastVLine(pixelX, drawFloorStart, (screenHeight-drawFloorStart), ST7735_BLACK); //bottom black line
+  // ST7735_DrawFastVLine(pixelX, drawWallStart, lineHeight, color); //wall line
+  }
+  ST7735_DrawBitmap(80, 127, displayBuffer, 80, 128);
+}
