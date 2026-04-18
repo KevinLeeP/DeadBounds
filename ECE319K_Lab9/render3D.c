@@ -33,15 +33,15 @@
 #define mapHeight 24
 #define screenWidth 160
 #define screenHeight 128
-#define joystickDeadBand 50
+#define joystickDeadBand 150
 #define wallHeight 150
-#define bufferSize 10240
 
 #define skyColor 0x79e4
 #define borderColor 0x2587
 #define floorColor 0xc9e4
 
 const extern uint8_t worldMap[mapWidth][mapHeight];
+const uint32_t bufferSize = 10240;
 extern v2d pos;
 extern v2d dir;
 extern v2d plane;
@@ -287,7 +287,9 @@ void raycast(void){
     }
   }
 
-  ST7735_DrawTransparentBitmapOnBuffer(59, 127, shotgunnormal, shotgunNormalWidth, shotgunNormalHeight, 1);
+  ST7735_DrawTransparentBitmapOnBuffer(43, 127, shotgunnormal, shotgunNormalWidth, shotgunNormalHeight, 1);
+  ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 1);
+  
   ST7735_DrawBitmap(0, 127, displayBuffer, 80, 128);
 
   /************const uint16_t *image,
@@ -427,6 +429,7 @@ void raycast(void){
   }
   
   //ST7735_DrawBitmapTransparent(45, 127, shotgunnormal, 50, 31);
-  ST7735_DrawTransparentBitmapOnBuffer(59, 127, shotgunnormal, shotgunNormalWidth, shotgunNormalHeight, 2);
+  ST7735_DrawTransparentBitmapOnBuffer(43, 127, shotgunnormal, shotgunNormalWidth, shotgunNormalHeight, 2);
+  ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 2);
   ST7735_DrawBitmap(80, 127, displayBuffer, 80, 128);
 }

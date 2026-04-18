@@ -15,6 +15,7 @@ C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Arabic.c \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Clock.c \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/DAC5.c \
 ../DAC6.c \
+../Entities.c \
 ../HPDAC4.c \
 ../JoystickLeft.c \
 ../JoystickRight.c \
@@ -37,6 +38,7 @@ C_DEPS += \
 ./Clock.d \
 ./DAC5.d \
 ./DAC6.d \
+./Entities.d \
 ./HPDAC4.d \
 ./JoystickLeft.d \
 ./JoystickRight.d \
@@ -59,6 +61,7 @@ OBJS += \
 ./Clock.o \
 ./DAC5.o \
 ./DAC6.o \
+./Entities.o \
 ./HPDAC4.o \
 ./JoystickLeft.o \
 ./JoystickRight.o \
@@ -81,6 +84,7 @@ OBJS__QUOTED += \
 "Clock.o" \
 "DAC5.o" \
 "DAC6.o" \
+"Entities.o" \
 "HPDAC4.o" \
 "JoystickLeft.o" \
 "JoystickRight.o" \
@@ -103,6 +107,7 @@ C_DEPS__QUOTED += \
 "Clock.d" \
 "DAC5.d" \
 "DAC6.d" \
+"Entities.d" \
 "HPDAC4.d" \
 "JoystickLeft.d" \
 "JoystickRight.d" \
@@ -125,6 +130,7 @@ C_SRCS__QUOTED += \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Clock.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/DAC5.c" \
 "../DAC6.c" \
+"../Entities.c" \
 "../HPDAC4.c" \
 "../JoystickLeft.c" \
 "../JoystickRight.c" \

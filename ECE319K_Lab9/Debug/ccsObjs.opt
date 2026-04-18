@@ -4,6 +4,7 @@
 "./Clock.o"
 "./DAC5.o"
 "./DAC6.o"
+"./Entities.o"
 "./HPDAC4.o"
 "./JoystickLeft.o"
 "./JoystickRight.o"

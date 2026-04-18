@@ -507,7 +507,9 @@ static uint8_t Rotation;           // 0 to 3
 static enum initRFlags TabColor;
 static int16_t _width = ST7735_TFTWIDTH;   // this could probably be a constant, except it is used in Adafruit_GFX and depends on image rotation
 static int16_t _height = ST7735_TFTHEIGHT;
-extern displayBuffer;
+extern uint32_t bufferSize;
+extern uint16_t displayBuffer[];
+
 
 
 
@@ -2181,10 +2183,14 @@ void ST7735_DrawTransparentBitmapOnBuffer(uint32_t x, uint32_t y, const uint16_t
             if ((g > 20 && r < 10 && b < 10)) {
                 continue; // Skip drawing transparent pixels
             }
-
+            
             // Calculate the coordinates relative to the 80x128 displayBuffer
             int32_t bufferX = x + col;
             int32_t bufferY = y + row;
+
+            if(bufferY == 0 && bufferX >= 80){
+              bufferY = bufferY;
+            }
 
             // Boundary check for the 80x128 displayBuffer itself
             if (half == 1 && bufferX >= 80 || bufferY >= 128 || bufferX < 0 || bufferY < 0) {
@@ -2203,6 +2209,10 @@ void ST7735_DrawTransparentBitmapOnBuffer(uint32_t x, uint32_t y, const uint16_t
             color &= (~(0xF81F));
             color |= r;
             color |= b << 11;
+
+            if(half == 2){
+              bufferX -= 80;
+            }
             displayBuffer[(bufferY) * 80 + bufferX] = color;
         }
     }
