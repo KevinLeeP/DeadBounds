@@ -507,10 +507,6 @@ static uint8_t Rotation;           // 0 to 3
 static enum initRFlags TabColor;
 static int16_t _width = ST7735_TFTWIDTH;   // this could probably be a constant, except it is used in Adafruit_GFX and depends on image rotation
 static int16_t _height = ST7735_TFTHEIGHT;
-extern displayBuffer;
-
-
-
 
 
 // Rather than a bazillion SPI_OutCommand() and SPI_OutData() calls, screen
@@ -2193,6 +2189,10 @@ void ST7735_DrawTransparentBitmapOnBuffer(uint32_t x, uint32_t y, const uint16_t
 
             if (half == 2 && bufferX < 80 || bufferY >= 128 || bufferX < 0 || bufferY < 0){
               continue;
+            }
+
+            if(half == 2){
+              bufferX -= 80;
             }
 
             // Index for displayBuffer.

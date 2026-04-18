@@ -805,13 +805,14 @@ void Sound_Init(void){
 }
 void SysTick_Handler(void){ // called at 11 kHz
   if(soundCalled){
-    DAC6_Out(background_music[backgroundIdx]/2 + soundToPlay.sfx[soundIdx]/2);
+    DAC6_Out(soundToPlay.sfx[soundIdx]);
+    //DAC6_Out(background_music[backgroundIdx]/2 + soundToPlay.sfx[soundIdx]/2);
     soundIdx++;
-    backgroundIdx++;
     if(soundIdx == soundToPlay.length){ 
       soundCalled = 0;
     }
   }
+  /*
   else{
     DAC6_Out(background_music[backgroundIdx]);
     backgroundIdx++;
@@ -819,6 +820,7 @@ void SysTick_Handler(void){ // called at 11 kHz
   if(backgroundIdx == backgroundMusicLen){
     backgroundIdx = 0;
   }
+  */
 }
 
 

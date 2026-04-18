@@ -22,9 +22,10 @@
 #include "LED.h"
 #include "Switch.h"
 #include "Sound.h"
-#include "images/images.h"
+//#include "images/images.h"
 #include "JoystickLeft.h"
 #include "JoystickRight.h"
+#include "Animations.h"
 
 #define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
 
@@ -46,6 +47,13 @@ extern v2d pos;
 extern v2d dir;
 extern v2d plane;
 uint16_t displayBuffer[bufferSize];
+
+extern animationFrame_t shotgunShoot[3];
+extern uint8_t shootFrame;
+
+extern const uint16_t crosshair[];
+extern const uint8_t crosshairWidth;
+extern const uint8_t crosshairHeight;
 
 
 void raycast(void){
@@ -287,7 +295,8 @@ void raycast(void){
     }
   }
 
-  ST7735_DrawTransparentBitmapOnBuffer(59, 127, shotgunnormal, shotgunNormalWidth, shotgunNormalHeight, 1);
+  ST7735_DrawTransparentBitmapOnBuffer(shotgunShoot[shootFrame].x, shotgunShoot[shootFrame].y, shotgunShoot[shootFrame].image, shotgunShoot[shootFrame].w, shotgunShoot[shootFrame].h, 1);
+  ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 1);
   ST7735_DrawBitmap(0, 127, displayBuffer, 80, 128);
 
   /************const uint16_t *image,
@@ -427,6 +436,7 @@ void raycast(void){
   }
   
   //ST7735_DrawBitmapTransparent(45, 127, shotgunnormal, 50, 31);
-  ST7735_DrawTransparentBitmapOnBuffer(59, 127, shotgunnormal, shotgunNormalWidth, shotgunNormalHeight, 2);
+  ST7735_DrawTransparentBitmapOnBuffer(shotgunShoot[shootFrame].x, shotgunShoot[shootFrame].y, shotgunShoot[shootFrame].image, shotgunShoot[shootFrame].w, shotgunShoot[shootFrame].h, 2);
+  ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 2);
   ST7735_DrawBitmap(80, 127, displayBuffer, 80, 128);
 }

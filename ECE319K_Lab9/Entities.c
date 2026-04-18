@@ -8,25 +8,27 @@ struct player{
 };
 typedef struct player player_t;
 
+player_t Player;
+
 struct zombie{
     uint8_t health;
-}
+};
 void Player_Init(void){
     Player.health = 100;
     Player.ammo = 5;
-}
+};
 
 void Player_Damaged(void){
     Player.health = Player.health - 10;
-}
+};
 
 void Player_Shoot(void){
     Player.ammo = Player.ammo - 1;
-}
+};
 
 void Player_Reload(void){
     Player.ammo = 5;
-}
+};
 
 
 

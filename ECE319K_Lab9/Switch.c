@@ -8,15 +8,18 @@
 #include "../inc/LaunchPad.h"
 #include "Sound.h"
 #include "Entities.h"
+#include "Animations.h"
 
-#define PB10INDEX 26
+#define PB20INDEX 47
 #define PB11INDEX 27
 
-uint32_t currPress = 0;
-uint32_t prevPress = 0;
+extern uint8_t shootFrame;
+
+uint8_t gunShot = 0;
+
 // LaunchPad.h defines all the indices into the PINCM table
 void Switch_Init(void){
-  IOMUX->SECCFG.PINCM[PB10INDEX] = 0x00040081; // shoot
+  IOMUX->SECCFG.PINCM[PB20INDEX] = 0x00040081; // shoot
   IOMUX->SECCFG.PINCM[PB11INDEX] = 0x00040081; // language
   TimerG12_IntArm(2666667, 2);
 }
@@ -26,11 +29,11 @@ void Switch_Init(void){
 // 10 means language
 // 11 means both 
 uint32_t Switch_In(void){
-  return ((GPIOB->DIN31_0 & 0xC00) >> 10); 
+  return (((GPIOB->DIN31_0 & 0x100000) >> 19) || ((GPIOB->DIN31_0 & 0x800) >> 11)); 
 }
 
 uint32_t Switch_Shoot(void){
-  return ((GPIOB->DIN31_0 & 0x400) >> 10); 
+  return ((GPIOB->DIN31_0 & 0x100000) >> 20); 
 }
 
 uint32_t Switch_Language(void){
@@ -38,12 +41,12 @@ uint32_t Switch_Language(void){
 }
 
 void TIMG12_IRQHandler(void){
-  currPress++;
-  if(Switch_Shoot() && currPress - prevPress ){
+  if(Switch_Shoot() && gunShot == 0){
+    gunShot = 1;
     Sound_Shoot();
     Player_Shoot();
   }
   if(Switch_Language()){
-
+    
   }
 }
