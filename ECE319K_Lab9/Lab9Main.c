@@ -103,13 +103,13 @@ int main(void) { // mainDeadBounds
   LaunchPad_Init();
   JoystickLeft_Init();
   JoystickRight_Init();
- 
-
+  TimerG8_IntArm(41667, 639, 2);
 
   ST7735_InitR(INITR_BLACKTAB);
   ST7735_FillScreen(0);
   ST7735_SetRotation(screenOrientation);
 
+  Switch_Init();
   Sound_Init();
   
 
