@@ -34,7 +34,6 @@
 #define mapHeight 24
 #define screenWidth 160
 #define screenHeight 128
-#define joystickDeadBand 150
 #define joystickDeadBand 50
 #define wallHeight 150
 #define bufferSize 10240
@@ -44,21 +43,42 @@
 #define floorColor 0xc9e4
 
 const extern uint8_t worldMap[mapWidth][mapHeight];
-const uint32_t bufferSize = 10240;
 extern v2d pos;
 extern v2d dir;
 extern v2d plane;
 uint16_t displayBuffer[bufferSize];
 
-extern uint16_t crosshair[];
-extern animationFrame_t shotgunShoot[3];
-extern uint8_t shootFrame;
-
 extern const uint16_t crosshair[];
 extern const uint8_t crosshairWidth;
 extern const uint8_t crosshairHeight;
 
+void sortSprites(uint32_t* order, uint32_t* distance, int32_t size){
+  int sorted = 1;
+  for(int i = 0; i<size-1; i++){
+    if(distance[order[i]] < distance[order[i+1]]){
+      sorted = 0;
+      break;
+    }
+  }
+  while(sorted == 0){
+    for(int i =0; i<size-1; i++){
+      if(distance[order[i]] < distance[order[i+1]]){
+        int temp = order[i];
+        order[i]  = order[i+1];
+        order[i+1] = temp;
+      }
+    }
 
+    int sorted = 1;
+    for(int i = 0; i<size-1; i++){
+      if(distance[order[i]] < distance[order[i+1]]){
+        sorted = 0;
+        break;
+      }
+    }
+  }
+
+}
 void raycast(void){
   fix16_t cameraX = F16(-1);
   fix16_t cameraXStep = F16(0.0125);
@@ -68,6 +88,7 @@ void raycast(void){
   int count = 0;
 
   v2d rayDir = {0, 0};
+  
   
 
   //rotate in place
@@ -298,75 +319,7 @@ void raycast(void){
     }
   }
 
-<<<<<<< HEAD
-
-  ZBuffer[pixelX] = perpWallDist;
-  uint32_t spriteOrder[zombieCount];
-  uint32_t spirteDistance[zombieCount];
-  fix16_t spirteX;
-  fix16_t spriteY;
-
-  for(int i = 0; i<zombieCount; i++){
-    spriteOrder[i] = i;
-    spriteDistance[i] = ((pos.x - zombies[i].posX)*(pos.x - zombies[i].posX) 
-                        + (pos.y - zombies[i].posY)*(pos.y - zombies[i].posY));
-  }
-
-  sortSprites(spriteOrder, spriteDistance, zombieCount);
-
-  for(int i = 0; i<zombieCount; i++){
-    spriteX = zombies[sprite_order[i]].posX - pos.x;
-    spriteY = zombies[sprite_order[i]].posY - pos.Y;
-
-    //inverse camera matrix
-    //[planeX dirX] ^-1 = 1/(planeX * dirY - dirX * planeY) * [dirY -dirX]
-    //[planeY dirY]                                           [-planeY planeX]
-
-    fix16_t det = (1 << 16)/((plane.X * dir.y) - (dir.x * plane.y));
-    fix16_t transformSpriteX = det * ((dir.y * spriteX) - (dir.x * plane.x));
-    fix16_t transformSpriteY = det * ((-plane.y * spriteX) - (plane.x * spriteY));
-
-    int spriteScreenX = fix16_to_int((screenWidth/2) * (1 + fix16_div(transformX/transformY)));
-    int spriteHeight = abs(F16(screenHeight) / transformSpriteY);
-
-    int drawStartY = -spriteHeight/2 + screenHeight/2;
-    if(drawStartY < 0){
-      drawStartY = 0;
-    }
-    int drawEndY = spriteHeight/2 + screenHeight/2;
-    if(drawEndY >= screenHeight){
-      drawEndY = screenHeight - 1;
-    }
-
-    int spriteWidth = abs(F16(screenHeight) / transformSpriteY);
-    int drawStartX = -spriteWidth/2 + spriteScreenX;
-    if(drawStartX < 0){
-      drawStartX = 0;
-    }
-    int drawEndX = spriteWidth/2 + spriteScreenX;
-    if(drawStartX >= screenWidth){
-      drawStartX = screenWidth-1;
-    }
-
-    for(int stripe = drawStartX; stripe < drawEndX; stripe++){
-      int texX = ((256) * (stripe - (-spriteWidth/2 + spriteScreenX) * textureWidth/spriteWidth))/256; //256 to maintain int math precision
-      if(transfromY > 0 && stripe > 0 && stripe < screenWidth && transformY < ZBuffer[stripe]){
-        for(int y = drawStartY; y<drawEndY; y++){
-          int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128;
-          int texY = ((d * texHeight) / spriteHeight)/256;
-          uint16_t color = zombies[spriteOrder[i]].texture[texWidth * texY + texX];
-          if(color & (~0x07E) != 0){
-            buffer[y * screenWidth + stripe] = color;
-          }
-        }
-      }
-    }
-  }
-   ST7735_DrawTransparentBitmapOnBuffer(shotgun[frame].x, shotgun[frame].y, shotgun[frame].image, shotgun[frame].w, shotgun[frame].h, 1);
-  //ST7735_DrawTransparentBitmapOnBuffer(shotgunShoot[shootFrame].x, shotgunShoot[shootFrame].y, shotgunShoot[shootFrame].image, shotgunShoot[shootFrame].w, shotgunShoot[shootFrame].h, 1);
-=======
-  ST7735_DrawTransparentBitmapOnBuffer(shotgunShoot[shootFrame].x, shotgunShoot[shootFrame].y, shotgunShoot[shootFrame].image, shotgunShoot[shootFrame].w, shotgunShoot[shootFrame].h, 1);
->>>>>>> parent of 04cec8d (experimental sprite code)
+  ST7735_DrawTransparentBitmapOnBuffer(shotgun[frame].x, shotgun[frame].y, shotgun[frame].image, shotgun[frame].w, shotgun[frame].h, 1);
   ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 1);
   ST7735_DrawBitmap(0, 127, displayBuffer, 80, 128);
 
@@ -508,7 +461,6 @@ void raycast(void){
   
   //ST7735_DrawBitmapTransparent(45, 127, shotgunnormal, 50, 31);
   ST7735_DrawTransparentBitmapOnBuffer(shotgun[frame].x, shotgun[frame].y, shotgun[frame].image, shotgun[frame].w, shotgun[frame].h, 2);
-  ST7735_DrawTransparentBitmapOnBuffer(shotgunShoot[shootFrame].x, shotgunShoot[shootFrame].y, shotgunShoot[shootFrame].image, shotgunShoot[shootFrame].w, shotgunShoot[shootFrame].h, 2);
   ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 2);
   ST7735_DrawBitmap(80, 127, displayBuffer, 80, 128);
 }

@@ -31,16 +31,8 @@ Switch.o: ../Switch.c \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_debugss.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h \
-<<<<<<< HEAD
-<<<<<<< HEAD
- ../../inc/LaunchPad.h ../Sound.h ../Entities.h
-=======
- ../../inc/LaunchPad.h ../Sound.h ../Entities.h ../Animations.h
->>>>>>> 0c7be56245f635954eef70d174f5df7dcedc76b3
-=======
  ../../inc/LaunchPad.h ../Sound.h ../Entities.h ../Animations.h \
  ../AMDAC4.h
->>>>>>> 20d68feff6daedd8fa0ca2dcccec7cf21dcf8d90
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h:
@@ -74,11 +66,5 @@ C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysct
 ../../inc/LaunchPad.h:
 ../Sound.h:
 ../Entities.h:
-<<<<<<< HEAD
-=======
 ../Animations.h:
-<<<<<<< HEAD
->>>>>>> 0c7be56245f635954eef70d174f5df7dcedc76b3
-=======
 ../AMDAC4.h:
->>>>>>> 20d68feff6daedd8fa0ca2dcccec7cf21dcf8d90
