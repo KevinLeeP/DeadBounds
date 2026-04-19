@@ -83,5 +83,6 @@ void SPI_OutCommand(char command);
  * @brief Reset LCD
  */
 void SPI_Reset(void);
+
 #endif // __SPI_H__
 /** @}*/

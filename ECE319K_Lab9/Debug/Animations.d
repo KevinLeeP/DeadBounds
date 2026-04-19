@@ -1,6 +1,6 @@
 # FIXED
 
-Animations.o: ../Animations.c \
+.o: ../Animations.c \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h \
@@ -31,10 +31,8 @@ Animations.o: ../Animations.c \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_debugss.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h \
- ../../inc/LaunchPad.h ../../inc/ST7735.h ../../inc/TExaS.h \
- ../../inc/Timer.h ../../inc/ADC1.h ../Sound.h ../../inc/Arabic.h \
- ../SmallFont.h ../LED.h ../Switch.h ../JoystickLeft.h \
- ../JoystickRight.h ../images/images.h ../Animations.h
+ ../Switch.h ../Sound.h ../images/images.h ../Animations.h \
+ ../Entities.h
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h:
@@ -65,17 +63,8 @@ C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_cpuss.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_debugss.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h:
-../../inc/LaunchPad.h:
-../../inc/ST7735.h:
-../../inc/TExaS.h:
-../../inc/Timer.h:
-../../inc/ADC1.h:
-../Sound.h:
-../../inc/Arabic.h:
-../SmallFont.h:
-../LED.h:
 ../Switch.h:
-../JoystickLeft.h:
-../JoystickRight.h:
+../Sound.h:
 ../images/images.h:
 ../Animations.h:
+../Entities.h:

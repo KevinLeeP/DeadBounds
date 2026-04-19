@@ -9,14 +9,14 @@ CMD_SRCS += \
 ../mspm0g3507.cmd 
 
 C_SRCS += \
-C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Clock.c \
-C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/DAC.c \
-C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/LaunchPad.c \
+C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Clock.c \
+C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/DAC.c \
+C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/LaunchPad.c \
 ../SDCFile.c \
-C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/SPI.c \
+C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/SPI.c \
 ../ST7735_SDC.c \
-C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/TExaS.c \
-C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Timer.c \
+C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/TExaS.c \
+C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Timer.c \
 ../diskio.c \
 ../ff.c 
 
@@ -69,14 +69,14 @@ C_DEPS__QUOTED += \
 "ff.d" 
 
 C_SRCS__QUOTED += \
-"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Clock.c" \
-"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/DAC.c" \
-"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/LaunchPad.c" \
+"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Clock.c" \
+"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/DAC.c" \
+"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/LaunchPad.c" \
 "../SDCFile.c" \
-"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/SPI.c" \
+"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/SPI.c" \
 "../ST7735_SDC.c" \
-"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/TExaS.c" \
-"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Timer.c" \
+"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/TExaS.c" \
+"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Timer.c" \
 "../diskio.c" \
 "../ff.c" 
 

@@ -35,6 +35,6 @@ void AMDAC4_Out(uint32_t data);
  * @brief  Converts and outputs to DAC4_1
  */
 
-void AMDAC4_AmmoOut(uint32_t hp);
+void AMDAC4_AmmoOut(uint32_t ammo);
 
 #endif // __DAC4_1_H_

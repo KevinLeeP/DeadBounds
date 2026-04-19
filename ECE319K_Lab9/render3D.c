@@ -54,6 +54,7 @@ extern v2d plane;
 uint16_t displayBuffer[bufferSize];
 uint16_t ZBuffer[screenWidth];
 
+extern uint16_t crosshair[];
 extern animationFrame_t shotgunShoot[3];
 extern uint8_t shootFrame;
 
@@ -529,6 +530,7 @@ void raycast(void){
   }
   
   //ST7735_DrawBitmapTransparent(45, 127, shotgunnormal, 50, 31);
+  ST7735_DrawTransparentBitmapOnBuffer(shotgun[frame].x, shotgun[frame].y, shotgun[frame].image, shotgun[frame].w, shotgun[frame].h, 2);
   ST7735_DrawTransparentBitmapOnBuffer(shotgunShoot[shootFrame].x, shotgunShoot[shootFrame].y, shotgunShoot[shootFrame].image, shotgunShoot[shootFrame].w, shotgunShoot[shootFrame].h, 2);
   ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 2);
   ST7735_DrawBitmap(80, 127, displayBuffer, 80, 128);

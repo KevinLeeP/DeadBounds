@@ -2,14 +2,14 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "Math/fix/fix16.h"
+#include "Entities.h"
+#include "AMDAC4.h"
 
 struct player{
     uint8_t health;
     uint8_t ammo;
 };
 typedef struct player player_t;
-
-
 
 struct zombie{
     uint8_t health;
@@ -39,10 +39,12 @@ void Player_Damaged(void){
 
 void Player_Shoot(void){
     Player.ammo = Player.ammo - 1;
+    //AMDAC4_AmmoOut(Player.ammo);
 };
 
 void Player_Reload(void){
-    Player.ammo = 5;
+    Player.ammo = Player.ammo + 1;
+    //AMDAC4_AmmoOut(Player.ammo);
 };
 
 

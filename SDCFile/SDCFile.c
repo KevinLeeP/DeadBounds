@@ -47,7 +47,7 @@ void diskError(char *errtype, int32_t code, int32_t block){
 }
 #define FILETESTSIZE 10000
 void test(void);
-int main(void){ // main1 simple test
+int main1(void){ // main1 simple test
   UINT successfulreads, successfulwrites;
   uint8_t c, x, y;
   uint32_t n,d;
@@ -281,7 +281,7 @@ int flag; // 1 means need data into back
 uint32_t BufCount; // 0 to NUMBUF-1
 uint32_t IdleTime=0;
 // file will be NUMBUF by BUFSIZE uint16_t binary values
-int main3(void){ // run main3 to create a sound file
+int main(void){ // run main3 to create a sound file
   UINT successfulreads, successfulwrites;
   uint8_t c, x, y;
   __disable_irq();

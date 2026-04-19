@@ -4,8 +4,8 @@
 #include <ti/devices/msp/msp.h>
 
 #define PB12INDEX 28
-#define PB13INDEX 29
-#define PB23INDEX 50
+#define PB27INDEX 57
+#define PB26INDEX 56
 #define PB24INDEX 51
 
 /**
@@ -16,13 +16,13 @@
  *    - PB12 output LSBit
  */
 void AMDAC4_Init(void){
-  IOMUX->SECCFG.PINCM[PB12INDEX] = 0x00000081;
-  IOMUX->SECCFG.PINCM[PB13INDEX] = 0x00000081;
-  IOMUX->SECCFG.PINCM[PB23INDEX] = 0x00000081;
-  IOMUX->SECCFG.PINCM[PB24INDEX] = 0x00000081;
+  IOMUX->SECCFG.PINCM[PB12INDEX] = 0x00000081; // LSB
+  IOMUX->SECCFG.PINCM[PB27INDEX] = 0x00000081; // bit1
+  IOMUX->SECCFG.PINCM[PB26INDEX] = 0x00000081; // bit2
+  IOMUX->SECCFG.PINCM[PB24INDEX] = 0x00000081; // MSB
 
-  GPIOB->DOUT31_0 &= (~0x01803000);
-  GPIOB->DOE31_0 |= 0x01803000;
+  GPIOB->DOUT31_0 &= ~((1<<12)|(1<<27)|(1<<26)|(1<<24));
+  GPIOB->DOE31_0  |=  ((1<<12)|(1<<27)|(1<<26)|(1<<24));
 }
 
 /**
@@ -33,17 +33,22 @@ void AMDAC4_Init(void){
  *    - PB12 output LSBit
  */
 void AMDAC4_Out(uint32_t data){
-  uint32_t temp = data;
-  temp &= 0x0000000C; //evaluate bits 3 and 2
-  temp = temp << 23;
+  uint32_t out = 0;
 
-  data &= 0x00000003;
-  data = data << 12; //evaluate bits 1 and 0
+  // bit 3 -> PB24 (MSB)
+  if(data & 0x8) out |= (1<<24);
 
-  data |= temp; //combine processed bits
+  // bit 2 -> PB26
+  if(data & 0x4) out |= (1<<26);
 
-  GPIOB->DOUT31_0 &= (~0x01803000);
-  GPIOB->DOUT31_0 |= data;
+  // bit 1 -> PB27
+  if(data & 0x2) out |= (1<<27);
+
+  // bit 0 -> PB12 (LSB)
+  if(data & 0x1) out |= (1<<12);
+
+  GPIOB->DOUT31_0 &= ~((1<<12)|(1<<27)|(1<<26)|(1<<24));
+  GPIOB->DOUT31_0 |= out;
 }
 
 /**
