@@ -174,15 +174,20 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 ECE319K_Lab9.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -D__MSPM0G3507__ -gdwarf-3 -Wl,-m"ECE319K_Lab9.map" -Wl,--heap_size=512 -Wl,--stack_size=512 -Wl,-i"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/ECE319K_Lab9/Debug/syscfg" -Wl,-i"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="ECE319K_Lab9_linkInfo.xml" -Wl,--rom_model -o "ECE319K_Lab9.out" $(ORDERED_OBJS)
+	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -D__MSPM0G3507__ -gdwarf-3 -Wl,-m"ECE319K_Lab9.map" -Wl,--heap_size=512 -Wl,--stack_size=512 -Wl,-i"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/ECE319K_Lab9/Debug/syscfg" -Wl,-i"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="ECE319K_Lab9_linkInfo.xml" -Wl,--rom_model -o "ECE319K_Lab9.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
+<<<<<<< HEAD
+	-$(RM) "ADC1.o" "AMDAC4.o" "Arabic.o" "Clock.o" "DAC5.o" "DAC6.o" "Entities.o" "HPDAC4.o" "JoystickLeft.o" "JoystickRight.o" "LED.o" "Lab9Main.o" "LaunchPad.o" "SPI.o" "ST7735.o" "SmallFont.o" "Sound.o" "Switch.o" "TExaS.o" "Timer.o" "render3D.o" "Math\fix\fix16.o" "Math\fix\fix16_exp.o" "Math\fix\fix16_fast_trig_lut.o" "Math\fix\fix16_sqrt.o" "Math\fix\fix16_str.o" "Math\fix\fract32.o" "Math\lib_fixmatrix\fixarray.o" "Math\lib_fixmatrix\fixmatrix.o" "Math\lib_fixmatrix\fixquat.o" "Math\lib_fixmatrix\fixstring.o" "Math\lib_fixmatrix\fixvector2d.o" "Math\lib_fixmatrix\fixvector3d.o" "images\pipedreams\PipeSound.o" "ticlang\startup_mspm0g3507_ticlang.o" 
+	-$(RM) "ADC1.d" "AMDAC4.d" "Arabic.d" "Clock.d" "DAC5.d" "DAC6.d" "Entities.d" "HPDAC4.d" "JoystickLeft.d" "JoystickRight.d" "LED.d" "Lab9Main.d" "LaunchPad.d" "SPI.d" "ST7735.d" "SmallFont.d" "Sound.d" "Switch.d" "TExaS.d" "Timer.d" "render3D.d" "Math\fix\fix16.d" "Math\fix\fix16_exp.d" "Math\fix\fix16_fast_trig_lut.d" "Math\fix\fix16_sqrt.d" "Math\fix\fix16_str.d" "Math\fix\fract32.d" "Math\lib_fixmatrix\fixarray.d" "Math\lib_fixmatrix\fixmatrix.d" "Math\lib_fixmatrix\fixquat.d" "Math\lib_fixmatrix\fixstring.d" "Math\lib_fixmatrix\fixvector2d.d" "Math\lib_fixmatrix\fixvector3d.d" "images\pipedreams\PipeSound.d" "ticlang\startup_mspm0g3507_ticlang.d" 
+=======
 	-$(RM) "ADC1.o" "AMDAC4.o" "Animations.o" "Arabic.o" "Clock.o" "DAC5.o" "DAC6.o" "Entities.o" "HPDAC4.o" "JoystickLeft.o" "JoystickRight.o" "LED.o" "Lab9Main.o" "LaunchPad.o" "SPI.o" "ST7735.o" "SmallFont.o" "Sound.o" "Switch.o" "TExaS.o" "Timer.o" "render3D.o" "Math\fix\fix16.o" "Math\fix\fix16_exp.o" "Math\fix\fix16_fast_trig_lut.o" "Math\fix\fix16_sqrt.o" "Math\fix\fix16_str.o" "Math\fix\fract32.o" "Math\lib_fixmatrix\fixarray.o" "Math\lib_fixmatrix\fixmatrix.o" "Math\lib_fixmatrix\fixquat.o" "Math\lib_fixmatrix\fixstring.o" "Math\lib_fixmatrix\fixvector2d.o" "Math\lib_fixmatrix\fixvector3d.o" "images\pipedreams\PipeSound.o" "ticlang\startup_mspm0g3507_ticlang.o" 
 	-$(RM) "ADC1.d" "AMDAC4.d" "Animations.d" "Arabic.d" "Clock.d" "DAC5.d" "DAC6.d" "Entities.d" "HPDAC4.d" "JoystickLeft.d" "JoystickRight.d" "LED.d" "Lab9Main.d" "LaunchPad.d" "SPI.d" "ST7735.d" "SmallFont.d" "Sound.d" "Switch.d" "TExaS.d" "Timer.d" "render3D.d" "Math\fix\fix16.d" "Math\fix\fix16_exp.d" "Math\fix\fix16_fast_trig_lut.d" "Math\fix\fix16_sqrt.d" "Math\fix\fix16_str.d" "Math\fix\fract32.d" "Math\lib_fixmatrix\fixarray.d" "Math\lib_fixmatrix\fixmatrix.d" "Math\lib_fixmatrix\fixquat.d" "Math\lib_fixmatrix\fixstring.d" "Math\lib_fixmatrix\fixvector2d.d" "Math\lib_fixmatrix\fixvector3d.d" "images\pipedreams\PipeSound.d" "ticlang\startup_mspm0g3507_ticlang.d" 
+>>>>>>> 0c7be56245f635954eef70d174f5df7dcedc76b3
 	-@echo 'Finished clean'
 	-@echo ' '
 

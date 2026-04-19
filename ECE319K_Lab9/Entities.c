@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+<<<<<<< HEAD
 #include "Math/fix/fix16.h"
 #include "Entities.h"
 #include "AMDAC4.h"
+=======
+>>>>>>> parent of 04cec8d (experimental sprite code)
 
 struct player{
     uint8_t health;
@@ -11,23 +14,14 @@ struct player{
 };
 typedef struct player player_t;
 
-struct zombie{
-    uint8_t health;
-    uint8_t damage;
-    uint32_t* texture;
-    fix16_t posX;
-    fix16_t posY;
-};
-typedef struct zombie zombie_t
-
-
-const uint32_t max_zombies = 128;
-uint32_t zombieCount = 0;
-zombie_t zombies[max_zombies];
+<<<<<<< HEAD
+=======
 player_t Player;
 
-
-
+>>>>>>> parent of 04cec8d (experimental sprite code)
+struct zombie{
+    uint8_t health;
+};
 void Player_Init(void){
     Player.health = 100;
     Player.ammo = 5;

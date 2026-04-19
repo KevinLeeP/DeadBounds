@@ -22,10 +22,10 @@
 #include "LED.h"
 #include "Switch.h"
 #include "Sound.h"
+//#include "images/images.h"
 #include "JoystickLeft.h"
 #include "JoystickRight.h"
 #include "Animations.h"
-#include "Entities.h"
 
 #define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
 
@@ -42,17 +42,13 @@
 #define skyColor 0x79e4
 #define borderColor 0x2587
 #define floorColor 0xc9e4
-#define textureWidth 64
-#define textureHeight 64
 
 const extern uint8_t worldMap[mapWidth][mapHeight];
 const uint32_t bufferSize = 10240;
 extern v2d pos;
 extern v2d dir;
 extern v2d plane;
-
 uint16_t displayBuffer[bufferSize];
-uint16_t ZBuffer[screenWidth];
 
 extern uint16_t crosshair[];
 extern animationFrame_t shotgunShoot[3];
@@ -62,29 +58,6 @@ extern const uint16_t crosshair[];
 extern const uint8_t crosshairWidth;
 extern const uint8_t crosshairHeight;
 
-void sortSprites(uint32_t* order, uint32_t* distances, int32_t* size){
-    int sorted = 1;
-
-    for(int i = 0; i<size-1; i++){
-      if(distances[i] > distances[i+1]){
-        sorted = 0;
-        break;
-      }
-    }
-    while(sorted == 0){
-      for(int i = 0; i<size-1; i++){
-        if(distance[i] > distance[i+1]){
-          int temp = distance[i];
-          distance[i] = distance[i+1];
-          distance[i+1] = temp;
-
-          temp = order[i];
-          order[i] = order[i+1];
-          order[i+1] = temp;
-        }
-      }
-    }
-}
 
 void raycast(void){
   fix16_t cameraX = F16(-1);
@@ -202,7 +175,7 @@ void raycast(void){
     v2d_add(&rayDir, &rayDir, &dir);
 
     cameraX += cameraXStep;
-    
+
     int32_t mapX  = fix16_to_int(pos.x);
     int32_t mapY = fix16_to_int(pos.y);
 
@@ -268,8 +241,8 @@ void raycast(void){
     }
 
     
-    int32_t lineHeight = (wallHeight << 16) / perpWallDist; // screenHeight << 16 / perpWaallDist
-    int32_t drawWallStart = (screenHeight/2) - (lineHeight/2);
+    int32_t lineHeight = (wallHeight << 16) / perpWallDist;//fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1), perpWallDist), fix16_from_int(wallHeight))); //CHECK THIS
+    int32_t drawWallStart = (screenHeight/2) - (lineHeight/2); // drawStart = (screenHeight/2) - (lineHeight/2)
     int32_t drawWallEnd = (screenHeight /2 ) + (lineHeight/2);
 
     if(drawWallStart < 0){
@@ -325,6 +298,7 @@ void raycast(void){
     }
   }
 
+<<<<<<< HEAD
 
   ZBuffer[pixelX] = perpWallDist;
   uint32_t spriteOrder[zombieCount];
@@ -390,6 +364,9 @@ void raycast(void){
   }
    ST7735_DrawTransparentBitmapOnBuffer(shotgun[frame].x, shotgun[frame].y, shotgun[frame].image, shotgun[frame].w, shotgun[frame].h, 1);
   //ST7735_DrawTransparentBitmapOnBuffer(shotgunShoot[shootFrame].x, shotgunShoot[shootFrame].y, shotgunShoot[shootFrame].image, shotgunShoot[shootFrame].w, shotgunShoot[shootFrame].h, 1);
+=======
+  ST7735_DrawTransparentBitmapOnBuffer(shotgunShoot[shootFrame].x, shotgunShoot[shootFrame].y, shotgunShoot[shootFrame].image, shotgunShoot[shootFrame].w, shotgunShoot[shootFrame].h, 1);
+>>>>>>> parent of 04cec8d (experimental sprite code)
   ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 1);
   ST7735_DrawBitmap(0, 127, displayBuffer, 80, 128);
 
