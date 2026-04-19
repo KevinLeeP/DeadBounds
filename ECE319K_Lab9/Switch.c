@@ -6,10 +6,10 @@
  */
 #include <ti/devices/msp/msp.h>
 #include "../inc/LaunchPad.h"
-#include "Sound.h"
 #include "Entities.h"
 #include "Animations.h"
 #include "AMDAC4.h"
+#include "Sound.h"
 
 #define PB20INDEX 47
 #define PB11INDEX 27
@@ -42,13 +42,13 @@ uint32_t Switch_Language(void){
 
 void TIMG12_IRQHandler(void){
   AMDAC4_AmmoOut(Player.ammo);
-  if(Switch_Shoot() && gunShot == 0 && !gunReload){
+  if(Switch_Shoot() && gunShot == 0 && !gunReload && Player.ammo != 0){
     gunShot = 1;
     shotgun = shotgunShoot;
     Sound_Shoot();
     Player_Shoot();
   }
-  if(Player.ammo == 0){
+  else if(Player.ammo == 0 && gunShot == 0){
     gunReload = 1;
     shotgun = shotgunReload;
     Sound_Reload();

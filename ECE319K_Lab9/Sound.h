@@ -24,16 +24,11 @@ void Sound_Init(void);
 // Output: none
 // special cases: as you wish to implement
 void Sound_Start(const uint8_t *pt, uint32_t count);
-void Sound_StartRepeat(const uint8_t *pt, uint32_t count, uint8_t totalPlays, uint32_t gapSamples);
 // following 8 functions do not output to the DAC
 // they configure pointers/counters and initiate the sound by calling Sound_Start
 void Sound_Shoot(void);
 void Sound_Reload(void);
 void Sound_Damaged(void);
 void Sound_BackgroundMusic(void);
-void Sound_Fastinvader2(void);
-void Sound_Fastinvader3(void);
-void Sound_Fastinvader4(void);
-void Sound_Highpitch(void);
 
 #endif

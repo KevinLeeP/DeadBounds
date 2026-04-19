@@ -35,6 +35,7 @@
 #include "render3D.h"
 #include "Entities.h"
 #include "AMDAC4.h"
+#include "HPDAC4.h"
 // ****note to ECE319K students****
 // the data sheet says the ADC does not work when clock is 80 MHz
 // however, the ADC seems to work on my boards at 80 MHz
@@ -99,7 +100,6 @@ const uint8_t worldMap[mapWidth][mapHeight] = {
 
 
 
-
 int main(void) { // mainDeadBounds
 
   //initialize hardware
@@ -114,24 +114,16 @@ int main(void) { // mainDeadBounds
   ST7735_FillScreen(0);
   ST7735_SetRotation(screenOrientation);
 
-
-  // for(int loop = 0; loop < 6; loop++){
-  //   AMDAC4_AmmoOut(loop);
-  // }
-  
   Switch_Init();
   Sound_Init();
   Player_Init();
   AMDAC4_Init();
+  HPDAC4_Init();
   __enable_irq();
-
-  // //AMDAC4_AmmoOut(5);
   while (1) {
     raycast();
   }
-  // while(1){
 
-  // }
 }
 
 int main0(void) {
