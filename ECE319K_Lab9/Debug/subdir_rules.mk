@@ -19,18 +19,14 @@ ADC1.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/ADC1.c $(GEN_OPTS
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-<<<<<<< HEAD
-Arabic.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Arabic.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
-=======
 Animations.o: ../Animations.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -Oz -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/ECE319K_Lab9" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/ECE319K_Lab9/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(basename\ $(<F)).o" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/ECE319K_Lab9/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -Oz -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/ECE319K_Lab9" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/ECE319K_Lab9/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(basename\ $(<F)).o" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/ECE319K_Lab9/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-Arabic.o: C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Arabic.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
->>>>>>> 20d68feff6daedd8fa0ca2dcccec7cf21dcf8d90
+Arabic.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Arabic.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
 	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/ECE319K_Lab9" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/ECE319K_Lab9/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"Arabic.d_raw" -MT"Arabic.o" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/ECE319K_Lab9/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
@@ -89,7 +85,7 @@ Timer.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Timer.c $(GEN_OP
 render3D.o: ../render3D.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -Ofast -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/ECE319K_Lab9" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/ECE319K_Lab9/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(basename\ $(<F)).o" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/ECE319K_Lab9/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -Ofast -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/ECE319K_Lab9" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/ECE319K_Lab9/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(basename\ $(<F)).o" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/ECE319K_Lab9/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 

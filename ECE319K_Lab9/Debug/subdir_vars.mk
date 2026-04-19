@@ -131,16 +131,9 @@ C_DEPS__QUOTED += \
 C_SRCS__QUOTED += \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/ADC1.c" \
 "../AMDAC4.c" \
-<<<<<<< HEAD
-"../Animations.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Arabic.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Clock.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/DAC5.c" \
-=======
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Arabic.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Clock.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/DAC5.c" \
->>>>>>> 20d68feff6daedd8fa0ca2dcccec7cf21dcf8d90
 "../DAC6.c" \
 "../Entities.c" \
 "../HPDAC4.c" \
@@ -154,13 +147,7 @@ C_SRCS__QUOTED += \
 "../SmallFont.c" \
 "../Sound.c" \
 "../Switch.c" \
-<<<<<<< HEAD
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/TExaS.c" \
-"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Timer.c" \
-"../render3D.c" 
-=======
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/TExaS.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Timer.c" 
->>>>>>> 20d68feff6daedd8fa0ca2dcccec7cf21dcf8d90
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Timer.c" 
 
 
