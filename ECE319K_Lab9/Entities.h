@@ -7,6 +7,14 @@
 #ifndef __Entities_H__
 #define __Entities_H__
 
+struct player{
+    uint8_t health;
+    uint8_t ammo;
+};
+typedef struct player player_t;
+
+extern player_t Player;
+
 // initialize the player with 100 health and 5 bullets
 void Player_Init(void);
 

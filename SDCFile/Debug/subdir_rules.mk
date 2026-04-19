@@ -5,52 +5,52 @@
 SHELL = cmd.exe
 
 # Each subdirectory must supply rules for building sources it contributes
-Clock.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Clock.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
+Clock.o: C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Clock.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"Clock.d_raw" -MT"Clock.o" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-DAC.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/DAC.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
+DAC.o: C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/DAC.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"DAC.d_raw" -MT"DAC.o" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-LaunchPad.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/LaunchPad.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
+LaunchPad.o: C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/LaunchPad.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"LaunchPad.d_raw" -MT"LaunchPad.o" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
 %.o: ../%.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-SPI.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/SPI.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
+SPI.o: C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/SPI.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"SPI.d_raw" -MT"SPI.o" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-TExaS.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/TExaS.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
+TExaS.o: C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/TExaS.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"TExaS.d_raw" -MT"TExaS.o" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-Timer.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Timer.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
+Timer.o: C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Timer.c $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"Timer.d_raw" -MT"Timer.o" -I"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
+	"C:/ti/ccs2040/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug" -I"C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_09_00_01/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"$(basename $(<F)).d_raw" -MT"$(@)" -I"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/SDCFile/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 

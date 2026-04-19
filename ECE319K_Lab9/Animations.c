@@ -3,35 +3,18 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "../inc/LaunchPad.h"
-#include "../inc/ST7735.h"
-#include "../inc/TExaS.h"
-#include "../inc/Timer.h"
-#include "../inc/ADC1.h"
-#include "Sound.h"
-#include "../inc/Arabic.h"
-#include "SmallFont.h"
-#include "LED.h"
+
 #include "Switch.h"
 #include "Sound.h"
-#include "JoystickLeft.h"
-#include "JoystickRight.h"
 #include "images/images.h"
 #include "Animations.h"
+#include "Entities.h"
 
-extern uint8_t gunShot;
 
-uint8_t shootFrame = 0;
 
-void TIMG8_IRQHandler(void){
-    if(gunShot){
-        shootFrame++;
-    }
-    if(shootFrame == 8){
-        gunShot = 0;
-        shootFrame = 0;
-    }
-}
+uint8_t frame = 0;
+
+animationFrame_t shotgunNeutral[1] = {shotgunNormal, 43, 127, shotgunNormalWidth, shotgunNormalHeight};
 
 animationFrame_t shotgunShoot[8] = {
     {shotgunNormal, 43, 127, shotgunNormalWidth, shotgunNormalHeight},
@@ -43,3 +26,58 @@ animationFrame_t shotgunShoot[8] = {
     {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
     {shotgunShoot3, 43, 127, shotgunShoot3Width, shotgunShoot3Height},
 };
+
+
+animationFrame_t shotgunReload[21] = {
+    {shotgunNormal, 43, 127, shotgunNormalWidth, shotgunNormalHeight},
+
+    {reload1, 80-reload1Width/2, 127, reload1Width, reload1Height},
+    {reload2, 80-reload2Width/2, 127, reload2Width, reload2Height},
+    {reload3, 80-reload3Width/2, 127, reload3Width, reload3Height},
+
+    {reload1, 80-reload1Width/2, 127, reload1Width, reload1Height},
+    {reload2, 80-reload2Width/2, 127, reload2Width, reload2Height},
+    {reload3, 80-reload3Width/2, 127, reload3Width, reload3Height},
+
+    {reload1, 80-reload1Width/2, 127, reload1Width, reload1Height},
+    {reload2, 80-reload2Width/2, 127, reload2Width, reload2Height},
+    {reload3, 80-reload3Width/2, 127, reload3Width, reload3Height},
+
+    {reload1, 80-reload1Width/2, 127, reload1Width, reload1Height},
+    {reload2, 80-reload2Width/2, 127, reload2Width, reload2Height},
+    {reload3, 80-reload3Width/2, 127, reload3Width, reload3Height},
+
+    {reload1, 80-reload1Width/2, 127, reload1Width, reload1Height},
+    {reload2, 80-reload2Width/2, 127, reload2Width, reload2Height},
+    {reload3, 80-reload3Width/2, 127, reload3Width, reload3Height},
+
+    {shotgunShoot3, 43, 127, shotgunShoot3Width, shotgunShoot3Height},
+    {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
+    {shotgunShoot5, 43, 127, shotgunShoot5Width, shotgunShoot5Height},
+    {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
+    {shotgunShoot3, 43, 127, shotgunShoot3Width, shotgunShoot3Height}
+};
+
+animationFrame_t *shotgun = shotgunNeutral;
+
+void TIMG8_IRQHandler(void){
+    if(gunShot){
+        frame++;
+        if(frame == 8){
+            gunShot = 0;
+            frame = 0;
+        }
+    }
+
+    else if(gunReload){
+        frame++;
+        if(Player.ammo != 5){
+            Player_Reload();
+        }
+        if(frame == 21){
+            gunReload = 0;
+            frame = 0;
+            shotgun = shotgunNeutral;
+        }
+    }
+}

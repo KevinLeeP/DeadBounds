@@ -1,12 +1,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-
-struct player{
-    uint8_t health;
-    uint8_t ammo;
-};
-typedef struct player player_t;
+#include "Entities.h"
+#include "AMDAC4.h"
 
 player_t Player;
 
@@ -24,10 +20,12 @@ void Player_Damaged(void){
 
 void Player_Shoot(void){
     Player.ammo = Player.ammo - 1;
+    //AMDAC4_AmmoOut(Player.ammo);
 };
 
 void Player_Reload(void){
-    Player.ammo = 5;
+    Player.ammo = Player.ammo + 1;
+    //AMDAC4_AmmoOut(Player.ammo);
 };
 
 

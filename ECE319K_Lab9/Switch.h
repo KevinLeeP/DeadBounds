@@ -8,6 +8,9 @@
 #ifndef SWITCH_H_
 #define SWITCH_H_
 
+extern uint8_t gunShot;
+extern uint8_t gunReload;
+
 // initialize your switches
 void Switch_Init(void);
 

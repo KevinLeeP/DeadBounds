@@ -9,7 +9,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-
 #include "../inc/DAC5.h"
 #include "../inc/LaunchPad.h"
 #include "../inc/ST7735.h"
@@ -48,10 +47,7 @@ extern v2d dir;
 extern v2d plane;
 uint16_t displayBuffer[bufferSize];
 
-extern animationFrame_t shotgunShoot[3];
-extern uint8_t shootFrame;
-
-extern const uint16_t crosshair[];
+extern uint16_t crosshair[];
 extern const uint8_t crosshairWidth;
 extern const uint8_t crosshairHeight;
 
@@ -295,7 +291,7 @@ void raycast(void){
     }
   }
 
-  ST7735_DrawTransparentBitmapOnBuffer(shotgunShoot[shootFrame].x, shotgunShoot[shootFrame].y, shotgunShoot[shootFrame].image, shotgunShoot[shootFrame].w, shotgunShoot[shootFrame].h, 1);
+  ST7735_DrawTransparentBitmapOnBuffer(shotgun[frame].x, shotgun[frame].y, shotgun[frame].image, shotgun[frame].w, shotgun[frame].h, 1);
   ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 1);
   ST7735_DrawBitmap(0, 127, displayBuffer, 80, 128);
 
@@ -436,7 +432,7 @@ void raycast(void){
   }
   
   //ST7735_DrawBitmapTransparent(45, 127, shotgunnormal, 50, 31);
-  ST7735_DrawTransparentBitmapOnBuffer(shotgunShoot[shootFrame].x, shotgunShoot[shootFrame].y, shotgunShoot[shootFrame].image, shotgunShoot[shootFrame].w, shotgunShoot[shootFrame].h, 2);
+  ST7735_DrawTransparentBitmapOnBuffer(shotgun[frame].x, shotgun[frame].y, shotgun[frame].image, shotgun[frame].w, shotgun[frame].h, 2);
   ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 2);
   ST7735_DrawBitmap(80, 127, displayBuffer, 80, 128);
 }

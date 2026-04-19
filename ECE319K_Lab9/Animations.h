@@ -16,4 +16,10 @@ struct animationFrame{
 };
 typedef struct animationFrame animationFrame_t;
 
+extern animationFrame_t shotgunShoot[8];
+extern animationFrame_t shotgunReload[21];
+extern animationFrame_t shotgunNeutral[1];
+extern animationFrame_t *shotgun;
+extern uint8_t frame;
+
 #endif // __ANIMATIONS_H_

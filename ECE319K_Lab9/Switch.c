@@ -9,13 +9,13 @@
 #include "Sound.h"
 #include "Entities.h"
 #include "Animations.h"
+#include "AMDAC4.h"
 
 #define PB20INDEX 47
 #define PB11INDEX 27
 
-extern uint8_t shootFrame;
-
 uint8_t gunShot = 0;
+uint8_t gunReload = 0;
 
 // LaunchPad.h defines all the indices into the PINCM table
 void Switch_Init(void){
@@ -41,12 +41,16 @@ uint32_t Switch_Language(void){
 }
 
 void TIMG12_IRQHandler(void){
-  if(Switch_Shoot() && gunShot == 0){
+  AMDAC4_AmmoOut(Player.ammo);
+  if(Switch_Shoot() && gunShot == 0 && !gunReload){
     gunShot = 1;
+    shotgun = shotgunShoot;
     Sound_Shoot();
     Player_Shoot();
   }
-  if(Switch_Language()){
-    
+  if(Player.ammo == 0){
+    gunReload = 1;
+    shotgun = shotgunReload;
+    Sound_Reload();
   }
 }

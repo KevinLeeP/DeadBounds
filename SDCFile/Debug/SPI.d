@@ -1,6 +1,7 @@
 # FIXED
 
-SPI.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/SPI.c \
+SPI.o: \
+ C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/SPI.c \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h \
@@ -31,8 +32,8 @@ SPI.o: C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/SPI.c \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_debugss.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h \
- C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/SPI.h \
- C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Clock.h
+ C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/SPI.h \
+ C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Clock.h
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h:
@@ -63,5 +64,5 @@ C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_cpuss.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_debugss.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h:
-C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/SPI.h:
-C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Clock.h:
+C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/SPI.h:
+C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Clock.h:

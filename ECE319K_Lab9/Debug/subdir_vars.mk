@@ -131,7 +131,6 @@ C_DEPS__QUOTED += \
 C_SRCS__QUOTED += \
 "C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/ADC1.c" \
 "../AMDAC4.c" \
-"../Animations.c" \
 "C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Arabic.c" \
 "C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Clock.c" \
 "C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/DAC5.c" \
@@ -149,7 +148,6 @@ C_SRCS__QUOTED += \
 "../Sound.c" \
 "../Switch.c" \
 "C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/TExaS.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Timer.c" \
-"../render3D.c" 
+"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Timer.c" 
 
 
