@@ -21,7 +21,7 @@ void HPDAC4_Init(void){
   IOMUX->SECCFG.PINCM[PB18INDEX] = 0x00000081;
   IOMUX->SECCFG.PINCM[PB19INDEX] = 0x00000081;
   
-  GPIOB->DOUT31_0 &= (~0x000F000);  //clear previous outputs
+  GPIOB->DOUT31_0 &= (~0x00F0000);  //clear previous outputs
   GPIOB->DOE31_0 |= 0x000F0000;     //enable outputs for PB16-19
 }
 

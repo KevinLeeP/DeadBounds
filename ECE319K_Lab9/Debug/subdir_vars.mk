@@ -27,6 +27,7 @@ C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/SPI.c \
 C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/ST7735.c \
 ../SmallFont.c \
 ../Sound.c \
+../SoundSD.c \
 ../Switch.c \
 C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/TExaS.c \
 C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Timer.c \
@@ -51,6 +52,7 @@ C_DEPS += \
 ./ST7735.d \
 ./SmallFont.d \
 ./Sound.d \
+./SoundSD.d \
 ./Switch.d \
 ./TExaS.d \
 ./Timer.d \
@@ -75,6 +77,7 @@ OBJS += \
 ./ST7735.o \
 ./SmallFont.o \
 ./Sound.o \
+./SoundSD.o \
 ./Switch.o \
 ./TExaS.o \
 ./Timer.o \
@@ -99,6 +102,7 @@ OBJS__QUOTED += \
 "ST7735.o" \
 "SmallFont.o" \
 "Sound.o" \
+"SoundSD.o" \
 "Switch.o" \
 "TExaS.o" \
 "Timer.o" \
@@ -123,6 +127,7 @@ C_DEPS__QUOTED += \
 "ST7735.d" \
 "SmallFont.d" \
 "Sound.d" \
+"SoundSD.d" \
 "Switch.d" \
 "TExaS.d" \
 "Timer.d" \
@@ -146,6 +151,7 @@ C_SRCS__QUOTED += \
 "C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/ST7735.c" \
 "../SmallFont.c" \
 "../Sound.c" \
+"../SoundSD.c" \
 "../Switch.c" \
 "C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/TExaS.c" \
 "C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Timer.c" 

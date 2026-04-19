@@ -281,7 +281,7 @@ int flag; // 1 means need data into back
 uint32_t BufCount; // 0 to NUMBUF-1
 uint32_t IdleTime=0;
 // file will be NUMBUF by BUFSIZE uint16_t binary values
-int main(void){ // run main3 to create a sound file
+int main3(void){ // run main3 to create a sound file
   UINT successfulreads, successfulwrites;
   uint8_t c, x, y;
   __disable_irq();
@@ -359,7 +359,7 @@ void TIMA1_IRQHandler(void){
   }
 }
 // YOU MUST RUN main3 before running main4 to create the sound.bin file
-int main4(void){ // run main4 to stream a sound file to DAC
+int main(void){ // run main4 to stream a sound file to DAC
   UINT successfulreads, successfulwrites;
   __disable_irq();
   Clock_Init80MHz(0);
