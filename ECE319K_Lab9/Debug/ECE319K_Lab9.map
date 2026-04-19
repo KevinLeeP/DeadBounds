@@ -1,18 +1,18 @@
 ******************************************************************************
             TI ARM Clang Linker PC v4.0.4                      
 ******************************************************************************
->> Linked Sun Apr 19 17:30:50 2026
+>> Linked Sun Apr 19 18:08:30 2026
 
 OUTPUT FILE NAME:   <ECE319K_Lab9.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0001ea8d
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00015c0d
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00020000  0001ece0  00001320  R  X
-  SRAM                  20200000   00008000  00005969  00002697  RW X
+  FLASH                 00000000   00020000  00015e40  0000a1c0  R  X
+  SRAM                  20200000   00008000  0000553a  00002ac6  RW X
   BCR_CONFIG            41c00000   00000080  00000000  00000080  R   
   BSL_CONFIG            41c00100   00000080  00000000  00000080  R   
 
@@ -21,15 +21,15 @@ SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    0001ece0   0001ece0    r-x
+00000000    00000000    00015e40   00015e40    r-x
   00000000    00000000    000000c0   000000c0    r-- .intvecs
-  000000c0    000000c0    0001c748   0001c748    r-- .rodata
-  0001c808    0001c808    00002440   00002440    r-x .text
-  0001ec48    0001ec48    00000098   00000098    r-- .cinit
-20200000    20200000    0000576c   00000000    rw-
-  20200000    20200000    00005445   00000000    rw- .bss
-  20205448    20205448    00000200   00000000    rw- .sysmem
-  20205648    20205648    00000124   00000000    rw- .data
+  000000c0    000000c0    00013a88   00013a88    r-- .rodata
+  00013b48    00013b48    00002260   00002260    r-x .text
+  00015da8    00015da8    00000098   00000098    r-- .cinit
+20200000    20200000    0000533c   00000000    rw-
+  20200000    20200000    00005016   00000000    rw- .bss
+  20205018    20205018    00000200   00000000    rw- .sysmem
+  20205218    20205218    00000124   00000000    rw- .data
 20207e00    20207e00    00000200   00000000    rw-
   20207e00    20207e00    00000200   00000000    rw- .stack
 
@@ -42,171 +42,155 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    000000c0     
                   00000000    000000c0     startup_mspm0g3507_ticlang.o (.intvecs)
 
-.text      0    0001c808    00002440     
-                  0001c808    00000860     render3D.o (.text.raycast)
-                  0001d068    00000210     ST7735.o (.text.ST7735_DrawBitmap)
-                  0001d278    000001f4     fix16.o (.text.fix16_div)
-                  0001d46c    000001b4     Clock.o (.text.Clock_Init80MHz)
-                  0001d620    00000154     ST7735.o (.text.ST7735_DrawTransparentBitmapOnBuffer)
-                  0001d774    00000118     ST7735.o (.text.ST7735_FillRect)
-                  0001d88c    000000f8     SPI.o (.text.SPI_Init)
-                  0001d984    000000f4     ST7735.o (.text.ST7735_SetRotation)
-                  0001da78    000000e4     fix16_fast_trig_lut.o (.text.fix16_fast_sin)
-                  0001db5c    000000a8     Timer.o (.text.TimerG8_IntArm)
-                  0001dc04    000000a4     Timer.o (.text.TimerG0_IntArm)
-                  0001dca8    000000a2     ST7735.o (.text.commandList)
-                  0001dd4a    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_idiv0)
-                  0001dd4c    00000098     ST7735.o (.text.ST7735_InitR)
-                  0001dde4    00000094     SoundSD.o (.text.SoundSD_Play)
-                  0001de78    00000094     Timer.o (.text.TimerG12_IntArm)
-                  0001df0c    0000008c     Switch.o (.text.TIMG12_IRQHandler)
-                  0001df98    00000088     AMDAC4.o (.text.AMDAC4_Out)
-                  0001e020    00000088     ST7735.o (.text.setAddrWindow)
-                  0001e0a8    0000007c     LaunchPad.o (.text.LaunchPad_Init)
-                  0001e124    0000007c     libc.a : copy_decompress_lzss.c.obj (.text:decompress:lzss)
-                  0001e1a0    0000006e     fix16.o (.text.fix16_mul)
-                  0001e20e    00000002     --HOLE-- [fill = 0]
-                  0001e210    0000006c     JoystickLeft.o (.text.JoystickLeft_Init)
-                  0001e27c    0000006c     JoystickRight.o (.text.JoystickRight_Init)
-                  0001e2e8    00000068     JoystickLeft.o (.text.JoystickLeft_getX)
-                  0001e350    00000068     JoystickLeft.o (.text.JoystickLeft_getY)
-                  0001e3b8    00000068     JoystickRight.o (.text.JoystickRight_getX)
-                  0001e420    00000064     Animations.o (.text.TIMG8_IRQHandler)
-                  0001e484    00000060     Lab9Main.o (.text.main)
-                  0001e4e4    00000056     libclang_rt.builtins.a : aeabi_idivmod.S.obj (.text.__aeabi_idivmod)
-                  0001e53a    00000002     --HOLE-- [fill = 0]
-                  0001e53c    00000054     DAC6.o (.text.DAC6_Init)
-                  0001e590    00000054     SoundSD.o (.text.SysTick_Handler)
-                  0001e5e4    00000048     AMDAC4.o (.text.AMDAC4_Init)
-                  0001e62c    00000048     SPI.o (.text.SPI_OutCommand)
-                  0001e674    00000046     fix16.o (.text.fix16_add)
-                  0001e6ba    00000002     --HOLE-- [fill = 0]
-                  0001e6bc    00000040     HPDAC4.o (.text.HPDAC4_Init)
-                  0001e6fc    00000040     SPI.o (.text.SPI_Reset)
-                  0001e73c    00000040     TExaS.o (.text.TIMG7_IRQHandler)
-                  0001e77c    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
-                  0001e7bc    0000003c     DAC6.o (.text.DAC6_Out)
-                  0001e7f8    0000003c     Sound.o (.text.TIMG0_IRQHandler)
-                  0001e834    0000003c     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit)
-                  0001e870    0000003a     libclang_rt.builtins.a : muldsi3.S.obj (.text.__muldsi3)
-                  0001e8aa    00000002     --HOLE-- [fill = 0]
-                  0001e8ac    00000038     LaunchPad.o (.text.ActivatePortA_B)
-                  0001e8e4    00000038     SPI.o (.text.SPI_OutData)
-                  0001e91c    00000034     Clock.o (.text.Clock_Delay1ms)
-                  0001e950    00000034     ST7735.o (.text.ST7735_SetCursor)
-                  0001e984    00000030     ST7735.o (.text.commonInit)
-                  0001e9b4    0000002e     fixvector2d.o (.text.v2d_add)
-                  0001e9e2    00000002     --HOLE-- [fill = 0]
-                  0001e9e4    0000002c     ST7735.o (.text.ST7735_FillScreen)
-                  0001ea10    0000002a     fixvector2d.o (.text.v2d_mul_s)
-                  0001ea3a    00000002     --HOLE-- [fill = 0]
-                  0001ea3c    00000028     Sound.o (.text.Sound_Init)
-                  0001ea64    00000028     Switch.o (.text.Switch_Init)
-                  0001ea8c    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
-                  0001eab4    00000024     libclang_rt.builtins.a : muldi3.S.obj (.text.__muldi3)
-                  0001ead8    0000001c     startup_mspm0g3507_ticlang.o (.text.Default_Handler)
-                  0001eaf4    0000001c     startup_mspm0g3507_ticlang.o (.text.HardFault_Handler)
-                  0001eb10    00000018     AMDAC4.o (.text.AMDAC4_AmmoOut)
-                  0001eb28    00000018     fix16_fast_trig_lut.o (.text.fix16_fast_cos)
-                  0001eb40    00000014     Switch.o (.text.Switch_Shoot)
-                  0001eb54    00000012     libc.a : memcpy16.S.obj (.text:TI_memcpy_small)
-                  0001eb66    00000012            : copy_decompress_none.c.obj (.text:decompress:none)
-                  0001eb78    00000010     Clock.o (.text.Clock_Delay)
-                  0001eb88    00000010     LaunchPad.o (.text.Delay)
-                  0001eb98    00000010     Entities.o (.text.Player_Init)
-                  0001eba8    00000010     Entities.o (.text.Player_Reload)
-                  0001ebb8    00000010     Entities.o (.text.Player_Shoot)
-                  0001ebc8    00000010     SoundSD.o (.text.SoundSD_Reload)
-                  0001ebd8    00000010     SoundSD.o (.text.SoundSD_Shoot)
-                  0001ebe8    00000010     libc.a : copy_zero_init.c.obj (.text:decompress:ZI)
-                  0001ebf8    0000000e            : memset16.S.obj (.text:TI_memset_small)
-                  0001ec06    00000002     --HOLE-- [fill = 0]
-                  0001ec08    0000000c     Clock.o (.text.Clock_Freq)
-                  0001ec14    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
-                  0001ec20    0000000a     Lab9Main.o (.text.PLL_Init)
-                  0001ec2a    00000002     --HOLE-- [fill = 0]
-                  0001ec2c    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
-                  0001ec34    00000006     libc.a : exit.c.obj (.text:abort)
-                  0001ec3a    00000004     libsysbm.a : hostexit.c.obj (.text.HOSTexit)
-                  0001ec3e    00000004     startup_mspm0g3507_ticlang.o (.text.Reset_Handler)
-                  0001ec42    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
-                  0001ec46    00000002     --HOLE-- [fill = 0]
+.text      0    00013b48    00002260     
+                  00013b48    00000860     render3D.o (.text.raycast)
+                  000143a8    00000210     ST7735.o (.text.ST7735_DrawBitmap)
+                  000145b8    000001f4     fix16.o (.text.fix16_div)
+                  000147ac    000001b4     Clock.o (.text.Clock_Init80MHz)
+                  00014960    00000154     ST7735.o (.text.ST7735_DrawTransparentBitmapOnBuffer)
+                  00014ab4    00000118     ST7735.o (.text.ST7735_FillRect)
+                  00014bcc    000000f8     SPI.o (.text.SPI_Init)
+                  00014cc4    000000f4     ST7735.o (.text.ST7735_SetRotation)
+                  00014db8    000000e4     fix16_fast_trig_lut.o (.text.fix16_fast_sin)
+                  00014e9c    000000a8     Timer.o (.text.TimerG8_IntArm)
+                  00014f44    000000a2     ST7735.o (.text.commandList)
+                  00014fe6    00000002     Sound.o (.text.Sound_Reload)
+                  00014fe8    00000098     ST7735.o (.text.ST7735_InitR)
+                  00015080    00000094     Timer.o (.text.TimerG12_IntArm)
+                  00015114    0000008c     Switch.o (.text.TIMG12_IRQHandler)
+                  000151a0    00000088     AMDAC4.o (.text.AMDAC4_Out)
+                  00015228    00000088     ST7735.o (.text.setAddrWindow)
+                  000152b0    0000007c     LaunchPad.o (.text.LaunchPad_Init)
+                  0001532c    0000007c     libc.a : copy_decompress_lzss.c.obj (.text:decompress:lzss)
+                  000153a8    0000006e     fix16.o (.text.fix16_mul)
+                  00015416    00000002     Sound.o (.text.Sound_Shoot)
+                  00015418    0000006c     JoystickLeft.o (.text.JoystickLeft_Init)
+                  00015484    0000006c     JoystickRight.o (.text.JoystickRight_Init)
+                  000154f0    00000068     JoystickLeft.o (.text.JoystickLeft_getX)
+                  00015558    00000068     JoystickLeft.o (.text.JoystickLeft_getY)
+                  000155c0    00000068     JoystickRight.o (.text.JoystickRight_getX)
+                  00015628    00000064     Animations.o (.text.TIMG8_IRQHandler)
+                  0001568c    00000060     Lab9Main.o (.text.main)
+                  000156ec    00000056     libclang_rt.builtins.a : aeabi_idivmod.S.obj (.text.__aeabi_idivmod)
+                  00015742    00000002     Sound.o (.text.SysTick_Handler)
+                  00015744    00000054     DAC6.o (.text.DAC6_Init)
+                  00015798    00000048     AMDAC4.o (.text.AMDAC4_Init)
+                  000157e0    00000048     SPI.o (.text.SPI_OutCommand)
+                  00015828    00000046     fix16.o (.text.fix16_add)
+                  0001586e    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_idiv0)
+                  00015870    00000044     Sound.o (.text.SysTick_IntArm)
+                  000158b4    00000040     HPDAC4.o (.text.HPDAC4_Init)
+                  000158f4    00000040     SPI.o (.text.SPI_Reset)
+                  00015934    00000040     TExaS.o (.text.TIMG7_IRQHandler)
+                  00015974    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
+                  000159b4    0000003c     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit)
+                  000159f0    0000003a     libclang_rt.builtins.a : muldsi3.S.obj (.text.__muldsi3)
+                  00015a2a    00000002     --HOLE-- [fill = 0]
+                  00015a2c    00000038     LaunchPad.o (.text.ActivatePortA_B)
+                  00015a64    00000038     SPI.o (.text.SPI_OutData)
+                  00015a9c    00000034     Clock.o (.text.Clock_Delay1ms)
+                  00015ad0    00000034     ST7735.o (.text.ST7735_SetCursor)
+                  00015b04    00000030     ST7735.o (.text.commonInit)
+                  00015b34    0000002e     fixvector2d.o (.text.v2d_add)
+                  00015b62    00000002     --HOLE-- [fill = 0]
+                  00015b64    0000002c     ST7735.o (.text.ST7735_FillScreen)
+                  00015b90    0000002a     fixvector2d.o (.text.v2d_mul_s)
+                  00015bba    00000002     --HOLE-- [fill = 0]
+                  00015bbc    00000028     Sound.o (.text.Sound_Init)
+                  00015be4    00000028     Switch.o (.text.Switch_Init)
+                  00015c0c    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
+                  00015c34    00000024     libclang_rt.builtins.a : muldi3.S.obj (.text.__muldi3)
+                  00015c58    0000001c     startup_mspm0g3507_ticlang.o (.text.Default_Handler)
+                  00015c74    0000001c     startup_mspm0g3507_ticlang.o (.text.HardFault_Handler)
+                  00015c90    00000018     AMDAC4.o (.text.AMDAC4_AmmoOut)
+                  00015ca8    00000018     fix16_fast_trig_lut.o (.text.fix16_fast_cos)
+                  00015cc0    00000014     Switch.o (.text.Switch_Shoot)
+                  00015cd4    00000012     libc.a : memcpy16.S.obj (.text:TI_memcpy_small)
+                  00015ce6    00000012            : copy_decompress_none.c.obj (.text:decompress:none)
+                  00015cf8    00000010     Clock.o (.text.Clock_Delay)
+                  00015d08    00000010     LaunchPad.o (.text.Delay)
+                  00015d18    00000010     Entities.o (.text.Player_Init)
+                  00015d28    00000010     Entities.o (.text.Player_Reload)
+                  00015d38    00000010     Entities.o (.text.Player_Shoot)
+                  00015d48    00000010     libc.a : copy_zero_init.c.obj (.text:decompress:ZI)
+                  00015d58    0000000e            : memset16.S.obj (.text:TI_memset_small)
+                  00015d66    00000002     --HOLE-- [fill = 0]
+                  00015d68    0000000c     Clock.o (.text.Clock_Freq)
+                  00015d74    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
+                  00015d80    0000000a     Lab9Main.o (.text.PLL_Init)
+                  00015d8a    00000002     --HOLE-- [fill = 0]
+                  00015d8c    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
+                  00015d94    00000006     libc.a : exit.c.obj (.text:abort)
+                  00015d9a    00000004     libsysbm.a : hostexit.c.obj (.text.HOSTexit)
+                  00015d9e    00000004     startup_mspm0g3507_ticlang.o (.text.Reset_Handler)
+                  00015da2    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
+                  00015da6    00000002     --HOLE-- [fill = 0]
 
-.cinit     0    0001ec48    00000098     
-                  0001ec48    00000072     (.cinit..data.load) [load image, compression = lzss]
-                  0001ecba    00000002     --HOLE-- [fill = 0]
-                  0001ecbc    0000000c     (__TI_handler_table)
-                  0001ecc8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  0001ecd0    00000010     (__TI_cinit_table)
+.cinit     0    00015da8    00000098     
+                  00015da8    00000070     (.cinit..data.load) [load image, compression = lzss]
+                  00015e18    0000000c     (__TI_handler_table)
+                  00015e24    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  00015e2c    00000010     (__TI_cinit_table)
+                  00015e3c    00000004     --HOLE-- [fill = 0]
 
-.rodata    0    000000c0    0001c748     
-                  000000c0    00008cb0     Sound.o (.rodata.background_music)
-                  00008d70    00002ee0     Animations.o (.rodata.shotgunShoot3)
-                  0000bc50    00002a30     Animations.o (.rodata.shotgunShoot5)
-                  0000e680    00002940     Animations.o (.rodata.reload3)
-                  00010fc0    00002850     Animations.o (.rodata.shotgunShoot4)
-                  00013810    000023a0     Animations.o (.rodata.reload2)
-                  00015bb0    00002080     Animations.o (.rodata.reload1)
-                  00017c30    000017e8     Animations.o (.rodata.shotgunShoot2)
-                  00019418    00001608     Animations.o (.rodata.shotgunShoot1)
-                  0001aa20    000012c0     Animations.o (.rodata.shotgunNormal)
-                  0001bce0    00000800     fix16_fast_trig_lut.o (.rodata.fastSineLookupTable)
-                  0001c4e0    00000240     Lab9Main.o (.rodata.worldMap)
-                  0001c720    00000048     Animations.o (.rodata.crosshair)
-                  0001c768    0000003b     ST7735.o (.rodata.Rcmd1)
-                  0001c7a3    0000002b     ST7735.o (.rodata.Rcmd3)
-                  0001c7ce    0000000d     ST7735.o (.rodata.Rcmd2green)
-                  0001c7db    0000000d     ST7735.o (.rodata.Rcmd2red)
-                  0001c7e8    0000000b     SoundSD.o (.rodata.str1.10790531230981579499.1)
-                  0001c7f3    0000000a     SoundSD.o (.rodata.str1.3837765891481586985.1)
-                  0001c7fd    00000001     Animations.o (.rodata.crosshairHeight)
-                  0001c7fe    00000008     render3D.o (.rodata.cst8)
-                  0001c806    00000001     Animations.o (.rodata.crosshairWidth)
-                  0001c807    00000001     --HOLE-- [fill = 0]
+.rodata    0    000000c0    00013a88     
+                  000000c0    00002ee0     Animations.o (.rodata.shotgunShoot3)
+                  00002fa0    00002a30     Animations.o (.rodata.shotgunShoot5)
+                  000059d0    00002940     Animations.o (.rodata.reload3)
+                  00008310    00002850     Animations.o (.rodata.shotgunShoot4)
+                  0000ab60    000023a0     Animations.o (.rodata.reload2)
+                  0000cf00    00002080     Animations.o (.rodata.reload1)
+                  0000ef80    000017e8     Animations.o (.rodata.shotgunShoot2)
+                  00010768    00001608     Animations.o (.rodata.shotgunShoot1)
+                  00011d70    000012c0     Animations.o (.rodata.shotgunNormal)
+                  00013030    00000800     fix16_fast_trig_lut.o (.rodata.fastSineLookupTable)
+                  00013830    00000240     Lab9Main.o (.rodata.worldMap)
+                  00013a70    00000048     Animations.o (.rodata.crosshair)
+                  00013ab8    0000003b     ST7735.o (.rodata.Rcmd1)
+                  00013af3    0000002b     ST7735.o (.rodata.Rcmd3)
+                  00013b1e    0000000d     ST7735.o (.rodata.Rcmd2green)
+                  00013b2b    0000000d     ST7735.o (.rodata.Rcmd2red)
+                  00013b38    00000008     render3D.o (.rodata.cst8)
+                  00013b40    00000001     Animations.o (.rodata.crosshairHeight)
+                  00013b41    00000001     Animations.o (.rodata.crosshairWidth)
+                  00013b42    00000006     --HOLE-- [fill = 0]
 
 .init_array 
 *          0    00000000    00000000     UNINITIALIZED
 
 .binit     0    00000000    00000000     
 
-.bss       0    20200000    00005445     UNINITIALIZED
+.bss       0    20200000    00005016     UNINITIALIZED
                   20200000    00005000     (.common:displayBuffer)
-                  20205000    00000224     SoundSD.o (.bss.Handle)
-                  20205224    00000200     SoundSD.o (.bss.Buf)
-                  20205424    00000004     SoundSD.o (.bss.Count8)
-                  20205428    00000004     SoundSD.o (.bss.successfulreads)
-                  2020542c    00000004     (.common:TExaSLogic)
-                  20205430    00000004     (.common:TExaSadc)
-                  20205434    00000004     (.common:backgroundIdx)
-                  20205438    00000004     (.common:soundIdx)
-                  2020543c    00000002     (.common:Player)
-                  2020543e    00000001     ST7735.o (.bss.ColStart)
-                  2020543f    00000001     SoundSD.o (.bss.Fresult)
-                  20205440    00000001     ST7735.o (.bss.Rotation)
-                  20205441    00000001     ST7735.o (.bss.RowStart)
-                  20205442    00000001     ST7735.o (.bss.TabColor)
-                  20205443    00000001     SoundSD.o (.bss.needMoreData)
-                  20205444    00000001     SoundSD.o (.bss.playing)
+                  20205000    00000004     (.common:TExaSLogic)
+                  20205004    00000004     (.common:TExaSadc)
+                  20205008    00000004     (.common:backgroundIdx)
+                  2020500c    00000004     (.common:soundIdx)
+                  20205010    00000002     (.common:Player)
+                  20205012    00000001     ST7735.o (.bss.ColStart)
+                  20205013    00000001     ST7735.o (.bss.Rotation)
+                  20205014    00000001     ST7735.o (.bss.RowStart)
+                  20205015    00000001     ST7735.o (.bss.TabColor)
 
-.sysmem    0    20205448    00000200     UNINITIALIZED
-                  20205448    00000010     libc.a : memory.c.obj (.sysmem)
-                  20205458    000001f0     --HOLE--
+.sysmem    0    20205018    00000200     UNINITIALIZED
+                  20205018    00000010     libc.a : memory.c.obj (.sysmem)
+                  20205028    000001f0     --HOLE--
 
-.data      0    20205648    00000124     UNINITIALIZED
-                  20205648    000000a8     Animations.o (.data.shotgunReload)
-                  202056f0    00000040     Animations.o (.data.shotgunShoot)
-                  20205730    00000010     Animations.o (.data..L_MergedGlobals)
-                  20205740    00000008     Lab9Main.o (.data.dir)
-                  20205748    00000008     Lab9Main.o (.data.plane)
-                  20205750    00000008     Lab9Main.o (.data.pos)
-                  20205758    00000004     Clock.o (.data.BusFreq)
-                  2020575c    00000004     ST7735.o (.data.StX)
-                  20205760    00000004     ST7735.o (.data.StY)
-                  20205764    00000002     ST7735.o (.data.StTextColor)
-                  20205766    00000002     ST7735.o (.data._height)
-                  20205768    00000002     ST7735.o (.data._width)
-                  2020576a    00000001     Switch.o (.data.gunReload)
-                  2020576b    00000001     Switch.o (.data.gunShot)
+.data      0    20205218    00000124     UNINITIALIZED
+                  20205218    000000a8     Animations.o (.data.shotgunReload)
+                  202052c0    00000040     Animations.o (.data.shotgunShoot)
+                  20205300    00000010     Animations.o (.data..L_MergedGlobals)
+                  20205310    00000008     Lab9Main.o (.data.dir)
+                  20205318    00000008     Lab9Main.o (.data.plane)
+                  20205320    00000008     Lab9Main.o (.data.pos)
+                  20205328    00000004     Clock.o (.data.BusFreq)
+                  2020532c    00000004     ST7735.o (.data.StX)
+                  20205330    00000004     ST7735.o (.data.StY)
+                  20205334    00000002     ST7735.o (.data.StTextColor)
+                  20205336    00000002     ST7735.o (.data._height)
+                  20205338    00000002     ST7735.o (.data._width)
+                  2020533a    00000001     Switch.o (.data.gunReload)
+                  2020533b    00000001     Switch.o (.data.gunShot)
 
 .stack     0    20207e00    00000200     UNINITIALIZED
                   20207e00    00000004     libc.a : boot_cortex_m.c.obj (.stack)
@@ -224,25 +208,24 @@ MODULE SUMMARY
        ------                         ----   -------   -------
     .\
        Animations.o                   100    77754     248    
-       Sound.o                        100    36016     8      
        render3D.o                     2144   8         20480  
        ST7735.o                       1986   128       18     
-       SoundSD.o                      264    21        1071   
        Lab9Main.o                     106    576       24     
        Clock.o                        516    0         4      
-       Timer.o                        480    0         0      
        SPI.o                          440    0         0      
        JoystickLeft.o                 316    0         0      
+       Timer.o                        316    0         0      
        AMDAC4.o                       232    0         0      
        JoystickRight.o                212    0         0      
        Switch.o                       200    0         2      
        LaunchPad.o                    196    0         0      
-       DAC6.o                         144    0         0      
+       Sound.o                        114    0         8      
+       DAC6.o                         84     0         0      
        TExaS.o                        64     0         8      
        HPDAC4.o                       64     0         0      
        Entities.o                     48     0         2      
     +--+------------------------------+------+---------+---------+
-       Total:                         7612   114503    21865  
+       Total:                         7138   78466     20794  
                                                               
     .\Math\fix\
        fix16_fast_trig_lut.o          252    2048      0      
@@ -291,21 +274,21 @@ MODULE SUMMARY
                                                               
        Heap:                          0      0         512    
        Stack:                         0      0         512    
-       Linker Generated:              0      150       0      
+       Linker Generated:              0      148       0      
     +--+------------------------------+------+---------+---------+
-       Grand Total:                   9262   116893    22889  
+       Grand Total:                   8788   80854     21818  
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0001ecd0 records: 2, size/record: 8, table size: 16
-	.data: load addr=0001ec48, load size=00000072 bytes, run addr=20205648, run size=00000124 bytes, compression=lzss
-	.bss: load addr=0001ecc8, load size=00000008 bytes, run addr=20200000, run size=00005445 bytes, compression=zero_init
+__TI_cinit_table @ 00015e2c records: 2, size/record: 8, table size: 16
+	.data: load addr=00015da8, load size=00000070 bytes, run addr=20205218, run size=00000124 bytes, compression=lzss
+	.bss: load addr=00015e24, load size=00000008 bytes, run addr=20200000, run size=00005016 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0001ecbc records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 00015e18 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -315,90 +298,88 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                                
 -------   ----                                
-0001ead9  ADC0_IRQHandler                     
-0001ead9  ADC1_IRQHandler                     
-0001ead9  AES_IRQHandler                      
-0001eb11  AMDAC4_AmmoOut                      
-0001e5e5  AMDAC4_Init                         
-0001df99  AMDAC4_Out                          
-0001e8ad  ActivatePortA_B                     
-20205758  BusFreq                             
-0001ec3a  C$$EXIT                             
-0001ead9  CANFD0_IRQHandler                   
-0001eb79  Clock_Delay                         
-0001e91d  Clock_Delay1ms                      
-0001ec09  Clock_Freq                          
-0001d46d  Clock_Init80MHz                     
-0001ead9  DAC0_IRQHandler                     
-0001e53d  DAC6_Init                           
-0001e7bd  DAC6_Out                            
-0001ead9  DMA_IRQHandler                      
-0001ead9  Default_Handler                     
-0001eb89  Delay                               
-0001ead9  GROUP0_IRQHandler                   
-0001ead9  GROUP1_IRQHandler                   
-0001ec3b  HOSTexit                            
-0001e6bd  HPDAC4_Init                         
-0001eaf5  HardFault_Handler                   
-0001ead9  I2C0_IRQHandler                     
-0001ead9  I2C1_IRQHandler                     
-0001e211  JoystickLeft_Init                   
-0001e2e9  JoystickLeft_getX                   
-0001e351  JoystickLeft_getY                   
-0001e27d  JoystickRight_Init                  
-0001e3b9  JoystickRight_getX                  
-0001e0a9  LaunchPad_Init                      
-0001ead9  NMI_Handler                         
-0001ec21  PLL_Init                            
-0001ead9  PendSV_Handler                      
-2020543c  Player                              
-0001eb99  Player_Init                         
-0001eba9  Player_Reload                       
-0001ebb9  Player_Shoot                        
-0001ead9  RTC_IRQHandler                      
-0001ec3f  Reset_Handler                       
-0001ead9  SPI0_IRQHandler                     
-0001ead9  SPI1_IRQHandler                     
-0001d88d  SPI_Init                            
-0001e62d  SPI_OutCommand                      
-0001e8e5  SPI_OutData                         
-0001e6fd  SPI_Reset                           
-0001d069  ST7735_DrawBitmap                   
-0001d621  ST7735_DrawTransparentBitmapOnBuffer
-0001d775  ST7735_FillRect                     
-0001e9e5  ST7735_FillScreen                   
-0001dd4d  ST7735_InitR                        
-0001e951  ST7735_SetCursor                    
-0001d985  ST7735_SetRotation                  
-0001ead9  SVC_Handler                         
-0001dde5  SoundSD_Play                        
-0001ebc9  SoundSD_Reload                      
-0001ebd9  SoundSD_Shoot                       
-0001ea3d  Sound_Init                          
-20205764  StTextColor                         
-2020575c  StX                                 
-20205760  StY                                 
-0001ea65  Switch_Init                         
-0001eb41  Switch_Shoot                        
-0001e591  SysTick_Handler                     
-2020542c  TExaSLogic                          
-20205430  TExaSadc                            
-0001ead9  TIMA0_IRQHandler                    
-0001ead9  TIMA1_IRQHandler                    
-0001e7f9  TIMG0_IRQHandler                    
-0001df0d  TIMG12_IRQHandler                   
-0001ead9  TIMG6_IRQHandler                    
-0001e73d  TIMG7_IRQHandler                    
-0001e421  TIMG8_IRQHandler                    
-0001eb55  TI_memcpy_small                     
-0001ebf9  TI_memset_small                     
-0001dc05  TimerG0_IntArm                      
-0001de79  TimerG12_IntArm                     
-0001db5d  TimerG8_IntArm                      
-0001ead9  UART0_IRQHandler                    
-0001ead9  UART1_IRQHandler                    
-0001ead9  UART2_IRQHandler                    
-0001ead9  UART3_IRQHandler                    
+00015c59  ADC0_IRQHandler                     
+00015c59  ADC1_IRQHandler                     
+00015c59  AES_IRQHandler                      
+00015c91  AMDAC4_AmmoOut                      
+00015799  AMDAC4_Init                         
+000151a1  AMDAC4_Out                          
+00015a2d  ActivatePortA_B                     
+20205328  BusFreq                             
+00015d9a  C$$EXIT                             
+00015c59  CANFD0_IRQHandler                   
+00015cf9  Clock_Delay                         
+00015a9d  Clock_Delay1ms                      
+00015d69  Clock_Freq                          
+000147ad  Clock_Init80MHz                     
+00015c59  DAC0_IRQHandler                     
+00015745  DAC6_Init                           
+00015c59  DMA_IRQHandler                      
+00015c59  Default_Handler                     
+00015d09  Delay                               
+00015c59  GROUP0_IRQHandler                   
+00015c59  GROUP1_IRQHandler                   
+00015d9b  HOSTexit                            
+000158b5  HPDAC4_Init                         
+00015c75  HardFault_Handler                   
+00015c59  I2C0_IRQHandler                     
+00015c59  I2C1_IRQHandler                     
+00015419  JoystickLeft_Init                   
+000154f1  JoystickLeft_getX                   
+00015559  JoystickLeft_getY                   
+00015485  JoystickRight_Init                  
+000155c1  JoystickRight_getX                  
+000152b1  LaunchPad_Init                      
+00015c59  NMI_Handler                         
+00015d81  PLL_Init                            
+00015c59  PendSV_Handler                      
+20205010  Player                              
+00015d19  Player_Init                         
+00015d29  Player_Reload                       
+00015d39  Player_Shoot                        
+00015c59  RTC_IRQHandler                      
+00015d9f  Reset_Handler                       
+00015c59  SPI0_IRQHandler                     
+00015c59  SPI1_IRQHandler                     
+00014bcd  SPI_Init                            
+000157e1  SPI_OutCommand                      
+00015a65  SPI_OutData                         
+000158f5  SPI_Reset                           
+000143a9  ST7735_DrawBitmap                   
+00014961  ST7735_DrawTransparentBitmapOnBuffer
+00014ab5  ST7735_FillRect                     
+00015b65  ST7735_FillScreen                   
+00014fe9  ST7735_InitR                        
+00015ad1  ST7735_SetCursor                    
+00014cc5  ST7735_SetRotation                  
+00015c59  SVC_Handler                         
+00015bbd  Sound_Init                          
+00014fe7  Sound_Reload                        
+00015417  Sound_Shoot                         
+20205334  StTextColor                         
+2020532c  StX                                 
+20205330  StY                                 
+00015be5  Switch_Init                         
+00015cc1  Switch_Shoot                        
+00015743  SysTick_Handler                     
+00015871  SysTick_IntArm                      
+20205000  TExaSLogic                          
+20205004  TExaSadc                            
+00015c59  TIMA0_IRQHandler                    
+00015c59  TIMA1_IRQHandler                    
+00015c59  TIMG0_IRQHandler                    
+00015115  TIMG12_IRQHandler                   
+00015c59  TIMG6_IRQHandler                    
+00015935  TIMG7_IRQHandler                    
+00015629  TIMG8_IRQHandler                    
+00015cd5  TI_memcpy_small                     
+00015d59  TI_memset_small                     
+00015081  TimerG12_IntArm                     
+00014e9d  TimerG8_IntArm                      
+00015c59  UART0_IRQHandler                    
+00015c59  UART1_IRQHandler                    
+00015c59  UART2_IRQHandler                    
+00015c59  UART3_IRQHandler                    
 20208000  __STACK_END                         
 00000200  __STACK_SIZE                        
 00000200  __SYSMEM_SIZE                       
@@ -411,86 +392,82 @@ address   name
 00000000  __TI_ATRegion2_region_sz            
 00000000  __TI_ATRegion2_src_addr             
 00000000  __TI_ATRegion2_trg_addr             
-0001ecd0  __TI_CINIT_Base                     
-0001ece0  __TI_CINIT_Limit                    
-0001ece0  __TI_CINIT_Warm                     
-0001ecbc  __TI_Handler_Table_Base             
-0001ecc8  __TI_Handler_Table_Limit            
-0001e835  __TI_auto_init_nobinit_nopinit      
-0001e125  __TI_decompress_lzss                
-0001eb67  __TI_decompress_none                
+00015e2c  __TI_CINIT_Base                     
+00015e3c  __TI_CINIT_Limit                    
+00015e3c  __TI_CINIT_Warm                     
+00015e18  __TI_Handler_Table_Base             
+00015e24  __TI_Handler_Table_Limit            
+000159b5  __TI_auto_init_nobinit_nopinit      
+0001532d  __TI_decompress_lzss                
+00015ce7  __TI_decompress_none                
 ffffffff  __TI_pprof_out_hndl                 
 ffffffff  __TI_prof_data_size                 
 ffffffff  __TI_prof_data_start                
 00000000  __TI_static_base__                  
-0001ebe9  __TI_zero_init                      
-0001e4e5  __aeabi_idiv                        
-0001dd4b  __aeabi_idiv0                       
-0001e4e5  __aeabi_idivmod                     
-0001eab5  __aeabi_lmul                        
-0001ec15  __aeabi_memclr                      
-0001ec15  __aeabi_memclr4                     
-0001ec15  __aeabi_memclr8                     
-0001ec2d  __aeabi_memcpy                      
-0001ec2d  __aeabi_memcpy4                     
-0001ec2d  __aeabi_memcpy8                     
-0001e77d  __aeabi_uidiv                       
-0001e77d  __aeabi_uidivmod                    
+00015d49  __TI_zero_init                      
+000156ed  __aeabi_idiv                        
+0001586f  __aeabi_idiv0                       
+000156ed  __aeabi_idivmod                     
+00015c35  __aeabi_lmul                        
+00015d75  __aeabi_memclr                      
+00015d75  __aeabi_memclr4                     
+00015d75  __aeabi_memclr8                     
+00015d8d  __aeabi_memcpy                      
+00015d8d  __aeabi_memcpy4                     
+00015d8d  __aeabi_memcpy8                     
+00015975  __aeabi_uidiv                       
+00015975  __aeabi_uidivmod                    
 ffffffff  __binit__                           
 UNDEFED   __mpu_init                          
-0001eab5  __muldi3                            
-0001e871  __muldsi3                           
+00015c35  __muldi3                            
+000159f1  __muldsi3                           
 20207e00  __stack                             
 20200000  __start___llvm_prf_bits             
 20200000  __start___llvm_prf_cnts             
 20200000  __stop___llvm_prf_bits              
 20200000  __stop___llvm_prf_cnts              
-0001ea8d  _c_int00_noargs                     
-20205448  _sys_memory                         
+00015c0d  _c_int00_noargs                     
+20205018  _sys_memory                         
 UNDEFED   _system_post_cinit                  
-0001ec43  _system_pre_init                    
-0001ec35  abort                               
-20205434  backgroundIdx                       
-000000c0  background_music                    
+00015da3  _system_pre_init                    
+00015d95  abort                               
+20205008  backgroundIdx                       
 ffffffff  binit                               
-0001c720  crosshair                           
-0001c7fd  crosshairHeight                     
-0001c806  crosshairWidth                      
-20205740  dir                                 
+00013a70  crosshair                           
+00013b40  crosshairHeight                     
+00013b41  crosshairWidth                      
+20205310  dir                                 
 20200000  displayBuffer                       
-UNDEFED   f_close                             
-UNDEFED   f_open                              
-UNDEFED   f_read                              
-0001e675  fix16_add                           
-0001d279  fix16_div                           
-0001eb29  fix16_fast_cos                      
-0001da79  fix16_fast_sin                      
-0001e1a1  fix16_mul                           
-20205730  frame                               
-2020576a  gunReload                           
-2020576b  gunShot                             
+00015829  fix16_add                           
+000145b9  fix16_div                           
+00015ca9  fix16_fast_cos                      
+00014db9  fix16_fast_sin                      
+000153a9  fix16_mul                           
+20205300  frame                               
+2020533a  gunReload                           
+2020533b  gunShot                             
 00000000  interruptVectors                    
-0001e485  main                                
-20205748  plane                               
-20205750  pos                                 
-0001c809  raycast                             
-00015bb0  reload1                             
-00013810  reload2                             
-0000e680  reload3                             
-20205734  shotgun                             
-20205738  shotgunNeutral                      
-0001aa20  shotgunNormal                       
-20205648  shotgunReload                       
-202056f0  shotgunShoot                        
-00019418  shotgunShoot1                       
-00017c30  shotgunShoot2                       
-00008d70  shotgunShoot3                       
-00010fc0  shotgunShoot4                       
-0000bc50  shotgunShoot5                       
-20205438  soundIdx                            
-0001e9b5  v2d_add                             
-0001ea11  v2d_mul_s                           
-0001c4e0  worldMap                            
+0001568d  main                                
+20205318  plane                               
+20205320  pos                                 
+00013b49  raycast                             
+0000cf00  reload1                             
+0000ab60  reload2                             
+000059d0  reload3                             
+20205304  shotgun                             
+20205308  shotgunNeutral                      
+00011d70  shotgunNormal                       
+20205218  shotgunReload                       
+202052c0  shotgunShoot                        
+00010768  shotgunShoot1                       
+0000ef80  shotgunShoot2                       
+000000c0  shotgunShoot3                       
+00008310  shotgunShoot4                       
+00002fa0  shotgunShoot5                       
+2020500c  soundIdx                            
+00015b35  v2d_add                             
+00015b91  v2d_mul_s                           
+00013830  worldMap                            
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -508,159 +485,156 @@ address   name
 00000000  __TI_ATRegion2_trg_addr             
 00000000  __TI_static_base__                  
 00000000  interruptVectors                    
-000000c0  background_music                    
+000000c0  shotgunShoot3                       
 00000200  __STACK_SIZE                        
 00000200  __SYSMEM_SIZE                       
-00008d70  shotgunShoot3                       
-0000bc50  shotgunShoot5                       
-0000e680  reload3                             
-00010fc0  shotgunShoot4                       
-00013810  reload2                             
-00015bb0  reload1                             
-00017c30  shotgunShoot2                       
-00019418  shotgunShoot1                       
-0001aa20  shotgunNormal                       
-0001c4e0  worldMap                            
-0001c720  crosshair                           
-0001c7fd  crosshairHeight                     
-0001c806  crosshairWidth                      
-0001c809  raycast                             
-0001d069  ST7735_DrawBitmap                   
-0001d279  fix16_div                           
-0001d46d  Clock_Init80MHz                     
-0001d621  ST7735_DrawTransparentBitmapOnBuffer
-0001d775  ST7735_FillRect                     
-0001d88d  SPI_Init                            
-0001d985  ST7735_SetRotation                  
-0001da79  fix16_fast_sin                      
-0001db5d  TimerG8_IntArm                      
-0001dc05  TimerG0_IntArm                      
-0001dd4b  __aeabi_idiv0                       
-0001dd4d  ST7735_InitR                        
-0001dde5  SoundSD_Play                        
-0001de79  TimerG12_IntArm                     
-0001df0d  TIMG12_IRQHandler                   
-0001df99  AMDAC4_Out                          
-0001e0a9  LaunchPad_Init                      
-0001e125  __TI_decompress_lzss                
-0001e1a1  fix16_mul                           
-0001e211  JoystickLeft_Init                   
-0001e27d  JoystickRight_Init                  
-0001e2e9  JoystickLeft_getX                   
-0001e351  JoystickLeft_getY                   
-0001e3b9  JoystickRight_getX                  
-0001e421  TIMG8_IRQHandler                    
-0001e485  main                                
-0001e4e5  __aeabi_idiv                        
-0001e4e5  __aeabi_idivmod                     
-0001e53d  DAC6_Init                           
-0001e591  SysTick_Handler                     
-0001e5e5  AMDAC4_Init                         
-0001e62d  SPI_OutCommand                      
-0001e675  fix16_add                           
-0001e6bd  HPDAC4_Init                         
-0001e6fd  SPI_Reset                           
-0001e73d  TIMG7_IRQHandler                    
-0001e77d  __aeabi_uidiv                       
-0001e77d  __aeabi_uidivmod                    
-0001e7bd  DAC6_Out                            
-0001e7f9  TIMG0_IRQHandler                    
-0001e835  __TI_auto_init_nobinit_nopinit      
-0001e871  __muldsi3                           
-0001e8ad  ActivatePortA_B                     
-0001e8e5  SPI_OutData                         
-0001e91d  Clock_Delay1ms                      
-0001e951  ST7735_SetCursor                    
-0001e9b5  v2d_add                             
-0001e9e5  ST7735_FillScreen                   
-0001ea11  v2d_mul_s                           
-0001ea3d  Sound_Init                          
-0001ea65  Switch_Init                         
-0001ea8d  _c_int00_noargs                     
-0001eab5  __aeabi_lmul                        
-0001eab5  __muldi3                            
-0001ead9  ADC0_IRQHandler                     
-0001ead9  ADC1_IRQHandler                     
-0001ead9  AES_IRQHandler                      
-0001ead9  CANFD0_IRQHandler                   
-0001ead9  DAC0_IRQHandler                     
-0001ead9  DMA_IRQHandler                      
-0001ead9  Default_Handler                     
-0001ead9  GROUP0_IRQHandler                   
-0001ead9  GROUP1_IRQHandler                   
-0001ead9  I2C0_IRQHandler                     
-0001ead9  I2C1_IRQHandler                     
-0001ead9  NMI_Handler                         
-0001ead9  PendSV_Handler                      
-0001ead9  RTC_IRQHandler                      
-0001ead9  SPI0_IRQHandler                     
-0001ead9  SPI1_IRQHandler                     
-0001ead9  SVC_Handler                         
-0001ead9  TIMA0_IRQHandler                    
-0001ead9  TIMA1_IRQHandler                    
-0001ead9  TIMG6_IRQHandler                    
-0001ead9  UART0_IRQHandler                    
-0001ead9  UART1_IRQHandler                    
-0001ead9  UART2_IRQHandler                    
-0001ead9  UART3_IRQHandler                    
-0001eaf5  HardFault_Handler                   
-0001eb11  AMDAC4_AmmoOut                      
-0001eb29  fix16_fast_cos                      
-0001eb41  Switch_Shoot                        
-0001eb55  TI_memcpy_small                     
-0001eb67  __TI_decompress_none                
-0001eb79  Clock_Delay                         
-0001eb89  Delay                               
-0001eb99  Player_Init                         
-0001eba9  Player_Reload                       
-0001ebb9  Player_Shoot                        
-0001ebc9  SoundSD_Reload                      
-0001ebd9  SoundSD_Shoot                       
-0001ebe9  __TI_zero_init                      
-0001ebf9  TI_memset_small                     
-0001ec09  Clock_Freq                          
-0001ec15  __aeabi_memclr                      
-0001ec15  __aeabi_memclr4                     
-0001ec15  __aeabi_memclr8                     
-0001ec21  PLL_Init                            
-0001ec2d  __aeabi_memcpy                      
-0001ec2d  __aeabi_memcpy4                     
-0001ec2d  __aeabi_memcpy8                     
-0001ec35  abort                               
-0001ec3a  C$$EXIT                             
-0001ec3b  HOSTexit                            
-0001ec3f  Reset_Handler                       
-0001ec43  _system_pre_init                    
-0001ecbc  __TI_Handler_Table_Base             
-0001ecc8  __TI_Handler_Table_Limit            
-0001ecd0  __TI_CINIT_Base                     
-0001ece0  __TI_CINIT_Limit                    
-0001ece0  __TI_CINIT_Warm                     
+00002fa0  shotgunShoot5                       
+000059d0  reload3                             
+00008310  shotgunShoot4                       
+0000ab60  reload2                             
+0000cf00  reload1                             
+0000ef80  shotgunShoot2                       
+00010768  shotgunShoot1                       
+00011d70  shotgunNormal                       
+00013830  worldMap                            
+00013a70  crosshair                           
+00013b40  crosshairHeight                     
+00013b41  crosshairWidth                      
+00013b49  raycast                             
+000143a9  ST7735_DrawBitmap                   
+000145b9  fix16_div                           
+000147ad  Clock_Init80MHz                     
+00014961  ST7735_DrawTransparentBitmapOnBuffer
+00014ab5  ST7735_FillRect                     
+00014bcd  SPI_Init                            
+00014cc5  ST7735_SetRotation                  
+00014db9  fix16_fast_sin                      
+00014e9d  TimerG8_IntArm                      
+00014fe7  Sound_Reload                        
+00014fe9  ST7735_InitR                        
+00015081  TimerG12_IntArm                     
+00015115  TIMG12_IRQHandler                   
+000151a1  AMDAC4_Out                          
+000152b1  LaunchPad_Init                      
+0001532d  __TI_decompress_lzss                
+000153a9  fix16_mul                           
+00015417  Sound_Shoot                         
+00015419  JoystickLeft_Init                   
+00015485  JoystickRight_Init                  
+000154f1  JoystickLeft_getX                   
+00015559  JoystickLeft_getY                   
+000155c1  JoystickRight_getX                  
+00015629  TIMG8_IRQHandler                    
+0001568d  main                                
+000156ed  __aeabi_idiv                        
+000156ed  __aeabi_idivmod                     
+00015743  SysTick_Handler                     
+00015745  DAC6_Init                           
+00015799  AMDAC4_Init                         
+000157e1  SPI_OutCommand                      
+00015829  fix16_add                           
+0001586f  __aeabi_idiv0                       
+00015871  SysTick_IntArm                      
+000158b5  HPDAC4_Init                         
+000158f5  SPI_Reset                           
+00015935  TIMG7_IRQHandler                    
+00015975  __aeabi_uidiv                       
+00015975  __aeabi_uidivmod                    
+000159b5  __TI_auto_init_nobinit_nopinit      
+000159f1  __muldsi3                           
+00015a2d  ActivatePortA_B                     
+00015a65  SPI_OutData                         
+00015a9d  Clock_Delay1ms                      
+00015ad1  ST7735_SetCursor                    
+00015b35  v2d_add                             
+00015b65  ST7735_FillScreen                   
+00015b91  v2d_mul_s                           
+00015bbd  Sound_Init                          
+00015be5  Switch_Init                         
+00015c0d  _c_int00_noargs                     
+00015c35  __aeabi_lmul                        
+00015c35  __muldi3                            
+00015c59  ADC0_IRQHandler                     
+00015c59  ADC1_IRQHandler                     
+00015c59  AES_IRQHandler                      
+00015c59  CANFD0_IRQHandler                   
+00015c59  DAC0_IRQHandler                     
+00015c59  DMA_IRQHandler                      
+00015c59  Default_Handler                     
+00015c59  GROUP0_IRQHandler                   
+00015c59  GROUP1_IRQHandler                   
+00015c59  I2C0_IRQHandler                     
+00015c59  I2C1_IRQHandler                     
+00015c59  NMI_Handler                         
+00015c59  PendSV_Handler                      
+00015c59  RTC_IRQHandler                      
+00015c59  SPI0_IRQHandler                     
+00015c59  SPI1_IRQHandler                     
+00015c59  SVC_Handler                         
+00015c59  TIMA0_IRQHandler                    
+00015c59  TIMA1_IRQHandler                    
+00015c59  TIMG0_IRQHandler                    
+00015c59  TIMG6_IRQHandler                    
+00015c59  UART0_IRQHandler                    
+00015c59  UART1_IRQHandler                    
+00015c59  UART2_IRQHandler                    
+00015c59  UART3_IRQHandler                    
+00015c75  HardFault_Handler                   
+00015c91  AMDAC4_AmmoOut                      
+00015ca9  fix16_fast_cos                      
+00015cc1  Switch_Shoot                        
+00015cd5  TI_memcpy_small                     
+00015ce7  __TI_decompress_none                
+00015cf9  Clock_Delay                         
+00015d09  Delay                               
+00015d19  Player_Init                         
+00015d29  Player_Reload                       
+00015d39  Player_Shoot                        
+00015d49  __TI_zero_init                      
+00015d59  TI_memset_small                     
+00015d69  Clock_Freq                          
+00015d75  __aeabi_memclr                      
+00015d75  __aeabi_memclr4                     
+00015d75  __aeabi_memclr8                     
+00015d81  PLL_Init                            
+00015d8d  __aeabi_memcpy                      
+00015d8d  __aeabi_memcpy4                     
+00015d8d  __aeabi_memcpy8                     
+00015d95  abort                               
+00015d9a  C$$EXIT                             
+00015d9b  HOSTexit                            
+00015d9f  Reset_Handler                       
+00015da3  _system_pre_init                    
+00015e18  __TI_Handler_Table_Base             
+00015e24  __TI_Handler_Table_Limit            
+00015e2c  __TI_CINIT_Base                     
+00015e3c  __TI_CINIT_Limit                    
+00015e3c  __TI_CINIT_Warm                     
 20200000  __start___llvm_prf_bits             
 20200000  __start___llvm_prf_cnts             
 20200000  __stop___llvm_prf_bits              
 20200000  __stop___llvm_prf_cnts              
 20200000  displayBuffer                       
-2020542c  TExaSLogic                          
-20205430  TExaSadc                            
-20205434  backgroundIdx                       
-20205438  soundIdx                            
-2020543c  Player                              
-20205448  _sys_memory                         
-20205648  shotgunReload                       
-202056f0  shotgunShoot                        
-20205730  frame                               
-20205734  shotgun                             
-20205738  shotgunNeutral                      
-20205740  dir                                 
-20205748  plane                               
-20205750  pos                                 
-20205758  BusFreq                             
-2020575c  StX                                 
-20205760  StY                                 
-20205764  StTextColor                         
-2020576a  gunReload                           
-2020576b  gunShot                             
+20205000  TExaSLogic                          
+20205004  TExaSadc                            
+20205008  backgroundIdx                       
+2020500c  soundIdx                            
+20205010  Player                              
+20205018  _sys_memory                         
+20205218  shotgunReload                       
+202052c0  shotgunShoot                        
+20205300  frame                               
+20205304  shotgun                             
+20205308  shotgunNeutral                      
+20205310  dir                                 
+20205318  plane                               
+20205320  pos                                 
+20205328  BusFreq                             
+2020532c  StX                                 
+20205330  StY                                 
+20205334  StTextColor                         
+2020533a  gunReload                           
+2020533b  gunShot                             
 20207e00  __stack                             
 20208000  __STACK_END                         
 ffffffff  __TI_pprof_out_hndl                 
@@ -670,8 +644,5 @@ ffffffff  __binit__
 ffffffff  binit                               
 UNDEFED   __mpu_init                          
 UNDEFED   _system_post_cinit                  
-UNDEFED   f_close                             
-UNDEFED   f_open                              
-UNDEFED   f_read                              
 
-[176 symbols]
+[170 symbols]

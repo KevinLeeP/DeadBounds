@@ -6,10 +6,10 @@
  */
 #include <ti/devices/msp/msp.h>
 #include "../inc/LaunchPad.h"
-#include "SoundSD.h"
 #include "Entities.h"
 #include "Animations.h"
 #include "AMDAC4.h"
+#include "Sound.h"
 
 #define PB20INDEX 47
 #define PB11INDEX 27
@@ -45,12 +45,12 @@ void TIMG12_IRQHandler(void){
   if(Switch_Shoot() && gunShot == 0 && !gunReload && Player.ammo != 0){
     gunShot = 1;
     shotgun = shotgunShoot;
-    SoundSD_Shoot();
+    Sound_Shoot();
     Player_Shoot();
   }
   else if(Player.ammo == 0 && gunShot == 0){
     gunReload = 1;
     shotgun = shotgunReload;
-    SoundSD_Reload();
+    Sound_Reload();
   }
 }

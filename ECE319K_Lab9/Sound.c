@@ -23,21 +23,31 @@ typedef struct soundEffect soundEffect_t;
 
 soundEffect_t soundToPlay;
 
+
+
+void SysTick_IntArm(uint32_t period, uint32_t priority){
+  SysTick->CTRL = 0x00;      // disable SysTick during setup
+  SysTick->LOAD = period-1;  // reload value
+  SCB->SHP[1] = (SCB->SHP[1]&(~0xC0000000))|(priority<<30); // priority 2
+  SysTick->VAL = 0;          // any write to VAL clears COUNT and sets VAL equal to LOAD
+  SysTick->CTRL = 0x07;  // enable SysTick, core clock, interrupts
+}
+
 // initialize a 11kHz SysTick, however no sound should be started
 // initialize any global variables
 // Initialize the 6-bit DAC
 void Sound_Init(void){
-  TimerG0_IntArm(7256, 1, 2);
+  SysTick_IntArm(7256, 2);
   DAC6_Init();
   soundIdx = 0;
   backgroundIdx = 0;
 }
-void TIMG0_IRQHandler(void){ // called at 11 kHz
-  DAC6_Out(background_music[backgroundIdx]);
-  backgroundIdx++;
-  if(backgroundIdx == backgroundMusicLen){
-    backgroundIdx = 0;
-  }
+void SysTick_Handler(void){ // called at 11 kHz
+  // DAC6_Out(background_music[backgroundIdx]);
+  // backgroundIdx++;
+  // if(backgroundIdx == backgroundMusicLen){
+  //   backgroundIdx = 0;
+  // }
 }
 
 //******* Sound_Start ************
@@ -56,21 +66,18 @@ void Sound_Start(const uint8_t *pt, uint32_t count){
   soundToPlay.length = count;
 }
 
-// void Sound_Shoot(void){
-// // write this
-//   Sound_Start(shootShotgun, shootLen);
-// }
-// void Sound_Reload(void){
-// // write this
-//   Sound_Start(reload, reloadLen);
+void Sound_Shoot(void){
+  //Sound_Start(shootShotgun, shootLen);
+}
+void Sound_Reload(void){
+  //Sound_Start(reload, reloadLen);
+}
 
-// }
-
-// void Sound_Damaged(void){
-//   Sound_Start(damage, damagedLen);
-// }
+void Sound_Damaged(void){
+  //Sound_Start(damage, damagedLen);
+}
 
 void Sound_BackgroundMusic(void){
-  Sound_Start(background_music, backgroundMusicLen);
+  //Sound_Start(background_music, backgroundMusicLen);
 }
 

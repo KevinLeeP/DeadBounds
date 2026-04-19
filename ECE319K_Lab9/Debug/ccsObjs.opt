@@ -16,7 +16,6 @@
 "./ST7735.o"
 "./SmallFont.o"
 "./Sound.o"
-"./SoundSD.o"
 "./Switch.o"
 "./TExaS.o"
 "./Timer.o"

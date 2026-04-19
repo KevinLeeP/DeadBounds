@@ -30,7 +30,6 @@
 #include "LED.h"
 #include "Switch.h"
 #include "Sound.h"
-#include "SoundSD.h"
 #include "JoystickLeft.h"
 #include "JoystickRight.h"
 #include "render3D.h"
@@ -101,7 +100,6 @@ const uint8_t worldMap[mapWidth][mapHeight] = {
 
 
 
-
 int main(void) { // mainDeadBounds
 
   //initialize hardware
@@ -115,25 +113,17 @@ int main(void) { // mainDeadBounds
   ST7735_InitR(INITR_BLACKTAB);
   ST7735_FillScreen(0);
   ST7735_SetRotation(screenOrientation);
-  
-  // for(int loop = 0; loop < 6; loop++){
-  //   AMDAC4_AmmoOut(loop);
-  // }
-  
+
   Switch_Init();
   Sound_Init();
   Player_Init();
   AMDAC4_Init();
   HPDAC4_Init();
   __enable_irq();
-
-  // //AMDAC4_AmmoOut(5);
   while (1) {
     raycast();
   }
-  // while(1){
 
-  // }
 }
 
 int main0(void) {
