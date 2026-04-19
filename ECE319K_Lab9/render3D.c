@@ -22,10 +22,10 @@
 #include "LED.h"
 #include "Switch.h"
 #include "Sound.h"
-//#include "images/images.h"
 #include "JoystickLeft.h"
 #include "JoystickRight.h"
 #include "Animations.h"
+#include "Entities.h"
 
 #define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
 
@@ -42,13 +42,17 @@
 #define skyColor 0x79e4
 #define borderColor 0x2587
 #define floorColor 0xc9e4
+#define textureWidth 64
+#define textureHeight 64
 
 const extern uint8_t worldMap[mapWidth][mapHeight];
 const uint32_t bufferSize = 10240;
 extern v2d pos;
 extern v2d dir;
 extern v2d plane;
+
 uint16_t displayBuffer[bufferSize];
+uint16_t ZBuffer[screenWidth];
 
 extern animationFrame_t shotgunShoot[3];
 extern uint8_t shootFrame;
@@ -57,6 +61,29 @@ extern const uint16_t crosshair[];
 extern const uint8_t crosshairWidth;
 extern const uint8_t crosshairHeight;
 
+void sortSprites(uint32_t* order, uint32_t* distances, int32_t* size){
+    int sorted = 1;
+
+    for(int i = 0; i<size-1; i++){
+      if(distances[i] > distances[i+1]){
+        sorted = 0;
+        break;
+      }
+    }
+    while(sorted == 0){
+      for(int i = 0; i<size-1; i++){
+        if(distance[i] > distance[i+1]){
+          int temp = distance[i];
+          distance[i] = distance[i+1];
+          distance[i+1] = temp;
+
+          temp = order[i];
+          order[i] = order[i+1];
+          order[i+1] = temp;
+        }
+      }
+    }
+}
 
 void raycast(void){
   fix16_t cameraX = F16(-1);
@@ -174,7 +201,7 @@ void raycast(void){
     v2d_add(&rayDir, &rayDir, &dir);
 
     cameraX += cameraXStep;
-
+    
     int32_t mapX  = fix16_to_int(pos.x);
     int32_t mapY = fix16_to_int(pos.y);
 
@@ -240,8 +267,8 @@ void raycast(void){
     }
 
     
-    int32_t lineHeight = (wallHeight << 16) / perpWallDist;//fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1), perpWallDist), fix16_from_int(wallHeight))); //CHECK THIS
-    int32_t drawWallStart = (screenHeight/2) - (lineHeight/2); // drawStart = (screenHeight/2) - (lineHeight/2)
+    int32_t lineHeight = (wallHeight << 16) / perpWallDist; // screenHeight << 16 / perpWaallDist
+    int32_t drawWallStart = (screenHeight/2) - (lineHeight/2);
     int32_t drawWallEnd = (screenHeight /2 ) + (lineHeight/2);
 
     if(drawWallStart < 0){
@@ -294,6 +321,70 @@ void raycast(void){
     //render floor part of slice
     for(int y = drawWallEnd * 80; y<screenHeight*80; y+=80){
         displayBuffer[y + pixelX] = floorColor;
+    }
+  }
+
+
+  ZBuffer[pixelX] = perpWallDist;
+  uint32_t spriteOrder[zombieCount];
+  uint32_t spirteDistance[zombieCount];
+  fix16_t spirteX;
+  fix16_t spriteY;
+
+  for(int i = 0; i<zombieCount; i++){
+    spriteOrder[i] = i;
+    spriteDistance[i] = ((pos.x - zombies[i].posX)*(pos.x - zombies[i].posX) 
+                        + (pos.y - zombies[i].posY)*(pos.y - zombies[i].posY));
+  }
+
+  sortSprites(spriteOrder, spriteDistance, zombieCount);
+
+  for(int i = 0; i<zombieCount; i++){
+    spriteX = zombies[sprite_order[i]].posX - pos.x;
+    spriteY = zombies[sprite_order[i]].posY - pos.Y;
+
+    //inverse camera matrix
+    //[planeX dirX] ^-1 = 1/(planeX * dirY - dirX * planeY) * [dirY -dirX]
+    //[planeY dirY]                                           [-planeY planeX]
+
+    fix16_t det = (1 << 16)/((plane.X * dir.y) - (dir.x * plane.y));
+    fix16_t transformSpriteX = det * ((dir.y * spriteX) - (dir.x * plane.x));
+    fix16_t transformSpriteY = det * ((-plane.y * spriteX) - (plane.x * spriteY));
+
+    int spriteScreenX = fix16_to_int((screenWidth/2) * (1 + fix16_div(transformX/transformY)));
+    int spriteHeight = abs(F16(screenHeight) / transformSpriteY);
+
+    int drawStartY = -spriteHeight/2 + screenHeight/2;
+    if(drawStartY < 0){
+      drawStartY = 0;
+    }
+    int drawEndY = spriteHeight/2 + screenHeight/2;
+    if(drawEndY >= screenHeight){
+      drawEndY = screenHeight - 1;
+    }
+
+    int spriteWidth = abs(F16(screenHeight) / transformSpriteY);
+    int drawStartX = -spriteWidth/2 + spriteScreenX;
+    if(drawStartX < 0){
+      drawStartX = 0;
+    }
+    int drawEndX = spriteWidth/2 + spriteScreenX;
+    if(drawStartX >= screenWidth){
+      drawStartX = screenWidth-1;
+    }
+
+    for(int stripe = drawStartX; stripe < drawEndX; stripe++){
+      int texX = ((256) * (stripe - (-spriteWidth/2 + spriteScreenX) * textureWidth/spriteWidth))/256; //256 to maintain int math precision
+      if(transfromY > 0 && stripe > 0 && stripe < screenWidth && transformY < ZBuffer[stripe]){
+        for(int y = drawStartY; y<drawEndY; y++){
+          int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128;
+          int texY = ((d * texHeight) / spriteHeight)/256;
+          uint16_t color = zombies[spriteOrder[i]].texture[texWidth * texY + texX];
+          if(color & (~0x07E) != 0){
+            buffer[y * screenWidth + stripe] = color;
+          }
+        }
+      }
     }
   }
 

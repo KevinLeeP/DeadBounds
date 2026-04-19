@@ -9,12 +9,12 @@ CMD_SRCS += \
 ../mspm0g3507.cmd 
 
 C_SRCS += \
-C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/ADC1.c \
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/ADC1.c \
 ../AMDAC4.c \
 ../Animations.c \
-C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Arabic.c \
-C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Clock.c \
-C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/DAC5.c \
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Arabic.c \
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Clock.c \
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/DAC5.c \
 ../DAC6.c \
 ../Entities.c \
 ../HPDAC4.c \
@@ -22,14 +22,14 @@ C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/DAC5.c \
 ../JoystickRight.c \
 ../LED.c \
 ../Lab9Main.c \
-C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/LaunchPad.c \
-C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/SPI.c \
-C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/ST7735.c \
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/LaunchPad.c \
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/SPI.c \
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/ST7735.c \
 ../SmallFont.c \
 ../Sound.c \
 ../Switch.c \
-C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/TExaS.c \
-C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Timer.c \
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/TExaS.c \
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/Timer.c \
 ../render3D.c 
 
 C_DEPS += \
@@ -129,12 +129,12 @@ C_DEPS__QUOTED += \
 "render3D.d" 
 
 C_SRCS__QUOTED += \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/ADC1.c" \
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/ADC1.c" \
 "../AMDAC4.c" \
 "../Animations.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Arabic.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Clock.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/DAC5.c" \
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Arabic.c" \
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Clock.c" \
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/DAC5.c" \
 "../DAC6.c" \
 "../Entities.c" \
 "../HPDAC4.c" \
@@ -142,14 +142,14 @@ C_SRCS__QUOTED += \
 "../JoystickRight.c" \
 "../LED.c" \
 "../Lab9Main.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/LaunchPad.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/SPI.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/ST7735.c" \
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/LaunchPad.c" \
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/SPI.c" \
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/ST7735.c" \
 "../SmallFont.c" \
 "../Sound.c" \
 "../Switch.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/TExaS.c" \
-"C:/Users/charl/OneDrive/Documents/DeadBoundsCode/DeadBounds/inc/Timer.c" \
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/TExaS.c" \
+"C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/Timer.c" \
 "../render3D.c" 
 
 

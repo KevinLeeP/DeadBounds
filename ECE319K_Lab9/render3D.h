@@ -7,6 +7,7 @@
 #ifndef __RENDER3D_H__
 #define __RENDER3D_H__
 
+int compare(const void *a, const void *b) ;
 void raycast(void);
 
 
