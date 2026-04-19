@@ -2184,10 +2184,7 @@ void ST7735_DrawTransparentBitmapOnBuffer(uint32_t x, uint32_t y, const uint16_t
             color &= (~(0xF81F));
             color |= r;
             color |= b << 11;
-
-            if(half == 2){
-              bufferX -= 80;
-            }
+            
             displayBuffer[(bufferY) * 80 + bufferX] = color;
         }
     }

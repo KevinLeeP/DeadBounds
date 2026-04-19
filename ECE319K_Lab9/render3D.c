@@ -34,7 +34,7 @@
 #define mapHeight 24
 #define screenWidth 160
 #define screenHeight 128
-#define joystickDeadBand 50
+#define joystickDeadBand 150
 #define wallHeight 150
 #define bufferSize 10240
 
