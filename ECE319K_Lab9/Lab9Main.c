@@ -30,6 +30,7 @@
 #include "LED.h"
 #include "Switch.h"
 #include "Sound.h"
+#include "SoundSD.h"
 #include "JoystickLeft.h"
 #include "JoystickRight.h"
 #include "render3D.h"

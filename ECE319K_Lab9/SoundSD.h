@@ -7,5 +7,7 @@ void SoundSD_Init(void);
 int SoundSD_Play(const char *filename);
 void SoundSD_Task(void);
 void SoundSD_Stop(void);
-
+void SoundSD_Reload(void);
+void SoundSD_Shoot(void);
+void SoundSD_Damaged(void);
 #endif
