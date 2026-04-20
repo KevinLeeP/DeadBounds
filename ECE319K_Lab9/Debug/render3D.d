@@ -36,8 +36,8 @@
  ../Math/lib_fixmatrix/fixvector2d.h ../../inc/ADC1.h \
  ../../inc/Arabic.h ../../inc/DAC5.h ../../inc/LaunchPad.h \
  ../../inc/ST7735.h ../../inc/TExaS.h ../../inc/Timer.h ../Animations.h \
- ../Entities.h ../JoystickLeft.h ../JoystickRight.h ../LED.h \
- ../SmallFont.h ../Sound.h ../Switch.h
+ ../Entities.h ../HPDAC4.h ../AMDAC4.h ../Sound.h ../Switch.h \
+ ../JoystickLeft.h ../JoystickRight.h ../LED.h ../SmallFont.h
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h:
@@ -82,9 +82,11 @@ C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/ECE319K_Lab9/Math/fix/fix16.h
 ../../inc/Timer.h:
 ../Animations.h:
 ../Entities.h:
+../HPDAC4.h:
+../AMDAC4.h:
+../Sound.h:
+../Switch.h:
 ../JoystickLeft.h:
 ../JoystickRight.h:
 ../LED.h:
 ../SmallFont.h:
-../Sound.h:
-../Switch.h:

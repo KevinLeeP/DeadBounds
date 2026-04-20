@@ -32,7 +32,9 @@ Switch.o: ../Switch.c \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h \
  ../../inc/LaunchPad.h ../Entities.h ../Math/fix/fix16.h \
- ../Animations.h ../AMDAC4.h ../Sound.h
+ ../Math/lib_fixmatrix/fixvector2d.h \
+ C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/ECE319K_Lab9/Math/fix/fix16.h \
+ ../Animations.h ../HPDAC4.h ../AMDAC4.h ../Sound.h ../Switch.h
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h:
@@ -66,6 +68,10 @@ C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysct
 ../../inc/LaunchPad.h:
 ../Entities.h:
 ../Math/fix/fix16.h:
+../Math/lib_fixmatrix/fixvector2d.h:
+C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/ECE319K_Lab9/Math/fix/fix16.h:
 ../Animations.h:
+../HPDAC4.h:
 ../AMDAC4.h:
 ../Sound.h:
+../Switch.h:

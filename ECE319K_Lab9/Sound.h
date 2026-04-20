@@ -29,6 +29,8 @@ void Sound_Start(const uint8_t *pt, uint32_t count);
 void Sound_Shoot(void);
 void Sound_Reload(void);
 void Sound_Damaged(void);
+void Sound_Chamber(void);
+
 void Sound_BackgroundMusic(void);
 
 #endif

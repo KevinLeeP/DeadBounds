@@ -8,9 +8,11 @@
 #include "images/images.h"
 #include "Animations.h"
 #include "Entities.h"
+#include "Sound.h"
 
 
 uint8_t frame = 0;
+extern player_t Player;
 
 animationFrame_t shotgunNeutral[1] = {
   {shotgunNormal, 43, 127, shotgunNormalWidth, shotgunNormalHeight}
@@ -63,6 +65,9 @@ animationFrame_t *shotgun = shotgunNeutral;
 void TIMG8_IRQHandler(void){
     if(gunShot){
         frame++;
+        if(frame == 4){
+          Sound_Chamber();
+        }
         if(frame == 8){
             gunShot = 0;
             frame = 0;
@@ -72,9 +77,15 @@ void TIMG8_IRQHandler(void){
     else if(gunReload){
         frame++;
         if(Player.ammo != 5){
-            Player_Reload();
+          Player_Reload();
         }
-        if(frame == 21){
+        if(frame == 1 || frame == 4 || frame == 7 || frame == 10 || frame == 13){
+          Sound_Reload();
+        }
+        else if(frame == 16){
+          Sound_Chamber();
+        }
+        else if(frame == 21){
             gunReload = 0;
             frame = 0;
             shotgun = shotgunNeutral;

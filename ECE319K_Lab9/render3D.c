@@ -43,7 +43,8 @@
 #define texWidth 64
 #define texHeight 118
 
-#define spriteSizeMultiplier 0.25
+#define spriteSizeMultiplier 0.5
+#define spriteTranslationY -16
 
 const extern uint8_t worldMap[mapWidth][mapHeight];
 extern v2d pos;
@@ -57,6 +58,8 @@ extern const uint8_t crosshairHeight;
 uint16_t displayBuffer[bufferSize];
 extern zombie_t zombies[];
 extern uint32_t zombieCount;
+
+extern player_t Player;
 
 void sortSprites(uint32_t *order, uint32_t *distance, int32_t size) {
   int sorted = 1;
@@ -262,6 +265,7 @@ void raycast(void) {
       if (worldMap[mapX][mapY] != 0) {
         wallHit = 1;
       }
+
     }
 
     if (sideHit == 0) {
@@ -359,12 +363,13 @@ void raycast(void) {
     int spriteHeight =
         abs(fix16_mul(fix16_to_int(fix16_div(F16(screenHeight), transformY)), F16(spriteSizeMultiplier)));
 
-    int drawStartY = -spriteHeight / 2 + screenHeight / 2;
+    int vMoveScreen = fix16_to_int(fix16_div(spriteTranslationY << 16,transformY));
+    int drawStartY = (-spriteHeight / 2 + screenHeight / 2) + vMoveScreen;
     if (drawStartY < 0) {
       drawStartY = 0;
     }
 
-    int drawEndY = spriteHeight / 2 + screenHeight / 2;
+    int drawEndY = (spriteHeight / 2 + screenHeight / 2) + vMoveScreen;
     if (drawEndY >= screenHeight - 1) {
       drawEndY = screenHeight - 1;
     }
@@ -391,7 +396,7 @@ void raycast(void) {
       if (transformY < ZBuffer[stripe]) {
 
         for (int y = drawStartY; y < drawEndY; y++) {
-          int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128;
+          int d = (y - vMoveScreen) * 256 - screenHeight * 128 + spriteHeight * 128;
           int texY = ((d * texHeight) / spriteHeight) / 256;
           uint16_t color =
               zombies[spriteOrder[i]].texture[texY * texWidth + texX];
@@ -573,10 +578,12 @@ void raycast(void) {
 
     if(spriteWidth == 0 || spriteHeight == 0) continue;
 
-    int drawStartY = -spriteHeight / 2 + screenHeight / 2;
+    int vMoveScreen = fix16_to_int(fix16_div(spriteTranslationY << 16,transformY));
+
+    int drawStartY = (-spriteHeight / 2 + screenHeight / 2) + vMoveScreen;
     if (drawStartY < 0) { drawStartY = 0; }
 
-    int drawEndY = spriteHeight / 2 + screenHeight / 2;
+    int drawEndY = (spriteHeight / 2 + screenHeight / 2) + vMoveScreen;
     if (drawEndY >= screenHeight) { drawEndY = screenHeight - 1; }
 
 
@@ -603,7 +610,7 @@ void raycast(void) {
       if (transformY < ZBuffer[stripe]) {
 
         for (int y = drawStartY; y < drawEndY; y++) {
-          int d = y * 256 - screenHeight * 128 + spriteHeight * 128;
+          int d = (y-vMoveScreen) * 256 - screenHeight * 128 + spriteHeight * 128;
           int texY = ((d * texHeight) / spriteHeight) / 256;
           
           uint16_t color = zombies[spriteOrder[i]].texture[texY * texWidth + texX];

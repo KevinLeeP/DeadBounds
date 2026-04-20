@@ -15,7 +15,6 @@
 #include "Math/fix/fix16.h"
 #include "Math/fix/fix16_fast_trig_lut.h"
 #include "Math/lib_fixmatrix/fixvector2d.h"
-#include "Math/lib_fixmatrix/fixmatrix.h"
 
 
 #include "../inc/DAC5.h"
@@ -53,8 +52,8 @@ Arabic_t Hello[]={alif,baa,ha,raa,meem,null}; // hello
 Arabic_t WeAreHonoredByYourPresence[]={alif,noon,waaw,ta,faa,raa,sheen,null}; //
 we are honored by your presence
 */
-#define mapWidth 24
-#define mapHeight 24
+// #define mapWidth 24
+// #define mapHeight 24
 #define screenWidth 160
 #define screenHeight 128
 #define screenOrientation 1
@@ -68,6 +67,8 @@ we are honored by your presence
 
 #define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
 
+const uint32_t mapWidth = 24;
+const uint32_t mapHeight = 24;
 const uint8_t worldMap[mapWidth][mapHeight] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -98,6 +99,7 @@ const uint8_t worldMap[mapWidth][mapHeight] = {
   v2d dir = {F16(-1.0), F16(0.0)};//{F16(-1.0), F16(0.0)};
   v2d plane = {F16(0.0), F16(0.666)};
 
+  extern player_t Player;
 
 
 int main(void) { // mainDeadBounds
@@ -121,11 +123,40 @@ int main(void) { // mainDeadBounds
   HPDAC4_Init();
   __enable_irq();
 
-  while(1) {
+while(1){
+
+
+
+  Player_Init();
+  while(Player.health > 0) {
     raycast();
   }
 
+  //death screen stuff
+  for(int i = 0; i < 160; i++){
+    ST7735_DrawFastHLine(0, i, screenWidth, 0xF100);
+    Clock_Delay1ms(20);
+  }
+  ST7735_SetCursor(4, 5);
+  ST7735_OutStringTransparent("YOU DIED");
+  ST7735_SetCursor(4, 7);
+  ST7735_OutStringTransparent("Press any button");
+  ST7735_SetCursor(4, 8);
+  ST7735_OutStringTransparent("to restart");
+  while(Switch_Shoot() == 0){
+  }
+
+    //reset game
+  Player_Init();
+  v2d pos = {F16(12.0), F16(12.0)};
+  v2d dir = {F16(-1.0), F16(0.0)};
+  v2d plane = {F16(0.0), F16(0.666)};
+  }
+
+
 }
+
+
 
 int main0(void) {
   PLL_Init();
