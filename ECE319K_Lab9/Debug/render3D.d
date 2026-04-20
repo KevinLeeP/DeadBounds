@@ -37,7 +37,7 @@
  ../../inc/LaunchPad.h ../../inc/ST7735.h ../../inc/TExaS.h \
  ../../inc/Timer.h ../../inc/ADC1.h ../../inc/Arabic.h ../SmallFont.h \
  ../LED.h ../Switch.h ../Sound.h ../JoystickLeft.h ../JoystickRight.h \
- ../Animations.h
+ ../Animations.h ../Entities.h
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h:
@@ -87,3 +87,4 @@ C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/ECE319K_Lab9/Math/fix/fix16.h
 ../JoystickLeft.h:
 ../JoystickRight.h:
 ../Animations.h:
+../Entities.h:

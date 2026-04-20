@@ -8,7 +8,25 @@ SHELL = cmd.exe
 EXE_SRCS += \
 ../images/BmpConvert16.exe 
 
+C_SRCS += \
+../images/images.c 
+
+C_DEPS += \
+./images/images.d 
+
+OBJS += \
+./images/images.o 
+
+OBJS__QUOTED += \
+"images\images.o" 
+
+C_DEPS__QUOTED += \
+"images\images.d" 
+
 EXE_SRCS__QUOTED += \
 "../images/BmpConvert16.exe" 
+
+C_SRCS__QUOTED += \
+"../images/images.c" 
 
 

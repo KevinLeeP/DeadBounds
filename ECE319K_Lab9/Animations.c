@@ -9,9 +9,12 @@
 #include "Animations.h"
 #include "Entities.h"
 
+
 uint8_t frame = 0;
 
-animationFrame_t shotgunNeutral[1] = {shotgunNormal, 43, 127, shotgunNormalWidth, shotgunNormalHeight};
+animationFrame_t shotgunNeutral[1] = {
+  {shotgunNormal, 43, 127, shotgunNormalWidth, shotgunNormalHeight}
+};
 
 animationFrame_t shotgunShoot[8] = {
     {shotgunNormal, 43, 127, shotgunNormalWidth, shotgunNormalHeight},

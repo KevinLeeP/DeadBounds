@@ -1,22 +1,22 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include "Entities.h"
 
-struct player{
-    uint8_t health;
-    uint8_t ammo;
+
+#define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
+#define maxZombies 128
+
+extern const uint16_t zombie1[];
+
+uint32_t zombieCount = 1;
+
+zombie_t zombies[maxZombies] = {
+  {100, 15, zombie1, F16(12), F16(12)}
 };
-typedef struct player player_t;
 
 player_t Player;
 
-struct zombie{
-    uint8_t health;
-    uint8_t damage;
-    uint16_t *texture;
-    uint32_t posX;
-    uint32_t posY;
-};
 void Player_Init(void){
     Player.health = 100;
     Player.ammo = 5;

@@ -6,14 +6,26 @@
   ******************************************************************************/
 #ifndef __Entities_H__
 #define __Entities_H__
-
+#include "Math/fix/fix16.h"
+#define maxZombies 128
 struct player{
     uint8_t health;
     uint8_t ammo;
 };
 typedef struct player player_t;
 
+struct zombie{
+    uint8_t health;
+    uint8_t damage;
+    const uint16_t *texture;
+    fix16_t posX;
+    fix16_t posY;
+};
+typedef struct zombie zombie_t;
+
 extern player_t Player;
+extern zombie_t zombies[maxZombies];
+
 
 // initialize the player with 100 health and 5 bullets
 void Player_Init(void);

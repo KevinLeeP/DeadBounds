@@ -120,7 +120,8 @@ int main(void) { // mainDeadBounds
   AMDAC4_Init();
   HPDAC4_Init();
   __enable_irq();
-  while (1) {
+
+  while(1) {
     raycast();
   }
 

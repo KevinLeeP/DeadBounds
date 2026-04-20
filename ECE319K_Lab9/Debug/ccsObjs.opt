@@ -32,6 +32,7 @@
 "./Math/lib_fixmatrix/fixstring.o"
 "./Math/lib_fixmatrix/fixvector2d.o"
 "./Math/lib_fixmatrix/fixvector3d.o"
+"./images/images.o"
 "./images/pipedreams/PipeSound.o"
 "./ticlang/startup_mspm0g3507_ticlang.o"
 "../mspm0g3507.cmd"
