@@ -2,33 +2,31 @@
 
 #include "Math/fix/fix16.h"
 #include "Math/fix/fix16_fast_trig_lut.h"
-#include "Math/lib_fixmatrix/fixvector2d.h"
 #include "Math/lib_fixmatrix/fixmatrix.h"
+#include "Math/lib_fixmatrix/fixvector2d.h"
 
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 
-
+#include "../inc/ADC1.h"
+#include "../inc/Arabic.h"
 #include "../inc/DAC5.h"
 #include "../inc/LaunchPad.h"
 #include "../inc/ST7735.h"
 #include "../inc/TExaS.h"
 #include "../inc/Timer.h"
-#include "../inc/ADC1.h"
-#include "../inc/DAC5.h"
-#include "../inc/Arabic.h"
-#include "SmallFont.h"
-#include "LED.h"
-#include "Switch.h"
-#include "Sound.h"
-#include "JoystickLeft.h"
-#include "JoystickRight.h"
 #include "Animations.h"
 #include "Entities.h"
+#include "JoystickLeft.h"
+#include "JoystickRight.h"
+#include "LED.h"
+#include "SmallFont.h"
+#include "Sound.h"
+#include "Switch.h"
 
-#define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
-
+#define F16(x)                                                                 \
+  ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
 
 #define mapWidth 24
 #define mapHeight 24
@@ -45,6 +43,8 @@
 #define texWidth 64
 #define texHeight 118
 
+#define spriteSizeMultiplier 0.25
+
 const extern uint8_t worldMap[mapWidth][mapHeight];
 extern v2d pos;
 extern v2d dir;
@@ -52,42 +52,40 @@ extern v2d plane;
 extern const uint16_t crosshair[];
 extern const uint8_t crosshairWidth;
 extern const uint8_t crosshairHeight;
-//extern const uint32_t maxZombies;
-
+// extern const uint32_t maxZombies;
 
 uint16_t displayBuffer[bufferSize];
 extern zombie_t zombies[];
 extern uint32_t zombieCount;
 
-void sortSprites(uint32_t* order, uint32_t* distance, int32_t size){
+void sortSprites(uint32_t *order, uint32_t *distance, int32_t size) {
   int sorted = 1;
-  for(int i = 0; i<size-1; i++){
-    if(distance[order[i]] < distance[order[i+1]]){
+  for (int i = 0; i < size - 1; i++) {
+    if (distance[order[i]] < distance[order[i + 1]]) {
       sorted = 0;
       break;
     }
   }
-  while(sorted == 0){
-    for(int i =0; i<size-1; i++){
-      if(distance[order[i]] < distance[order[i+1]]){
+  while (sorted == 0) {
+    for (int i = 0; i < size - 1; i++) {
+      if (distance[order[i]] < distance[order[i + 1]]) {
         int temp = order[i];
-        order[i]  = order[i+1];
-        order[i+1] = temp;
+        order[i] = order[i + 1];
+        order[i + 1] = temp;
       }
     }
 
     sorted = 1;
-    for(int i = 0; i<size-1; i++){
-      if(distance[order[i]] < distance[order[i+1]]){
+    for (int i = 0; i < size - 1; i++) {
+      if (distance[order[i]] < distance[order[i + 1]]) {
         sorted = 0;
         break;
       }
     }
   }
-
 }
 
-void raycast(void){
+void raycast(void) {
   fix16_t cameraX = F16(-1);
   fix16_t cameraXStep = F16(0.0125);
   fix16_t rotSpeed = 0;
@@ -98,130 +96,133 @@ void raycast(void){
   v2d rayDir = {0, 0};
   fix16_t ZBuffer[screenWidth];
 
-  //rotate in place
-  //deltaTheta = fix16_div(fix16_pi, fix16_from_int(60)); //pi/180
+  // rotate in place
+  // deltaTheta = fix16_div(fix16_pi, fix16_from_int(60)); //pi/180
   int32_t joystickTurnInput = JoystickRight_getX();
   int32_t joystickForwardInput = JoystickLeft_getY();
   int32_t joystickStrafeInput = JoystickLeft_getX();
 
-  if(abs(joystickTurnInput) > joystickDeadBand){
-    //deltaTheta = joystickTurnInput * pi/ 10000 -> -pi/10 to pi/10
-    rotSpeed = -fix16_div(fix16_mul(fix16_from_int(joystickTurnInput), fix16_pi) ,F16(10000));
-  }
-  else{
+  if (abs(joystickTurnInput) > joystickDeadBand) {
+    // deltaTheta = joystickTurnInput * pi/ 10000 -> -pi/10 to pi/10
+    rotSpeed = -fix16_div(
+        fix16_mul(fix16_from_int(joystickTurnInput), fix16_pi), F16(10000));
+  } else {
     rotSpeed = 0;
   }
 
-  if(abs(joystickForwardInput) > joystickDeadBand){
-      if(joystickForwardInput > 0){
-        walkSpeedX = F16(0.1);
-      }
-      else{
-        walkSpeedX = F16(-0.1);
-      }
+  if (abs(joystickForwardInput) > joystickDeadBand) {
+    if (joystickForwardInput > 0) {
+      walkSpeedX = F16(0.1);
+    } else {
+      walkSpeedX = F16(-0.1);
+    }
 
-  }
-  else{
+  } else {
     walkSpeedX = 0;
   }
 
-  if(abs(joystickStrafeInput) > joystickDeadBand){
-    if(joystickStrafeInput > 0){
+  if (abs(joystickStrafeInput) > joystickDeadBand) {
+    if (joystickStrafeInput > 0) {
       walkSpeedY = F16(0.1);
-    }
-    else{
+    } else {
       walkSpeedY = F16(-0.1);
     }
-    
-  }
-  else{
+
+  } else {
     walkSpeedY = 0;
   }
 
-
-  //check collisions
-  //forward vector
+  // check collisions
+  // forward vector
   fix16_t marginX;
   fix16_t marginY;
-  if(walkSpeedX > 0){
+  if (walkSpeedX > 0) {
     marginX = F16(0.04);
-  }
-  else{
+  } else {
     marginX = F16(-0.04);
   }
 
-  if(walkSpeedY > 0){
+  if (walkSpeedY > 0) {
     marginY = F16(0.04);
-  }
-  else{
+  } else {
     marginY = F16(-0.04);
   }
 
-
-
-  if(worldMap[ fix16_to_int( pos.x - fix16_mul(dir.x, walkSpeedX + marginX))] [ fix16_to_int(pos.y + marginY)] == 0){
+  if (worldMap[fix16_to_int(pos.x - fix16_mul(dir.x, walkSpeedX + marginX))]
+              [fix16_to_int(pos.y + marginY)] == 0) {
     pos.x -= fix16_mul(dir.x, walkSpeedX);
   }
-  if(worldMap[ fix16_to_int(pos.x + marginX)][ fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX + marginY))] == 0){
+  if (worldMap[fix16_to_int(pos.x + marginX)][fix16_to_int(
+          pos.y - fix16_mul(dir.y, walkSpeedX + marginY))] == 0) {
     pos.y -= fix16_mul(dir.y, walkSpeedX);
   }
 
-  //perpendicular strafe vector
-  //check collisions
-  if(worldMap[ fix16_to_int( pos.x + fix16_mul(dir.y, walkSpeedY + marginY))] [ fix16_to_int(pos.y + marginY)] == 0){
+  // perpendicular strafe vector
+  // check collisions
+  if (worldMap[fix16_to_int(pos.x + fix16_mul(dir.y, walkSpeedY + marginY))]
+              [fix16_to_int(pos.y + marginY)] == 0) {
     pos.x += fix16_mul(dir.y, walkSpeedY);
   }
-  if(worldMap[ fix16_to_int(pos.x + marginX)][ fix16_to_int(pos.y - fix16_mul(dir.x , walkSpeedY + marginY))] == 0){
+  if (worldMap[fix16_to_int(pos.x + marginX)][fix16_to_int(
+          pos.y - fix16_mul(dir.x, walkSpeedY + marginY))] == 0) {
     pos.y -= fix16_mul(dir.x, walkSpeedY);
   }
 
-  
   uint32_t testX = fix16_to_int(pos.x);
   uint32_t testY = fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX));
-  uint32_t test = worldMap[ testX ][ testY ];
+  uint32_t test = worldMap[testX][testY];
 
-
-  //calc direction
+  // calc direction
   fix16_t tempDirX;
   fix16_t tempPlaneX;
-  tempDirX = fix16_mul(dir.x, fix16_fast_cos(rotSpeed)) - fix16_mul(dir.y, fix16_fast_sin(rotSpeed));
-  dir.y = fix16_mul(dir.x, fix16_fast_sin(rotSpeed)) +  fix16_mul(dir.y, fix16_fast_cos(rotSpeed));
+  tempDirX = fix16_mul(dir.x, fix16_fast_cos(rotSpeed)) -
+             fix16_mul(dir.y, fix16_fast_sin(rotSpeed));
+  dir.y = fix16_mul(dir.x, fix16_fast_sin(rotSpeed)) +
+          fix16_mul(dir.y, fix16_fast_cos(rotSpeed));
   dir.x = tempDirX;
 
-  tempPlaneX = fix16_mul(plane.x, fix16_fast_cos(rotSpeed)) - fix16_mul(plane.y, fix16_fast_sin(rotSpeed));
-  plane.y = fix16_mul(plane.x, fix16_fast_sin(rotSpeed)) +  fix16_mul(plane.y, fix16_fast_cos(rotSpeed));
-  plane.x = tempPlaneX; 
+  tempPlaneX = fix16_mul(plane.x, fix16_fast_cos(rotSpeed)) -
+               fix16_mul(plane.y, fix16_fast_sin(rotSpeed));
+  plane.y = fix16_mul(plane.x, fix16_fast_sin(rotSpeed)) +
+            fix16_mul(plane.y, fix16_fast_cos(rotSpeed));
+  plane.x = tempPlaneX;
 
   uint32_t spriteOrder[zombieCount];
   uint32_t spriteDistance[zombieCount];
-  for(int i = 0; i<zombieCount; i++){
+  for (int i = 0; i < zombieCount; i++) {
     spriteOrder[i] = i;
-    spriteDistance[i] = (fix16_mul(pos.x - zombies[i].posX, pos.x - zombies[i].posX) + fix16_mul(pos.y - zombies[i].posY, pos.y - zombies[i].posY));
+    spriteDistance[i] =
+        (fix16_mul(pos.x - zombies[i].posX, pos.x - zombies[i].posX) +
+         fix16_mul(pos.y - zombies[i].posY, pos.y - zombies[i].posY));
   }
   sortSprites(spriteOrder, spriteDistance, zombieCount);
 
-/**********
-  FIRST HALF
-  SEND LEFT SIDE TO BUFFER
-*/
+  /**********
+    FIRST HALF
+    SEND LEFT SIDE TO BUFFER
+  */
 
-
-  for (int pixelX = 0; pixelX < (screenWidth/2); pixelX++){
+  for (int pixelX = 0; pixelX < (screenWidth / 2); pixelX++) {
 
     v2d_mul_s(&rayDir, &plane, cameraX);
     v2d_add(&rayDir, &rayDir, &dir);
 
     cameraX += cameraXStep;
 
-    int32_t mapX  = fix16_to_int(pos.x);
+    int32_t mapX = fix16_to_int(pos.x);
     int32_t mapY = fix16_to_int(pos.y);
-
 
     fix16_t sideDistX;
     fix16_t sideDistY;
 
-    fix16_t deltaDistX = (rayDir.x == 0) ? fix16_maximum : fix16_abs(fix16_div(F16(1), rayDir.x)); //deltaDistX = 1 / |rayDir.x|
-    fix16_t deltaDistY = (rayDir.y == 0) ? fix16_maximum : fix16_abs(fix16_div(F16(1), rayDir.y)); //deltaDistY = 1 / |rayDir.y|
+    fix16_t deltaDistX =
+        (rayDir.x == 0) ? fix16_maximum
+                        : fix16_abs(fix16_div(
+                              F16(1), rayDir.x)); // deltaDistX = 1 / |rayDir.x|
+    fix16_t deltaDistY =
+        (rayDir.y == 0) ? fix16_maximum
+                        : fix16_abs(fix16_div(
+                              F16(1), rayDir.y)); // deltaDistY = 1 / |rayDir.y|
     fix16_t perpWallDist;
 
     int8_t stepX;
@@ -230,81 +231,83 @@ void raycast(void){
     uint8_t wallHit = 0;
     uint8_t sideHit = 0;
 
-    
-
-    if(rayDir.x < 0){
+    if (rayDir.x < 0) {
       stepX = -1;
-      sideDistX = fix16_mul((pos.x - (mapX << 16 )), deltaDistX);
-    }
-    else{
+      sideDistX = fix16_mul((pos.x - (mapX << 16)), deltaDistX);
+    } else {
       stepX = 1;
       sideDistX = fix16_mul(((mapX << 16) + F16(1) - pos.x), deltaDistX);
     }
 
-    if(rayDir.y < 0){
+    if (rayDir.y < 0) {
       stepY = -1;
       sideDistY = fix16_mul((pos.y - (mapY << 16)), deltaDistY);
-    }
-    else{
+    } else {
       stepY = 1;
-      sideDistY = fix16_mul(( (mapY << 16) + F16(1) - pos.y), deltaDistY);
+      sideDistY = fix16_mul(((mapY << 16) + F16(1) - pos.y), deltaDistY);
     }
 
+    while (wallHit == 0) {
 
-    while(wallHit == 0){
-        
-        if(sideDistX < sideDistY){
-          sideDistX += deltaDistX;
-          mapX += stepX;
-          sideHit = 0;
-        }
-        else{
-          sideDistY += deltaDistY;
-          mapY += stepY;
-          sideHit = 1;
-        } 
+      if (sideDistX < sideDistY) {
+        sideDistX += deltaDistX;
+        mapX += stepX;
+        sideHit = 0;
+      } else {
+        sideDistY += deltaDistY;
+        mapY += stepY;
+        sideHit = 1;
+      }
 
-        if(worldMap[mapX][mapY] != 0){
-          wallHit = 1;
-        }
-
+      if (worldMap[mapX][mapY] != 0) {
+        wallHit = 1;
+      }
     }
 
-    if(sideHit == 0){
+    if (sideHit == 0) {
       perpWallDist = sideDistX - deltaDistX;
-    }
-    else{
+    } else {
       perpWallDist = sideDistY - deltaDistY;
     }
 
-    
-    int32_t lineHeight = (wallHeight << 16) / perpWallDist;//fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1), perpWallDist), fix16_from_int(wallHeight))); //CHECK THIS
-    int32_t drawWallStart = (screenHeight/2) - (lineHeight/2); // drawStart = (screenHeight/2) - (lineHeight/2)
-    int32_t drawWallEnd = (screenHeight /2 ) + (lineHeight/2);
+    int32_t lineHeight =
+        (wallHeight << 16) /
+        perpWallDist; // fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1),
+                      // perpWallDist), fix16_from_int(wallHeight))); //CHECK
+                      // THIS
+    int32_t drawWallStart =
+        (screenHeight / 2) -
+        (lineHeight / 2); // drawStart = (screenHeight/2) - (lineHeight/2)
+    int32_t drawWallEnd = (screenHeight / 2) + (lineHeight / 2);
 
-    if(drawWallStart < 0){
+    if (drawWallStart < 0) {
       drawWallStart = 0;
     }
 
-    if(drawWallEnd >= screenHeight){
+    if (drawWallEnd >= screenHeight) {
       drawWallEnd = screenHeight - 1;
     }
 
     uint16_t color;
-    switch(worldMap[mapX][mapY]){
-      case 1: 
-      color = borderColor; break;
-      case 2:
-      color = ST7735_GREEN; break;
-      case 3: 
-      color = ST7735_BLUE; break;
-      case 4:
-      color = ST7735_WHITE; break;
-      default:
-      color = ST7735_YELLOW; break;
-    } //make a color table later
+    switch (worldMap[mapX][mapY]) {
+    case 1:
+      color = borderColor;
+      break;
+    case 2:
+      color = ST7735_GREEN;
+      break;
+    case 3:
+      color = ST7735_BLUE;
+      break;
+    case 4:
+      color = ST7735_WHITE;
+      break;
+    default:
+      color = ST7735_YELLOW;
+      break;
+    } // make a color table later
 
-    if(sideHit == 1){
+    if (sideHit == 1) {
       uint16_t temp = color;
       temp = (temp >> 1) & (0x7100);
       color = (color & ~(0xF100)) | temp;
@@ -314,201 +317,214 @@ void raycast(void){
       color = (color & ~(0x07E0)) | temp;
 
       temp = color;
-      temp = (temp>>1) & (0x00F);
+      temp = (temp >> 1) & (0x00F);
       color = (color & ~(0x001F)) | temp;
-      
     }
 
-
-
-    //render sky 
-    for(int y = 0; y<drawWallStart * 80; y+=80){
-        displayBuffer[y + pixelX] = skyColor;
+    // render sky
+    for (int y = 0; y < drawWallStart * 80; y += 80) {
+      displayBuffer[y + pixelX] = skyColor;
     }
-    //render wall part of slice
-    for(int y = drawWallStart * 80; y<=drawWallEnd * 80; y+=80){
-       displayBuffer[y + pixelX] = color;
+    // render wall part of slice
+    for (int y = drawWallStart * 80; y <= drawWallEnd * 80; y += 80) {
+      displayBuffer[y + pixelX] = color;
     }
-    //render floor part of slice
-    for(int y = drawWallEnd * 80; y<screenHeight*80; y+=80){
-        displayBuffer[y + pixelX] = floorColor;
+    // render floor part of slice
+    for (int y = drawWallEnd * 80; y < screenHeight * 80; y += 80) {
+      displayBuffer[y + pixelX] = floorColor;
     }
 
     ZBuffer[pixelX] = perpWallDist;
   }
 
-  // uint32_t spriteOrder[zombieCount];
-  // uint32_t spriteDistance[zombieCount];
-  // for(int i = 0; i<zombieCount; i++){
-  //   spriteOrder[i] = i;
-  //   spriteDistance[i] = (fix16_mul(pos.x - zombies[i].posX, pos.x - zombies[i].posX) + fix16_mul(pos.y - zombies[i].posY, pos.y - zombies[i].posY));
-  // }
-  // sortSprites(spriteOrder, spriteDistance, zombieCount);
 
-  for(int i = 0; i<zombieCount; i++){
+  for (int i = 0; i < zombieCount; i++) {
     fix16_t spriteX = zombies[spriteOrder[i]].posX - pos.x;
     fix16_t spriteY = zombies[spriteOrder[i]].posY - pos.y;
 
-
-    //transform sprite image with inverse camera matrix
+    // transform sprite image with inverse camera matrix
     //[planeX dirX] ^-1 => 1/(planeX * dirY - dirX * planeY) [dirY     -dirX]
     //[planeY dirY]                                         [-planeY planeX]
-    fix16_t inverseDet = fix16_div(F16(1),(fix16_mul(plane.x, dir.y) - fix16_mul(dir.x, plane.y)));
-    fix16_t transformX = fix16_mul(inverseDet, fix16_mul(dir.y, spriteX) + fix16_mul(-dir.x, spriteY));
-    fix16_t transformY = fix16_mul(inverseDet, fix16_mul(-plane.y, spriteX) + fix16_mul(plane.x, spriteY));
+    fix16_t inverseDet = fix16_div(
+        F16(1), (fix16_mul(plane.x, dir.y) - fix16_mul(dir.x, plane.y)));
+    fix16_t transformX = fix16_mul(inverseDet, fix16_mul(dir.y, spriteX) +
+                                                   fix16_mul(-dir.x, spriteY));
+    fix16_t transformY = fix16_mul(inverseDet, fix16_mul(-plane.y, spriteX) +
+                                                   fix16_mul(plane.x, spriteY));
 
-    //int spriteScreenX = fix16_to_int((screenWidth/2) * (F16(1)+fix16_div(transformX,transformY)));
-    int spriteScreenX = fix16_to_int(fix16_mul(F16(screenWidth/2), F16(1)+fix16_div(transformX,transformY)));
-    int spriteHeight = abs(fix16_to_int(fix16_div(F16(screenHeight),transformY)));
+    if (transformY <= 0) continue; // Prevent rendering behind player
 
-    int drawStartY = -spriteHeight/2 + screenHeight/2;
-    if(drawStartY < 0){
+    int spriteScreenX = fix16_to_int(fix16_mul(
+        F16(screenWidth / 2), F16(1) + fix16_div(transformX, transformY)));
+    int spriteHeight =
+        abs(fix16_mul(fix16_to_int(fix16_div(F16(screenHeight), transformY)), F16(spriteSizeMultiplier)));
+
+    int drawStartY = -spriteHeight / 2 + screenHeight / 2;
+    if (drawStartY < 0) {
       drawStartY = 0;
     }
 
-    int drawEndY = spriteHeight/2 + screenHeight/2;
-    if(drawEndY >= screenHeight - 1){
-      drawEndY = screenHeight-1;
+    int drawEndY = spriteHeight / 2 + screenHeight / 2;
+    if (drawEndY >= screenHeight - 1) {
+      drawEndY = screenHeight - 1;
     }
 
-    int spriteWidth = abs((F16(screenHeight)/transformY));
-    int drawStartX = -spriteWidth/2 + spriteScreenX;
-    if(drawStartX < 0){
+    int spriteWidth = spriteHeight;
+
+    int unclampedStartX = -spriteWidth / 2 + spriteScreenX; 
+
+    int drawStartX = unclampedStartX;
+    if (drawStartX < 0) {
       drawStartX = 0;
     }
-    int drawEndX = spriteWidth/2 + spriteScreenX;
-    // if(drawEndX >= screenWidth){
-    //   drawEndX = screenWidth-1;
-    // }
-    if(drawEndX >= (screenWidth)){
-      drawEndX = (screenWidth)-1;
+    int drawEndX = spriteWidth / 2 + spriteScreenX;
+
+    if (drawEndX >= (screenWidth)/2) {
+      drawEndX = (screenWidth)/2;
     }
 
-    for(int stripe = drawStartX; stripe<drawEndX && stripe<screenWidth/2; stripe++){
-      int texX = (int)( 256 * (stripe -(drawStartX)) * texWidth/spriteWidth)/256;
-      
-      if(stripe < 80 && transformY > 0 && stripe >= 0 && stripe < (screenWidth/2) && transformY < ZBuffer[stripe]){
+    for (int stripe = drawStartX; stripe < drawEndX && stripe < screenWidth / 2;
+         stripe++) {
+      int texX =
+          (int)(256 * (stripe - (unclampedStartX)) * texWidth / spriteWidth) / 256;
 
-        for(int y = drawStartY; y<drawEndY; y++){
+      if (transformY < ZBuffer[stripe]) {
+
+        for (int y = drawStartY; y < drawEndY; y++) {
           int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128;
-          int texY = ((d * texHeight)/spriteHeight)/256;
-          uint16_t color = zombies[spriteOrder[i]].texture[texY * texWidth + texX];
+          int texY = ((d * texHeight) / spriteHeight) / 256;
+          uint16_t color =
+              zombies[spriteOrder[i]].texture[texY * texWidth + texX];
 
-          if(color != 0x07E0){
-            displayBuffer[(screenWidth/2)*y + stripe] = color;
+
+          
+          int r = (color >> 11) & 0x1F;
+          int g = (color >> 5)  & 0x3F;
+          int b = color & 0x1F;
+          if (!(g > 20 && r < 10 && b < 10)) {
+            displayBuffer[(screenWidth / 2) * y + stripe] = color;
           }
         }
       }
     }
   }
 
-  ST7735_DrawTransparentBitmapOnBuffer(shotgun[frame].x, shotgun[frame].y, shotgun[frame].image, shotgun[frame].w, shotgun[frame].h, 1);
-  ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 1);
+  ST7735_DrawTransparentBitmapOnBuffer(shotgun[frame].x, shotgun[frame].y,
+                                       shotgun[frame].image, shotgun[frame].w,
+                                       shotgun[frame].h, 1);
+  ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth,
+                                       crosshairHeight, 1);
   ST7735_DrawBitmap(0, 127, displayBuffer, 80, 128);
 
   /************const uint16_t *image,
   SECOND HALF
   */
-  for (int pixelX = screenWidth/2; pixelX < screenWidth; pixelX++){
+  for (int pixelX = screenWidth / 2; pixelX < screenWidth; pixelX++) {
 
-  v2d_mul_s(&rayDir, &plane, cameraX); // rayDir = (plane * cameraX) + dir
-  v2d_add(&rayDir, &rayDir, &dir);
+    v2d_mul_s(&rayDir, &plane, cameraX); // rayDir = (plane * cameraX) + dir
+    v2d_add(&rayDir, &rayDir, &dir);
 
-  cameraX += cameraXStep;
+    cameraX += cameraXStep;
 
-  int32_t mapX  = fix16_to_int(pos.x);
-  int32_t mapY = fix16_to_int(pos.y);
+    int32_t mapX = fix16_to_int(pos.x);
+    int32_t mapY = fix16_to_int(pos.y);
 
+    fix16_t sideDistX;
+    fix16_t sideDistY;
 
-  fix16_t sideDistX;
-  fix16_t sideDistY;
+    fix16_t deltaDistX =
+        (rayDir.x == 0) ? fix16_maximum
+                        : fix16_abs(fix16_div(
+                              F16(1), rayDir.x)); // deltaDistX = 1 / |rayDir.x|
+    fix16_t deltaDistY =
+        (rayDir.y == 0) ? fix16_maximum
+                        : fix16_abs(fix16_div(
+                              F16(1), rayDir.y)); // deltaDistY = 1 / |rayDir.y|
+    fix16_t perpWallDist;
 
-  fix16_t deltaDistX = (rayDir.x == 0) ? fix16_maximum : fix16_abs(fix16_div(F16(1), rayDir.x)); //deltaDistX = 1 / |rayDir.x|
-  fix16_t deltaDistY = (rayDir.y == 0) ? fix16_maximum : fix16_abs(fix16_div(F16(1), rayDir.y)); //deltaDistY = 1 / |rayDir.y|
-  fix16_t perpWallDist;
+    int8_t stepX;
+    int8_t stepY;
 
-  int8_t stepX;
-  int8_t stepY;
+    uint8_t wallHit = 0;
+    uint8_t sideHit = 0;
 
-  uint8_t wallHit = 0;
-  uint8_t sideHit = 0;
+    if (rayDir.x < 0) {
+      stepX = -1;
+      sideDistX = fix16_mul((pos.x - (mapX << 16)), deltaDistX);
+    } else {
+      stepX = 1;
+      sideDistX = fix16_mul(((mapX << 16) + F16(1) - pos.x), deltaDistX);
+    }
 
+    if (rayDir.y < 0) {
+      stepY = -1;
+      sideDistY = fix16_mul((pos.y - (mapY << 16)), deltaDistY);
+    } else {
+      stepY = 1;
+      sideDistY = fix16_mul(((mapY << 16) + F16(1) - pos.y), deltaDistY);
+    }
 
+    while (wallHit == 0) {
 
-  if(rayDir.x < 0){
-    stepX = -1;
-    sideDistX = fix16_mul((pos.x - (mapX << 16 )), deltaDistX);
-  }
-  else{
-    stepX = 1;
-    sideDistX = fix16_mul(((mapX << 16) + F16(1) - pos.x), deltaDistX);
-  }
-
-  if(rayDir.y < 0){
-    stepY = -1;
-    sideDistY = fix16_mul((pos.y - (mapY << 16)), deltaDistY);
-  }
-  else{
-    stepY = 1;
-    sideDistY = fix16_mul(( (mapY << 16) + F16(1) - pos.y), deltaDistY);
-  }
-
-
-  while(wallHit == 0){
-      
-      if(sideDistX < sideDistY){
+      if (sideDistX < sideDistY) {
         sideDistX += deltaDistX;
         mapX += stepX;
         sideHit = 0;
-      }
-      else{
+      } else {
         sideDistY += deltaDistY;
         mapY += stepY;
         sideHit = 1;
       }
 
-      if(worldMap[mapX][mapY] != 0){
+      if (worldMap[mapX][mapY] != 0) {
         wallHit = 1;
       }
+    }
 
-  }
+    if (sideHit == 0) {
+      perpWallDist = sideDistX - deltaDistX;
+    } else {
+      perpWallDist = sideDistY - deltaDistY;
+    }
 
-  if(sideHit == 0){
-    perpWallDist = sideDistX - deltaDistX;
-  }
-  else{
-    perpWallDist = sideDistY - deltaDistY;
-  }
+    int32_t lineHeight =
+        (wallHeight << 16) /
+        perpWallDist; // fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1),
+                      // perpWallDist), fix16_from_int(wallHeight))); //CHECK
+                      // THIS
+    int32_t drawWallStart =
+        (screenHeight / 2) -
+        (lineHeight / 2); // drawStart = (screenHeight/2) - (lineHeight/2)
+    int32_t drawWallEnd = (screenHeight / 2) + (lineHeight / 2);
 
+    if (drawWallStart < 0) {
+      drawWallStart = 0;
+    }
+    if (drawWallEnd >= screenHeight) {
+      drawWallEnd = screenHeight - 1;
+    }
 
-  int32_t lineHeight = (wallHeight << 16) / perpWallDist;//fix16_to_int(fix16_mul(fix16_div(fix16_from_int(1), perpWallDist), fix16_from_int(wallHeight))); //CHECK THIS
-  int32_t drawWallStart = (screenHeight/2) - (lineHeight/2); // drawStart = (screenHeight/2) - (lineHeight/2)
-  int32_t drawWallEnd = (screenHeight /2 ) + (lineHeight/2);
-
-
-  if(drawWallStart < 0){
-    drawWallStart = 0;
-  }
-  if(drawWallEnd >= screenHeight){
-    drawWallEnd = screenHeight -1;
-  }
-
-  uint16_t color;
-  switch(worldMap[mapX][mapY]){
-    case 1: 
-    color = borderColor; break;
+    uint16_t color;
+    switch (worldMap[mapX][mapY]) {
+    case 1:
+      color = borderColor;
+      break;
     case 2:
-    color = ST7735_GREEN; break;
-    case 3: 
-    color = ST7735_BLUE; break;
+      color = ST7735_GREEN;
+      break;
+    case 3:
+      color = ST7735_BLUE;
+      break;
     case 4:
-    color = ST7735_WHITE; break;
+      color = ST7735_WHITE;
+      break;
     default:
-    color = ST7735_YELLOW; break;
-  }
+      color = ST7735_YELLOW;
+      break;
+    }
 
-  if(sideHit == 1){
-    uint16_t temp = color;
+    if (sideHit == 1) {
+      uint16_t temp = color;
       temp = (temp >> 1) & (0x7100);
       color = (color & ~(0xF100)) | temp;
 
@@ -517,82 +533,98 @@ void raycast(void){
       color = (color & ~(0x07E0)) | temp;
 
       temp = color;
-      temp = (temp>>1) & (0x00F);
+      temp = (temp >> 1) & (0x00F);
       color = (color & ~(0x001F)) | temp;
+    }
+
+    // render sky
+    for (int y = 0; y < drawWallStart * 80; y += 80) {
+      displayBuffer[y + pixelX - 80] = skyColor;
+    }
+    // render wall part of slice
+    for (int y = drawWallStart * 80; y <= drawWallEnd * 80; y += 80) {
+      displayBuffer[y + pixelX - 80] = color;
+    }
+    // render floor part of slice
+    for (int y = drawWallEnd * 80; y < screenHeight * 80; y += 80) {
+      displayBuffer[y + pixelX - 80] = floorColor;
+    }
+
+    ZBuffer[pixelX] = perpWallDist;
   }
 
-  //render sky 
-  for(int y = 0; y<drawWallStart * 80; y+=80){
-      displayBuffer[y + pixelX - 80] = skyColor;
-  }
-  //render wall part of slice
-  for(int y = drawWallStart * 80; y<=drawWallEnd * 80; y+=80){
-      displayBuffer[y + pixelX - 80] = color;
-  }
-  //render floor part of slice
-  for(int y = drawWallEnd * 80; y<screenHeight*80; y+=80){
-      displayBuffer[y + pixelX - 80] = floorColor;
-  }
-  }
-  
-    for(int i = 0; i<zombieCount; i++){
+  for (int i = 0; i < zombieCount; i++) {
     fix16_t spriteX = zombies[spriteOrder[i]].posX - pos.x;
     fix16_t spriteY = zombies[spriteOrder[i]].posY - pos.y;
 
+    fix16_t det = fix16_mul(plane.x, dir.y) - fix16_mul(dir.x, plane.y);
+    if(det == 0) continue; // Prevent divide by zero
 
-    //transform sprite image with inverse camera matrix
-    //[planeX dirX] ^-1 => 1/(planeX * dirY - dirX * planeY) [dirY     -dirX]
-    //[planeY dirY]                                         [-planeY planeX]
-    fix16_t inverseDet = fix16_div(F16(1),(fix16_mul(plane.x, dir.y) - fix16_mul(dir.x, plane.y)));
-    fix16_t transformX = fix16_mul(inverseDet, fix16_mul(dir.y, spriteX) + fix16_mul(-dir.x, spriteY));
+    fix16_t inverseDet = fix16_div(F16(1), det);
+    fix16_t transformX = fix16_mul(inverseDet, fix16_mul(dir.y, spriteX) - fix16_mul(dir.x, spriteY));
     fix16_t transformY = fix16_mul(inverseDet, fix16_mul(-plane.y, spriteX) + fix16_mul(plane.x, spriteY));
 
-    //int spriteScreenX = fix16_to_int((screenWidth/2) * (F16(1)+fix16_div(transformX,transformY)));
-    int spriteScreenX = fix16_to_int(fix16_mul(F16(screenWidth/2), F16(1)+fix16_div(transformX,transformY)));
-    int spriteHeight = abs(fix16_to_int(fix16_div(F16(screenHeight),transformY)));
 
-    int drawStartY = -spriteHeight/2 + screenHeight/2;
-    if(drawStartY < 0){
-      drawStartY = 0;
+    if(transformY <= 0) continue;
+
+    int spriteScreenX = fix16_to_int(fix16_mul(F16(screenWidth / 2), F16(1) + fix16_div(transformX, transformY)));
+    int spriteHeight = abs(fix16_mul(fix16_to_int(fix16_div(F16(screenHeight), transformY)), F16(spriteSizeMultiplier)));
+    int spriteWidth = spriteHeight; 
+
+    if(spriteWidth == 0 || spriteHeight == 0) continue;
+
+    int drawStartY = -spriteHeight / 2 + screenHeight / 2;
+    if (drawStartY < 0) { drawStartY = 0; }
+
+    int drawEndY = spriteHeight / 2 + screenHeight / 2;
+    if (drawEndY >= screenHeight) { drawEndY = screenHeight - 1; }
+
+
+    int unclampedStartX = -spriteWidth / 2 + spriteScreenX;
+    
+    int drawStartX = unclampedStartX;
+    if (drawStartX < 0) { drawStartX = 0; }
+    
+    int drawEndX = spriteWidth / 2 + spriteScreenX;
+    if (drawEndX > screenWidth) { drawEndX = screenWidth; }
+
+
+    int startStripe = drawStartX;
+    if (startStripe < (screenWidth / 2)) {
+      startStripe = (screenWidth / 2);
     }
 
-    int drawEndY = spriteHeight/2 + screenHeight/2;
-    if(drawEndY >= screenHeight - 1){
-      drawEndY = screenHeight-1;
-    }
-
-    int spriteWidth = abs((F16(screenHeight)/transformY));
-    int drawStartX = -spriteWidth/2 + spriteScreenX;
-    if(drawStartX < 0){
-      drawStartX = 0;
-    }
-    int drawEndX = spriteWidth/2 + spriteScreenX;
-    // if(drawEndX >= screenWidth){
-    //   drawEndX = screenWidth-1;
-    // }
-    if(drawEndX >= (screenWidth)){
-      drawEndX = (screenWidth)-1;
-    }
-
-    for(int stripe = 80; stripe<drawEndX && stripe<screenWidth; stripe++){
-      int texX = (int)( 256 * (stripe -(drawStartX)) * texWidth/spriteWidth)/256;
+    for (int stripe = startStripe; stripe < drawEndX; stripe++) {
       
-      if(stripe < 80 && transformY > 0 && stripe >= 0 && stripe < (screenWidth/2) && transformY < ZBuffer[stripe]){
 
-        for(int y = drawStartY; y<drawEndY; y++){
-          int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128;
-          int texY = ((d * texHeight)/spriteHeight)/256;
+      int texX = (int)(256 * (stripe - unclampedStartX) * texWidth / spriteWidth) / 256;
+
+
+      if (transformY < ZBuffer[stripe]) {
+
+        for (int y = drawStartY; y < drawEndY; y++) {
+          int d = y * 256 - screenHeight * 128 + spriteHeight * 128;
+          int texY = ((d * texHeight) / spriteHeight) / 256;
+          
           uint16_t color = zombies[spriteOrder[i]].texture[texY * texWidth + texX];
+          
+           int r = (color >> 11) & 0x1F;
+          int g = (color >> 5)  & 0x3F;
+          int b = color & 0x1F;
+          if (!(g > 20 && r < 10 && b < 10)) { // Transparency
 
-          if(color != 0x07E0){
-            displayBuffer[(screenWidth/2)*y + stripe - 80] = color;
+            displayBuffer[(screenWidth / 2) * y + stripe - (screenWidth / 2)] = color;
           }
         }
       }
     }
   }
-  
-  ST7735_DrawTransparentBitmapOnBuffer(shotgun[frame].x, shotgun[frame].y, shotgun[frame].image, shotgun[frame].w, shotgun[frame].h, 2);
-  ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth, crosshairHeight, 2);
+
+
+  ST7735_DrawTransparentBitmapOnBuffer(shotgun[frame].x, shotgun[frame].y,
+                                       shotgun[frame].image, shotgun[frame].w,
+                                       shotgun[frame].h, 2);
+  ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth,
+                                       crosshairHeight, 2);
   ST7735_DrawBitmap(80, 127, displayBuffer, 80, 128);
 }

@@ -18,11 +18,11 @@ animationFrame_t shotgunNeutral[1] = {
 
 animationFrame_t shotgunShoot[8] = {
     {shotgunNormal, 43, 127, shotgunNormalWidth, shotgunNormalHeight},
-    {shotgunShoot1, 43, 127, shotgunShoot1Width, shotgunShoot1Height},
+    {shotgunShoot2, 43, 127, shotgunShoot2Width, shotgunShoot2Height},
     {shotgunShoot2, 43, 127, shotgunShoot2Width, shotgunShoot2Height},
     {shotgunShoot3, 43, 127, shotgunShoot3Width, shotgunShoot3Height},
     {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
-    {shotgunShoot5, 43, 127, shotgunShoot5Width, shotgunShoot5Height},
+    {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
     {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
     {shotgunShoot3, 43, 127, shotgunShoot3Width, shotgunShoot3Height},
 };
@@ -53,7 +53,7 @@ animationFrame_t shotgunReload[21] = {
 
     {shotgunShoot3, 43, 127, shotgunShoot3Width, shotgunShoot3Height},
     {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
-    {shotgunShoot5, 43, 127, shotgunShoot5Width, shotgunShoot5Height},
+    {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
     {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
     {shotgunShoot3, 43, 127, shotgunShoot3Width, shotgunShoot3Height}
 };

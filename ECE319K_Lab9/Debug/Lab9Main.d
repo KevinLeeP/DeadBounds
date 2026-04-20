@@ -1,7 +1,6 @@
 # FIXED
 
-Lab9Main.o: ../Lab9Main.c \
- C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h \
+.o: ../Lab9Main.c C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h \
  C:/ti/mspm0_sdk_2_09_00_01/source/third_party/CMSIS/Core/Include/core_cm0plus.h \

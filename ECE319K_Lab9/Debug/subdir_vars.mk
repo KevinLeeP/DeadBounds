@@ -140,7 +140,6 @@ C_SRCS__QUOTED += \
 "../JoystickLeft.c" \
 "../JoystickRight.c" \
 "../LED.c" \
-"../Lab9Main.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/LaunchPad.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/SPI.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/ST7735.c" \

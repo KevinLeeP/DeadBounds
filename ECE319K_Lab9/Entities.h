@@ -7,7 +7,7 @@
 #ifndef __Entities_H__
 #define __Entities_H__
 #include "Math/fix/fix16.h"
-#define maxZombies 128
+#define maxZombies 16
 struct player{
     uint8_t health;
     uint8_t ammo;
