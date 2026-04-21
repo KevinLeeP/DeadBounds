@@ -5,6 +5,8 @@
 #define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
 #define maxZombies 16
 #define zombieHitbox 0.3
+#define damageDrop 1 
+
 
 extern const uint16_t zombie1[];
 extern const uint16_t zombie2[];
@@ -28,7 +30,7 @@ uint8_t gunReload = 0;
 
 zombie_t zombies[maxZombies] = {
   {100, 15, F16(0.15), 30, zombie1, F16(12), F16(12)},
-  {100, 15,  F16(0.15), 30, zombie2,F16(23), F16(23)}
+  {100, 15,  F16(0.15), 30, zombie2,F16(13), F16(13)}
 };
 
 int32_t zombieCooldowns[maxZombies] = {0, 0};
@@ -38,7 +40,7 @@ void Player_Init(void){
     Player.health = 100;
     Player.ammo = 5;
     Player.gunSpread = 12;
-    Player.gunDamage = 50;
+    Player.gunDamage = 100;
 };
 
 void Player_Damaged(int16_t damage){
@@ -83,7 +85,7 @@ void Player_Shoot(void){//change this for raytracing
   }
 
   if(hitZombieIndex != -1){
-    Zombie_Damaged(&zombies[hitZombieIndex], Player.gunDamage);
+    Zombie_Damaged(&zombies[hitZombieIndex], (Player.gunDamage << 16) - fix16_mul(F16(damageDrop), closestDistance));
   }
     
 };
