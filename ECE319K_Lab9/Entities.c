@@ -116,6 +116,7 @@ void Zombie_Damaged(zombie_t* zombie, int16_t damage, int32_t index){
       zombies[i] = zombies[i+1];
     }    
     zombieCount--;
+    Sound_Zombie();
   }
 }
 
