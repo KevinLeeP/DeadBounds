@@ -2212,3 +2212,56 @@ void ST7735_DrawTransparentBitmapOnBuffer(uint32_t x, uint32_t y, const uint16_t
         }
     }
 }
+
+void ST7735_DrawPixelToBuffer(int8_t x, int8_t y, uint16_t color, uint8_t half){
+  y = 127 - y;
+  if (half == 1 && (x > 79 || y > 127 || y < 0)){
+    return;
+  }
+  else if (half == 2 && (x < 80 || y > 127 || y < 0){
+    return;
+  }
+
+  if(half == 2){
+    x -= 80;
+  }
+
+  displayBuffer[y*80 + x] = color;
+}
+
+void ST7735_DrawCharToBuffer(int8_t x, int8_t y, char c, uint16_t  color, uint8_t half){
+  uint32_t k = (uint32_t)(c & 0xFF); // convert to unsigned regardless of whether char is signed or unsigned
+  if((half == 1) && (x >= 80) || (y >= 127) || ((x + 6) < 0) || ((y + 8) < 0)){
+    return;
+  }
+  if((half == 2) && (x >= 160) && (y >= 127) && ((x + 6) < 80) && ((y + 8) < 0)){
+    return;
+  }
+    
+
+  for(int i=0; i<6; i++) {
+    uint8_t line;
+    if (i == 5)
+      line = 0x0;
+    else
+      line = Font[(k*5)+i];
+    for(int j = 0; j<8; j++) {
+      if (line & 0x1) {
+        ST7735_DrawPixelToBuffer(x+i, y+j, color, half);
+      }
+      line >>= 1;
+    }
+  }
+}
+
+void ST7735_DrawStringToBuffer(int8_t x, int8_t y, char *pt, uint16_t color, uint8_t half){
+  uint32_t count = 0;
+  if(y>12) return 0;
+  while(*pt){
+    ST7735_DrawCharToBuffer(x*6, y*10, *pt, color, half);
+    pt++;
+    x = x+1;
+    if(x>20) return count;  // number of characters printed
+    count++;
+  }
+}
