@@ -30,7 +30,6 @@ void Sound_Shoot(void);
 void Sound_Reload(void);
 void Sound_Damaged(void);
 void Sound_Chamber(void);
-
-void Sound_BackgroundMusic(void);
+void Sound_Zombie(void);
 
 #endif
