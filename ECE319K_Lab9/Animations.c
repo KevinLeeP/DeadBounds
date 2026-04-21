@@ -76,11 +76,9 @@ void TIMG8_IRQHandler(void){
 
     else if(gunReload){
         frame++;
-        if(Player.ammo != 5){
-          Player_Reload();
-        }
         if(frame == 1 || frame == 4 || frame == 7 || frame == 10 || frame == 13){
           Sound_Reload();
+          Player_Reload();
         }
         else if(frame == 16){
           Sound_Chamber();

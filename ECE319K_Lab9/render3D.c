@@ -24,6 +24,7 @@
 #include "SmallFont.h"
 #include "Sound.h"
 #include "Switch.h"
+#include "Language.h"
 
 #define F16(x)                                                                 \
   ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
@@ -36,9 +37,13 @@
 #define wallHeight 150
 #define bufferSize 10240
 
-#define skyColor 0x79e4
-#define borderColor 0x2587
-#define floorColor 0xc9e4
+#define skyColor 0x88a1
+#define borderColor 0x000 
+#define floorColor 0x18c0
+
+#define materialColor1 0x4920
+#define materialColor2 0x5269
+#define materialColor3 0x9aa5
 
 #define texWidth 64
 #define texHeight 118
@@ -95,6 +100,9 @@ void sortSprites(uint32_t *order, uint32_t *distance, int32_t size) {
 }
 
 void raycast(void) {
+
+  Language_t lang = myLanguages[currentLanguage];
+  
   fix16_t cameraX = F16(-1);
   fix16_t cameraXStep = F16(0.0125);
   fix16_t rotSpeed = 0;
@@ -302,16 +310,16 @@ void raycast(void) {
       color = borderColor;
       break;
     case 2:
-      color = ST7735_GREEN;
+      color = materialColor1;
       break;
     case 3:
-      color = ST7735_BLUE;
+      color = materialColor2;
       break;
     case 4:
-      color = ST7735_WHITE;
+      color = materialColor3;
       break;
     default:
-      color = ST7735_YELLOW;
+      color = borderColor;
       break;
     } // make a color table later
 
@@ -331,7 +339,7 @@ void raycast(void) {
 
     // render sky
     for (int y = 0; y < drawWallStart * 80; y += 80) {
-      displayBuffer[y + pixelX] = skyColor;
+      displayBuffer[y + pixelX] = floorColor;//skyColor;
     }
     // render wall part of slice
     for (int y = drawWallStart * 80; y <= drawWallEnd * 80; y += 80) {
@@ -339,7 +347,7 @@ void raycast(void) {
     }
     // render floor part of slice
     for (int y = drawWallEnd * 80; y < screenHeight * 80; y += 80) {
-      displayBuffer[y + pixelX] = floorColor;
+      displayBuffer[y + pixelX] = skyColor;//floorColor;
     }
 
     ZBuffer[pixelX] = perpWallDist;
@@ -412,7 +420,9 @@ void raycast(void) {
           int r = (color >> 11) & 0x1F;
           int g = (color >> 5)  & 0x3F;
           int b = color & 0x1F;
+          
           if (!(g > 20 && r < 10 && b < 10)) {
+            color = (b << 11) | (g << 5) | r;
             displayBuffer[(screenWidth / 2) * y + stripe] = color;
           }
         }
@@ -427,8 +437,8 @@ void raycast(void) {
                                        crosshairHeight, 1);
   
   sprintf(scoreBuffer, "%d", score);
-  ST7735_DrawStringToBuffer(1, 1, "Score: ", ST7735_WHITE, 1);
-  ST7735_DrawStringToBuffer(8, 1, scoreBuffer, ST7735_WHITE, 1);
+  ST7735_DrawStringToBuffer(1, 1, lang.scoreInLang, ST7735_WHITE, 1);
+  ST7735_DrawStringToBuffer(lang.scoreInLangLen + 1, 1, scoreBuffer, ST7735_WHITE, 1);
                                        
   ST7735_DrawBitmap(0, 127, displayBuffer, 80, 128);
 
@@ -526,18 +536,18 @@ void raycast(void) {
       color = borderColor;
       break;
     case 2:
-      color = ST7735_GREEN;
+      color = materialColor1;
       break;
     case 3:
-      color = ST7735_BLUE;
+      color = materialColor2;
       break;
     case 4:
-      color = ST7735_WHITE;
+      color = materialColor3;
       break;
     default:
-      color = ST7735_YELLOW;
+      color = borderColor;
       break;
-    }
+    } // make a color table later
 
     if (sideHit == 1) {
       uint16_t temp = color;
@@ -555,7 +565,7 @@ void raycast(void) {
 
     // render sky
     for (int y = 0; y < drawWallStart * 80; y += 80) {
-      displayBuffer[y + pixelX - 80] = skyColor;
+      displayBuffer[y + pixelX - 80] = floorColor;//skyColor;
     }
     // render wall part of slice
     for (int y = drawWallStart * 80; y <= drawWallEnd * 80; y += 80) {
@@ -563,7 +573,7 @@ void raycast(void) {
     }
     // render floor part of slice
     for (int y = drawWallEnd * 80; y < screenHeight * 80; y += 80) {
-      displayBuffer[y + pixelX - 80] = floorColor;
+      displayBuffer[y + pixelX - 80] = skyColor;//floorColor;
     }
 
     ZBuffer[pixelX] = perpWallDist;
@@ -630,7 +640,7 @@ void raycast(void) {
           int g = (color >> 5)  & 0x3F;
           int b = color & 0x1F;
           if (!(g > 20 && r < 10 && b < 10)) { // Transparency
-
+            color = (b << 11) | (g << 5) | r;
             displayBuffer[(screenWidth / 2) * y + stripe - (screenWidth / 2)] = color;
           }
         }
@@ -644,7 +654,7 @@ void raycast(void) {
                                        shotgun[frame].h, 2);
   ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth,
                                        crosshairHeight, 2);
-
-  ST7735_DrawStringToBuffer(8, 1, scoreBuffer, ST7735_WHITE, 2);
+  ST7735_DrawStringToBuffer(1, 1, lang.scoreInLang, ST7735_WHITE, 2);
+  ST7735_DrawStringToBuffer(lang.scoreInLangLen + 1, 1, scoreBuffer, ST7735_WHITE, 2);
   ST7735_DrawBitmap(80, 127, displayBuffer, 80, 128);
 }

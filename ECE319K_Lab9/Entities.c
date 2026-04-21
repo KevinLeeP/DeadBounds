@@ -30,6 +30,8 @@ uint8_t gunShot = 0;
 uint8_t gunRaysShot = 0;
 uint8_t gunReload = 0;
 
+uint8_t prevSwitchLang = 0;
+
 zombie_t zombies[maxZombies];
 
 //int32_t zombieCooldowns[maxZombies] = {0, 0}; //make it an attribute
@@ -139,9 +141,10 @@ void TIMG12_IRQHandler(void){
     Sound_Reload();
   }
 
-  if(Switch_Language()){
+  if(Switch_Language() && !prevSwitchLang){
     Language_Switch();
   }
+  prevSwitchLang = Switch_Language();
 
   //damage checker
   for(int i = 0; i<zombieCount; i++){
@@ -185,8 +188,8 @@ void TIMG12_IRQHandler(void){
     Spawn_Zombie();
   }
 
-  randNum = rand() % 15000;
-  if(randNum == 0 && spawnCoefficient > 50){
+  randNum = rand() % 300;
+  if(randNum == 0 && spawnCoefficient > 10){
     spawnCoefficient--;
   }
   

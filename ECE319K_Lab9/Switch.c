@@ -11,14 +11,15 @@
 
 
 #define PB20INDEX 47
-#define PA11INDEX 21
+#define PB13INDEX 29
+
 
 
 
 // LaunchPad.h defines all the indices into the PINCM table
 void Switch_Init(void){
   IOMUX->SECCFG.PINCM[PB20INDEX] = 0x00040081; // shoot
-  IOMUX->SECCFG.PINCM[PA11INDEX] = 0x00040081; // language
+  IOMUX->SECCFG.PINCM[PB13INDEX] = 0x00040081; // language
   TimerG12_IntArm(2666667, 2);
 }
 // return current state of switches
@@ -27,7 +28,7 @@ void Switch_Init(void){
 // 10 means language
 // 11 means both 
 uint32_t Switch_In(void){
-  return (((GPIOB->DIN31_0 & 0x100000) >> 20) || ((GPIOB->DIN31_0 & 0x800) >> 11)); 
+  return (((GPIOB->DIN31_0 & 0x100000) >> 20) || ((GPIOA->DIN31_0 & 0x800) >> 10)); 
 }
 
 uint32_t Switch_Shoot(void){
@@ -35,6 +36,6 @@ uint32_t Switch_Shoot(void){
 }
 
 uint32_t Switch_Language(void){
-  return ((GPIOA->DIN31_0 & 0x800) >> 11); 
+  return ((GPIOB->DIN31_0 & 0x2000) >> 13); 
 }
 

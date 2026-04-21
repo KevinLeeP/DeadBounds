@@ -15,6 +15,8 @@ struct Language{
     uint8_t xOffset;
     uint16_t *deathScreen;
     uint8_t deathScreenWidth;
+    char *scoreInLang;
+    uint8_t scoreInLangLen;
 };
 typedef struct Language Language_t;
 
@@ -22,7 +24,7 @@ extern Language_t myLanguages[];
 
 extern uint8_t currentLanguage;
 
-void Language_Init();
+void Language_Init(void);
 void Language_Switch(void);
 
 
