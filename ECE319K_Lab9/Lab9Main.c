@@ -147,10 +147,12 @@ while(1){
   ST7735_SetCursor(myLanguages[currentLanguage].xOffset, 8);
   ST7735_OutStringTransparent(myLanguages[currentLanguage].phrase2);
   
+  Clear_Zombies();
   while(Switch_Shoot() == 0){
   }
+  gunShot = 0;
 
-    //reset game
+  //reset game
   Player_Init();
   v2d pos = {F16(12.0), F16(12.0)};
   v2d dir = {F16(-1.0), F16(0.0)};

@@ -563,7 +563,7 @@ void raycast(void) {
       color = (color & ~(0x001F)) | temp;
     }
 
-    // render sky
+    // render floor
     for (int y = 0; y < drawWallStart * 80; y += 80) {
       displayBuffer[y + pixelX - 80] = floorColor;//skyColor;
     }
@@ -571,7 +571,7 @@ void raycast(void) {
     for (int y = drawWallStart * 80; y <= drawWallEnd * 80; y += 80) {
       displayBuffer[y + pixelX - 80] = color;
     }
-    // render floor part of slice
+    // render sky
     for (int y = drawWallEnd * 80; y < screenHeight * 80; y += 80) {
       displayBuffer[y + pixelX - 80] = skyColor;//floorColor;
     }

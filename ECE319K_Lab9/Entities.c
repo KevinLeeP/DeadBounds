@@ -6,6 +6,7 @@
 #define maxZombies 16
 #define zombieHitbox 0.3
 #define damageDrop 14
+#define zombieMinDistance 0.25
 
 
 extern const uint16_t zombie1[];
@@ -122,6 +123,10 @@ void Zombie_Damaged(zombie_t* zombie, int16_t damage, int32_t index){
   }
 }
 
+void Clear_Zombies(void){
+  zombieCount = 0;
+}
+
 void TIMG12_IRQHandler(void){
   //update LED HUD
   HPDAC4_HPOut(Player.health);
@@ -169,7 +174,7 @@ void TIMG12_IRQHandler(void){
     fix16_t zombieDirY = pos.y - zombie->posY;
     fix16_t zombieDirMag = fix16_sqrt(fix16_mul(zombieDirX, zombieDirX) + fix16_mul(zombieDirY, zombieDirY));
 
-    if(zombieDirMag <= F16(0.1)){
+    if(zombieDirMag <= F16(zombieMinDistance)){
       continue;
     }
     

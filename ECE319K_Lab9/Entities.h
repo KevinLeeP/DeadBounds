@@ -58,4 +58,6 @@ void Spawn_Zombie(void);
 
 void Zombie_Damaged(zombie_t* zombie, int16_t damage, int32_t index);
 
+void Clear_Zombies(void);
+
 #endif
