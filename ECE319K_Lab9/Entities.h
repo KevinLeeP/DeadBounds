@@ -14,7 +14,6 @@
 #include "Animations.h"
 #include "HPDAC4.h"
 #include "AMDAC4.h"
-#include "HPDAC4.h"
 #include "Sound.h"
 #include "Switch.h"
 
@@ -55,5 +54,7 @@ void Player_Shoot(void);
 void Player_Reload(void);
 
 void Spawn_Zombie(void);
+
+void Zombie_Damaged(zombie_t* zombie, int16_t damage);
 
 #endif

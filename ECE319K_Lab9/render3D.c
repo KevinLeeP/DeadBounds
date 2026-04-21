@@ -46,6 +46,8 @@
 #define spriteSizeMultiplier 0.5
 #define spriteTranslationY -16
 
+#define maxZombies 16
+
 const extern uint8_t worldMap[mapWidth][mapHeight];
 extern v2d pos;
 extern v2d dir;
@@ -56,6 +58,8 @@ extern const uint8_t crosshairHeight;
 // extern const uint32_t maxZombies;
 
 uint16_t displayBuffer[bufferSize];
+uint32_t spriteOrder[maxZombies];
+uint32_t spriteDistance[maxZombies];
 extern zombie_t zombies[];
 extern uint32_t zombieCount;
 
@@ -190,8 +194,6 @@ void raycast(void) {
             fix16_mul(plane.y, fix16_fast_cos(rotSpeed));
   plane.x = tempPlaneX;
 
-  uint32_t spriteOrder[zombieCount];
-  uint32_t spriteDistance[zombieCount];
   for (int i = 0; i < zombieCount; i++) {
     spriteOrder[i] = i;
     spriteDistance[i] =
@@ -360,8 +362,10 @@ void raycast(void) {
 
     int spriteScreenX = fix16_to_int(fix16_mul(
         F16(screenWidth / 2), F16(1) + fix16_div(transformX, transformY)));
+    // int spriteHeight =
+    //     abs(fix16_mul(fix16_to_int(fix16_div(F16(screenHeight), transformY)), F16(spriteSizeMultiplier)));
     int spriteHeight =
-        abs(fix16_mul(fix16_to_int(fix16_div(F16(screenHeight), transformY)), F16(spriteSizeMultiplier)));
+        abs(fix16_to_int(fix16_mul((fix16_div(F16(screenHeight), transformY)), F16(spriteSizeMultiplier))));
 
     int vMoveScreen = fix16_to_int(fix16_div(spriteTranslationY << 16,transformY));
     int drawStartY = (-spriteHeight / 2 + screenHeight / 2) + vMoveScreen;
