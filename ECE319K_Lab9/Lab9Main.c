@@ -125,12 +125,12 @@ int main(void) { // mainDeadBounds
 
 while(1){
 
-
-
   Player_Init();
+  __enable_irq();
   while(Player.health > 0) {
     raycast();
   }
+  __disable_irq();
 
   //death screen stuff
   for(int i = 0; i < 160; i++){
