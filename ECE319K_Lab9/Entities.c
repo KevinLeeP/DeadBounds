@@ -1,5 +1,5 @@
-
 #include "Entities.h"
+#include "Language.h"
 
 
 #define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
@@ -7,7 +7,7 @@
 #define zombieHitbox 0.3
 
 extern const uint16_t zombie1[];
-extern const uint16_t zombie2[];
+extern const uint16_t zombie1[];
 //extern const uint16_t zombieAttack[];
 
 extern const uint32_t mapWidth;
@@ -28,7 +28,7 @@ uint8_t gunReload = 0;
 
 zombie_t zombies[maxZombies] = {
   {100, 15, F16(0.15), 30, zombie1, F16(12), F16(12)},
-  {100, 15,  F16(0.15), 30, zombie2,F16(23), F16(23)}
+  {100, 15,  F16(0.15), 30, zombie1,F16(23), F16(23)}
 };
 
 int32_t zombieCooldowns[maxZombies] = {0, 0};
@@ -132,6 +132,10 @@ void TIMG12_IRQHandler(void){
     gunReload = 1;
     shotgun = shotgunReload;
     Sound_Reload();
+  }
+
+  if(Switch_Language()){
+    Language_Switch();
   }
 
   //damage checker

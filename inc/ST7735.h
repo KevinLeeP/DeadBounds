@@ -916,7 +916,7 @@ void ST7735_Line(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2,
 */
 void ST7735_SetX(int32_t newX);
 
-void ST7735_DrawBitmapTransparent(int16_t x, int16_t y, const uint16_t *image, int16_t w, int16_t h);
+void ST7735_DrawBitmapTransparent(int16_t x, int16_t y, uint16_t *image, int16_t w, int16_t h);
 
 void ST7735_DrawTransparentBitmapOnBuffer(uint32_t x, uint32_t y, const uint16_t *image, uint32_t w, uint32_t h, uint8_t half);
 #endif
