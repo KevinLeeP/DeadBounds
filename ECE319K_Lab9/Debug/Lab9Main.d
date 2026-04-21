@@ -37,7 +37,7 @@
  ../../inc/Timer.h ../../inc/ADC1.h ../Sound.h ../../inc/Arabic.h \
  ../SmallFont.h ../LED.h ../Switch.h ../JoystickLeft.h \
  ../JoystickRight.h ../render3D.h ../Entities.h ../Animations.h \
- ../HPDAC4.h ../AMDAC4.h
+ ../HPDAC4.h ../AMDAC4.h ../Language.h
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/msp.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/DeviceFamily.h:
 C:/ti/mspm0_sdk_2_09_00_01/source/ti/devices/msp/m0p/mspm0g350x.h:
@@ -91,3 +91,4 @@ C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/ECE319K_Lab9/Math/fix/fix16.h
 ../Animations.h:
 ../HPDAC4.h:
 ../AMDAC4.h:
+../Language.h:

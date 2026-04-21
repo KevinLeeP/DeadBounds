@@ -1,15 +1,15 @@
-
 #include "Entities.h"
+#include "Language.h"
 
 
 #define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
 #define maxZombies 16
 #define zombieHitbox 0.3
-#define damageDrop 1 
+#define damageDrop 14
 
 
 extern const uint16_t zombie1[];
-extern const uint16_t zombie2[];
+extern const uint16_t zombie1[];
 //extern const uint16_t zombieAttack[];
 
 extern const uint32_t mapWidth;
@@ -21,6 +21,8 @@ extern v2d plane;
 extern zombie_t zombies[maxZombies];
 extern uint32_t spriteOrder[];
 uint32_t zombieCount = 2;
+uint32_t spawnCoefficient = 100; //spawn % chance (per 1/30s) = 1/spawnRate
+uint32_t score;
 
 
 player_t Player;
@@ -29,18 +31,18 @@ uint8_t gunRaysShot = 0;
 uint8_t gunReload = 0;
 
 zombie_t zombies[maxZombies] = {
-  {100, 15, F16(0.15), 30, zombie1, F16(12), F16(12)},
-  {100, 15,  F16(0.15), 30, zombie2,F16(13), F16(13)}
+  {100, 15, F16(0.25), 30, 30, zombie1, F16(12), F16(12)},
+  {100, 15,  F16(0.25), 30, 30, zombie1,F16(13), F16(13)}
 };
 
-int32_t zombieCooldowns[maxZombies] = {0, 0};
+//int32_t zombieCooldowns[maxZombies] = {0, 0}; //make it an attribute
 
 
 void Player_Init(void){
     Player.health = 100;
     Player.ammo = 5;
     Player.gunSpread = 12;
-    Player.gunDamage = 100;
+    Player.gunDamage = 120;
 };
 
 void Player_Damaged(int16_t damage){
@@ -85,7 +87,7 @@ void Player_Shoot(void){//change this for raytracing
   }
 
   if(hitZombieIndex != -1){
-    Zombie_Damaged(&zombies[hitZombieIndex], (Player.gunDamage << 16) - fix16_mul(F16(damageDrop), closestDistance));
+    Zombie_Damaged(&zombies[hitZombieIndex], fix16_to_int((Player.gunDamage << 16) - fix16_mul(F16(damageDrop), closestDistance)), hitZombieIndex);
   }
     
 };
@@ -103,17 +105,20 @@ void Spawn_Zombie(void){
   fix16_t x = rand() % mapHeight << 16;
   fix16_t y = (rand() % mapWidth) << 16;
 
-  zombies[zombieCount] = (zombie_t){100, 15, F16(0.05),30 ,zombie1, x, y};
+  zombies[zombieCount] = (zombie_t){100, 15, F16(0.25), 30, 30,zombie1, x, y};
   zombieCount++;
 }
 
-void Zombie_Damaged(zombie_t* zombie, int16_t damage){
+void Zombie_Damaged(zombie_t* zombie, int16_t damage, int32_t index){
   zombie->health -= damage;
   if(zombie->health <= 0){
-    zombie->health = 0;
     zombie->damage = 0;
-    zombie->hitRadiusSquared = 0;
-    //zombie->texture = zombieAttack;
+    score += 100;
+
+    for(int i = index; i < zombieCount-1; i++){
+      zombies[i] = zombies[i+1];
+    }    
+    zombieCount--;
   }
 }
 
@@ -136,21 +141,47 @@ void TIMG12_IRQHandler(void){
     Sound_Reload();
   }
 
+  if(Switch_Language()){
+    Language_Switch();
+  }
+
   //damage checker
   for(int i = 0; i<zombieCount; i++){
     if((fix16_mul(pos.x-zombies[i].posX, pos.x-zombies[i].posX) + fix16_mul(pos.y-zombies[i].posY, pos.y-zombies[i].posY)) <= zombies[i].hitRadiusSquared){
-      if(zombieCooldowns[i] <= 0){
+      if(zombies[i].cooldown <= 0){
         Player_Damaged(zombies[i].damage);
         Sound_Damaged();
-        zombieCooldowns[i] = zombies[i].fireRate;
+        zombies[i].cooldown = zombies[i].fireRate;
       }
       else{
-        zombieCooldowns[i]--;
+       zombies[i].cooldown = zombies[i].cooldown - 1;
       }
     }
   }
 
   //zombie pathfinding algo
+  for(int i = 0; i<zombieCount; i++){
+    zombie_t* zombie = &zombies[i];
+
+    //find a direction vector to the player
+    fix16_t zombieDirX = pos.x - zombie->posX;
+    fix16_t zombieDirY = pos.y - zombie->posY;
+    fix16_t zombieDirMag = fix16_sqrt(fix16_mul(zombieDirX, zombieDirX) + fix16_mul(zombieDirY, zombieDirY));
+    
+    //standardize speed by finding unit vector
+    zombieDirX = fix16_div(zombieDirX, zombieDirMag);
+    zombieDirY = fix16_div(zombieDirY, zombieDirMag);
+
+    fix16_t deltaX = fix16_mul(zombieDirX, F16(0.03333));
+    fix16_t deltaY =fix16_mul(zombieDirY, F16(0.03333));
+    zombie->posX += deltaX;
+    zombie->posY += deltaY;
+  }
+
+  int randNum = rand() % spawnCoefficient;
+  if(randNum == 0){
+    Spawn_Zombie();
+  }
   
 
   

@@ -2134,6 +2134,29 @@ void ST7735_SetX(int32_t newX){
 
 extern uint16_t displayBuffer[80*128];
 
+void ST7735_DrawBitmapTransparent(int16_t x, int16_t y, uint16_t *image, int16_t w, int16_t h){
+  int32_t index = 0;
+  uint16_t color;
+  uint16_t r, g, b;
+  setAddrWindow(x, y-h+1, x+w-1, y);
+  for(int16_t j = y; j > (y-h); j--){
+    for(int16_t i = x; i < (x+w); i++){
+      
+      color = image[index];
+
+      r = (color >> 11) & 0x1F;
+      g = (color >> 5)  & 0x3F;
+      b = color & 0x1F;
+    
+      if(!(g > 20 && r < 20 && b < 20)){
+        color = (b<<11) | (g<<5) | r;
+        ST7735_DrawPixel(i,j,color);
+      }
+      index++;
+    }
+  }
+}
+
 void ST7735_DrawTransparentBitmapOnBuffer(uint32_t x, uint32_t y, const uint16_t *image, uint32_t w, uint32_t h, uint8_t half) { // Removed 'half' parameter as it's not needed here
     // Loop through each pixel of the source image
     y = 127 - y;

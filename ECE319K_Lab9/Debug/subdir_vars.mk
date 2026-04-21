@@ -22,6 +22,7 @@ C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/DAC5.c \
 ../JoystickRight.c \
 ../LED.c \
 ../Lab9Main.c \
+../Language.c \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/LaunchPad.c \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/SPI.c \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/ST7735.c \
@@ -46,6 +47,7 @@ C_DEPS += \
 ./JoystickRight.d \
 ./LED.d \
 ./Lab9Main.d \
+./Language.d \
 ./LaunchPad.d \
 ./SPI.d \
 ./ST7735.d \
@@ -70,6 +72,7 @@ OBJS += \
 ./JoystickRight.o \
 ./LED.o \
 ./Lab9Main.o \
+./Language.o \
 ./LaunchPad.o \
 ./SPI.o \
 ./ST7735.o \
@@ -94,6 +97,7 @@ OBJS__QUOTED += \
 "JoystickRight.o" \
 "LED.o" \
 "Lab9Main.o" \
+"Language.o" \
 "LaunchPad.o" \
 "SPI.o" \
 "ST7735.o" \
@@ -118,6 +122,7 @@ C_DEPS__QUOTED += \
 "JoystickRight.d" \
 "LED.d" \
 "Lab9Main.d" \
+"Language.d" \
 "LaunchPad.d" \
 "SPI.d" \
 "ST7735.d" \
@@ -140,6 +145,7 @@ C_SRCS__QUOTED += \
 "../JoystickLeft.c" \
 "../JoystickRight.c" \
 "../LED.c" \
+"../Language.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/LaunchPad.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/SPI.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/ST7735.c" \

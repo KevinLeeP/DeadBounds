@@ -15,49 +15,49 @@ uint8_t frame = 0;
 extern player_t Player;
 
 animationFrame_t shotgunNeutral[1] = {
-  {shotgunNormal, 43, 127, shotgunNormalWidth, shotgunNormalHeight}
+  {shotgunNormal, 43, 127, SHOTGUN_NORMAL_WIDTH, SHOTGUN_NORMAL_HEIGHT}
 };
 
 animationFrame_t shotgunShoot[8] = {
-    {shotgunNormal, 43, 127, shotgunNormalWidth, shotgunNormalHeight},
-    {shotgunShoot2, 43, 127, shotgunShoot2Width, shotgunShoot2Height},
-    {shotgunShoot2, 43, 127, shotgunShoot2Width, shotgunShoot2Height},
-    {shotgunShoot3, 43, 127, shotgunShoot3Width, shotgunShoot3Height},
-    {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
-    {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
-    {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
-    {shotgunShoot3, 43, 127, shotgunShoot3Width, shotgunShoot3Height},
+    {shotgunNormal, 43, 127, SHOTGUN_NORMAL_WIDTH, SHOTGUN_NORMAL_HEIGHT},
+    {shotgunShoot2, 43, 127, SHOTGUN_SHOOT2_WIDTH, SHOTGUN_SHOOT2_HEIGHT},
+    {shotgunShoot2, 43, 127, SHOTGUN_SHOOT2_WIDTH, SHOTGUN_SHOOT2_HEIGHT},
+    {shotgunShoot3, 43, 127, SHOTGUN_SHOOT3_WIDTH, SHOTGUN_SHOOT3_HEIGHT},
+    {shotgunShoot4, 43, 127, SHOTGUN_SHOOT4_WIDTH, SHOTGUN_SHOOT4_HEIGHT},
+    {shotgunShoot4, 43, 127, SHOTGUN_SHOOT4_WIDTH, SHOTGUN_SHOOT4_HEIGHT},
+    {shotgunShoot4, 43, 127, SHOTGUN_SHOOT4_WIDTH, SHOTGUN_SHOOT4_HEIGHT},
+    {shotgunShoot3, 43, 127, SHOTGUN_SHOOT3_WIDTH, SHOTGUN_SHOOT3_HEIGHT},
 };
 
 
 animationFrame_t shotgunReload[21] = {
-    {shotgunNormal, 43, 127, shotgunNormalWidth, shotgunNormalHeight},
+    {shotgunNormal, 43, 127, SHOTGUN_NORMAL_WIDTH, SHOTGUN_NORMAL_HEIGHT},
 
-    {reload1, 80-reload1Width/2, 127, reload1Width, reload1Height},
-    {reload2, 80-reload2Width/2, 127, reload2Width, reload2Height},
-    {reload3, 80-reload3Width/2, 127, reload3Width, reload3Height},
+    {reload1, 80-RELOAD1_WIDTH/2, 127, RELOAD1_WIDTH, RELOAD1_HEIGHT},
+    {reload2, 80-RELOAD2_WIDTH/2, 127, RELOAD2_WIDTH, RELOAD2_HEIGHT},
+    {reload3, 80-RELOAD3_WIDTH/2, 127, RELOAD3_WIDTH, RELOAD3_HEIGHT},
 
-    {reload1, 80-reload1Width/2, 127, reload1Width, reload1Height},
-    {reload2, 80-reload2Width/2, 127, reload2Width, reload2Height},
-    {reload3, 80-reload3Width/2, 127, reload3Width, reload3Height},
+    {reload1, 80-RELOAD1_WIDTH/2, 127, RELOAD1_WIDTH, RELOAD1_HEIGHT},
+    {reload2, 80-RELOAD2_WIDTH/2, 127, RELOAD2_WIDTH, RELOAD2_HEIGHT},
+    {reload3, 80-RELOAD3_WIDTH/2, 127, RELOAD3_WIDTH, RELOAD3_HEIGHT},
 
-    {reload1, 80-reload1Width/2, 127, reload1Width, reload1Height},
-    {reload2, 80-reload2Width/2, 127, reload2Width, reload2Height},
-    {reload3, 80-reload3Width/2, 127, reload3Width, reload3Height},
+    {reload1, 80-RELOAD1_WIDTH/2, 127, RELOAD1_WIDTH, RELOAD1_HEIGHT},
+    {reload2, 80-RELOAD2_WIDTH/2, 127, RELOAD2_WIDTH, RELOAD2_HEIGHT},
+    {reload3, 80-RELOAD3_WIDTH/2, 127, RELOAD3_WIDTH, RELOAD3_HEIGHT},
 
-    {reload1, 80-reload1Width/2, 127, reload1Width, reload1Height},
-    {reload2, 80-reload2Width/2, 127, reload2Width, reload2Height},
-    {reload3, 80-reload3Width/2, 127, reload3Width, reload3Height},
+    {reload1, 80-RELOAD1_WIDTH/2, 127, RELOAD1_WIDTH, RELOAD1_HEIGHT},
+    {reload2, 80-RELOAD2_WIDTH/2, 127, RELOAD2_WIDTH, RELOAD2_HEIGHT},
+    {reload3, 80-RELOAD3_WIDTH/2, 127, RELOAD3_WIDTH, RELOAD3_HEIGHT},
 
-    {reload1, 80-reload1Width/2, 127, reload1Width, reload1Height},
-    {reload2, 80-reload2Width/2, 127, reload2Width, reload2Height},
-    {reload3, 80-reload3Width/2, 127, reload3Width, reload3Height},
+    {reload1, 80-RELOAD1_WIDTH/2, 127, RELOAD1_WIDTH, RELOAD1_HEIGHT},
+    {reload2, 80-RELOAD2_WIDTH/2, 127, RELOAD2_WIDTH, RELOAD2_HEIGHT},
+    {reload3, 80-RELOAD3_WIDTH/2, 127, RELOAD3_WIDTH, RELOAD3_HEIGHT},
 
-    {shotgunShoot3, 43, 127, shotgunShoot3Width, shotgunShoot3Height},
-    {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
-    {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
-    {shotgunShoot4, 43, 127, shotgunShoot4Width, shotgunShoot4Height},
-    {shotgunShoot3, 43, 127, shotgunShoot3Width, shotgunShoot3Height}
+    {shotgunShoot3, 43, 127, SHOTGUN_SHOOT3_WIDTH, SHOTGUN_SHOOT3_HEIGHT},
+    {shotgunShoot4, 43, 127, SHOTGUN_SHOOT4_WIDTH, SHOTGUN_SHOOT4_HEIGHT},
+    {shotgunShoot4, 43, 127, SHOTGUN_SHOOT4_WIDTH, SHOTGUN_SHOOT4_HEIGHT},
+    {shotgunShoot4, 43, 127, SHOTGUN_SHOOT4_WIDTH, SHOTGUN_SHOOT4_HEIGHT},
+    {shotgunShoot3, 43, 127, SHOTGUN_SHOOT3_WIDTH, SHOTGUN_SHOOT3_HEIGHT},
 };
 
 animationFrame_t *shotgun = shotgunNeutral;

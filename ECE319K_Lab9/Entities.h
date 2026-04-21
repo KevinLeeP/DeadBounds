@@ -30,8 +30,9 @@ typedef struct player player_t;
 struct zombie{
     int16_t health;
     int16_t damage;
-    int16_t hitRadiusSquared;
+    fix16_t hitRadiusSquared;
     int32_t fireRate; // in 1/30Hz seconds
+    int32_t cooldown;
     const uint16_t *texture;
     fix16_t posX;
     fix16_t posY;
@@ -55,6 +56,6 @@ void Player_Reload(void);
 
 void Spawn_Zombie(void);
 
-void Zombie_Damaged(zombie_t* zombie, int16_t damage);
+void Zombie_Damaged(zombie_t* zombie, int16_t damage, int32_t index);
 
 #endif

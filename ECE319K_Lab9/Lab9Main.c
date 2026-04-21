@@ -35,6 +35,7 @@
 #include "Entities.h"
 #include "AMDAC4.h"
 #include "HPDAC4.h"
+#include "Language.h"
 // ****note to ECE319K students****
 // the data sheet says the ADC does not work when clock is 80 MHz
 // however, the ADC seems to work on my boards at 80 MHz
@@ -116,6 +117,7 @@ int main(void) { // mainDeadBounds
   ST7735_FillScreen(0);
   ST7735_SetRotation(screenOrientation);
 
+  Language_Init();
   Switch_Init();
   Sound_Init();
   Player_Init();
@@ -137,12 +139,14 @@ while(1){
     ST7735_DrawFastHLine(0, i, screenWidth, 0xF100);
     Clock_Delay1ms(20);
   }
-  ST7735_SetCursor(4, 5);
-  ST7735_OutStringTransparent("YOU DIED");
-  ST7735_SetCursor(4, 7);
-  ST7735_OutStringTransparent("Press any button");
-  ST7735_SetCursor(4, 8);
-  ST7735_OutStringTransparent("to restart");
+
+  Language_t lang = myLanguages[currentLanguage];
+  ST7735_DrawBitmapTransparent(79-lang.deathScreenWidth/2, 60, lang.deathScreen, lang.deathScreenWidth, 19);
+  ST7735_SetCursor(myLanguages[currentLanguage].xOffset, 7);
+  ST7735_OutStringTransparent(myLanguages[currentLanguage].phrase1);
+  ST7735_SetCursor(myLanguages[currentLanguage].xOffset, 8);
+  ST7735_OutStringTransparent(myLanguages[currentLanguage].phrase2);
+  
   while(Switch_Shoot() == 0){
   }
 
@@ -158,101 +162,101 @@ while(1){
 
 
 
-int main0(void) {
-  PLL_Init();
-  LaunchPad_Init();
-  ST7735_InitR(INITR_BLACKTAB);
-  ST7735_FillScreen(ST7735_BLACK);
-  JoystickRight_Init();
-  while (1) {
-    ST7735_SetCursor(0, 2);
-  }
-}
-
-uint32_t M=1;
-uint32_t Random32(void){
-  M = 1664525*M+1013904223;
-  return M;
-}
-uint32_t Random(uint32_t n){
-  return (Random32()>>16)%n;
-}
-
-// games  engine runs at 30Hz
-// void TIMG12_IRQHandler(void) {
-//   uint32_t pos, msg;
-//   if ((TIMG12->CPU_INT.IIDX) == 1) { // this will acknowledge
-//     GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
-//     GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
-//                                 // game engine goes here
-//     // 1) sample slide pot
-//     // 2) read input switches
-//     // 3) move sprites
-//     // 4) start sounds
-//     // 5) set semaphore
-//     // NO LCD OUTPUT IN INTERRUPT SERVICE ROUTINES
-//     GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
+// int main0(void) {
+//   PLL_Init();
+//   LaunchPad_Init();
+//   ST7735_InitR(INITR_BLACKTAB);
+//   ST7735_FillScreen(ST7735_BLACK);
+//   JoystickRight_Init();
+//   while (1) {
+//     ST7735_SetCursor(0, 2);
 //   }
 // }
-uint8_t TExaS_LaunchPadLogicPB27PB26(void) {
-  return (0x80 | ((GPIOB->DOUT31_0 >> 26) & 0x03));
-}
 
-typedef enum { English, Spanish, Portuguese, French } Language_t;
-Language_t myLanguage = English;
-typedef enum { HELLO, GOODBYE, LANGUAGE } phrase_t;
-const char Hello_English[] = "Hello";
-const char Hello_Spanish[] = "\xADHola!";
-const char Hello_Portuguese[] = "Ol\xA0";
-const char Hello_French[] = "All\x83";
-const char Goodbye_English[] = "Goodbye";
-const char Goodbye_Spanish[] = "Adi\xA2s";
-const char Goodbye_Portuguese[] = "Tchau";
-const char Goodbye_French[] = "Au revoir";
-const char Language_English[] = "English";
-const char Language_Spanish[] = "Espa\xA4ol";
-const char Language_Portuguese[] = "Portugu\x88s";
-const char Language_French[] = "Fran\x87"
-                               "ais";
-const char *Phrases[3][4] = {
-    {Hello_English, Hello_Spanish, Hello_Portuguese, Hello_French},
-    {Goodbye_English, Goodbye_Spanish, Goodbye_Portuguese, Goodbye_French},
-    {Language_English, Language_Spanish, Language_Portuguese, Language_French}};
-// use main1 to observe special characters
-int main1(void) { // main1
-  char l;
-  __disable_irq();
-  PLL_Init(); // set bus speed
-  LaunchPad_Init();
-  ST7735_InitPrintf(
-      INITR_REDTAB); // INITR_REDTAB for AdaFruit, INITR_BLACKTAB for HiLetGo
-  ST7735_FillScreen(0x0000); // set screen to black
-  for (phrase_t myPhrase = HELLO; myPhrase <= GOODBYE; myPhrase++) {
-    for (Language_t myL = English; myL <= French; myL++) {
-      ST7735_OutString((char *)Phrases[LANGUAGE][myL]);
-      ST7735_OutChar(' ');
-      ST7735_OutString((char *)Phrases[myPhrase][myL]);
-      ST7735_OutChar(13);
-    }
-  }
-  Clock_Delay1ms(3000);
-  ST7735_FillScreen(0x0000); // set screen to black
-  l = 128;
-  while (1) {
-    Clock_Delay1ms(2000);
-    for (int j = 0; j < 3; j++) {
-      for (int i = 0; i < 16; i++) {
-        ST7735_SetCursor(7 * j + 0, i);
-        ST7735_OutUDec(l);
-        ST7735_OutChar(' ');
-        ST7735_OutChar(' ');
-        ST7735_SetCursor(7 * j + 4, i);
-        ST7735_OutChar(l);
-        l++;
-      }
-    }
-  }
-}
+// uint32_t M=1;
+// uint32_t Random32(void){
+//   M = 1664525*M+1013904223;
+//   return M;
+// }
+// uint32_t Random(uint32_t n){
+//   return (Random32()>>16)%n;
+// }
+
+// // games  engine runs at 30Hz
+// // void TIMG12_IRQHandler(void) {
+// //   uint32_t pos, msg;
+// //   if ((TIMG12->CPU_INT.IIDX) == 1) { // this will acknowledge
+// //     GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
+// //     GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
+// //                                 // game engine goes here
+// //     // 1) sample slide pot
+// //     // 2) read input switches
+// //     // 3) move sprites
+// //     // 4) start sounds
+// //     // 5) set semaphore
+// //     // NO LCD OUTPUT IN INTERRUPT SERVICE ROUTINES
+// //     GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
+// //   }
+// // }
+// uint8_t TExaS_LaunchPadLogicPB27PB26(void) {
+//   return (0x80 | ((GPIOB->DOUT31_0 >> 26) & 0x03));
+// }
+
+// typedef enum { English, Spanish, Portuguese, French } Language_t;
+// Language_t myLanguage = English;
+// typedef enum { HELLO, GOODBYE, LANGUAGE } phrase_t;
+// const char Hello_English[] = "Hello";
+// const char Hello_Spanish[] = "\xADHola!";
+// const char Hello_Portuguese[] = "Ol\xA0";
+// const char Hello_French[] = "All\x83";
+// const char Goodbye_English[] = "Goodbye";
+// const char Goodbye_Spanish[] = "Adi\xA2s";
+// const char Goodbye_Portuguese[] = "Tchau";
+// const char Goodbye_French[] = "Au revoir";
+// const char Language_English[] = "English";
+// const char Language_Spanish[] = "Espa\xA4ol";
+// const char Language_Portuguese[] = "Portugu\x88s";
+// const char Language_French[] = "Fran\x87"
+//                                "ais";
+// const char *Phrases[3][4] = {
+//     {Hello_English, Hello_Spanish, Hello_Portuguese, Hello_French},
+//     {Goodbye_English, Goodbye_Spanish, Goodbye_Portuguese, Goodbye_French},
+//     {Language_English, Language_Spanish, Language_Portuguese, Language_French}};
+// // use main1 to observe special characters
+// int main1(void) { // main1
+//   char l;
+//   __disable_irq();
+//   PLL_Init(); // set bus speed
+//   LaunchPad_Init();
+//   ST7735_InitPrintf(
+//       INITR_REDTAB); // INITR_REDTAB for AdaFruit, INITR_BLACKTAB for HiLetGo
+//   ST7735_FillScreen(0x0000); // set screen to black
+//   for (phrase_t myPhrase = HELLO; myPhrase <= GOODBYE; myPhrase++) {
+//     for (Language_t myL = English; myL <= French; myL++) {
+//       ST7735_OutString((char *)Phrases[LANGUAGE][myL]);
+//       ST7735_OutChar(' ');
+//       ST7735_OutString((char *)Phrases[myPhrase][myL]);
+//       ST7735_OutChar(13);
+//     }
+//   }
+//   Clock_Delay1ms(3000);
+//   ST7735_FillScreen(0x0000); // set screen to black
+//   l = 128;
+//   while (1) {
+//     Clock_Delay1ms(2000);
+//     for (int j = 0; j < 3; j++) {
+//       for (int i = 0; i < 16; i++) {
+//         ST7735_SetCursor(7 * j + 0, i);
+//         ST7735_OutUDec(l);
+//         ST7735_OutChar(' ');
+//         ST7735_OutChar(' ');
+//         ST7735_SetCursor(7 * j + 4, i);
+//         ST7735_OutChar(l);
+//         l++;
+//       }
+//     }
+//   }
+// }
 
 // use main2 to observe graphics
 int main2(void) { // main2
@@ -345,7 +349,7 @@ int main5(void) { // final main
   Switch_Init(); // initialize switches
   LED_Init();    // initialize LED
   Sound_Init();  // initialize sound
-  TExaS_Init(0, 0, &TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
+  //TExaS_Init(0, 0, &TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
                                                    // initialize interrupts on
                                                    // TimerG12 at 30 Hz
   TimerG12_IntArm(80000000 / 30, 2);

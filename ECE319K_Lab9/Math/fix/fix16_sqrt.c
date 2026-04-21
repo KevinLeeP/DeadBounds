@@ -72,7 +72,7 @@ fix16_t fix16_sqrt(fix16_t inValue)
 		}
 	}
 
-#ifndef FIXMATH_NO_ROUNDING
+#ifdef FIXMATH_NO_ROUNDING
 	// Finally, if next bit would have been 1, round the result upwards.
 	if (num > result)
 	{
