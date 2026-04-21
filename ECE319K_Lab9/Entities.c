@@ -20,8 +20,8 @@ extern v2d plane;
 
 extern zombie_t zombies[maxZombies];
 extern uint32_t spriteOrder[];
-uint32_t zombieCount = 2;
-uint32_t spawnCoefficient = 100; //spawn % chance (per 1/30s) = 1/spawnRate
+uint32_t zombieCount = 0;
+uint32_t spawnCoefficient = 200; //spawn % chance (per 1/30s) = 1/spawnCoefficient
 uint32_t score;
 
 
@@ -30,10 +30,7 @@ uint8_t gunShot = 0;
 uint8_t gunRaysShot = 0;
 uint8_t gunReload = 0;
 
-zombie_t zombies[maxZombies] = {
-  {100, 15, F16(0.25), 30, 30, zombie1, F16(12), F16(12)},
-  {100, 15,  F16(0.25), 30, 30, zombie1,F16(13), F16(13)}
-};
+zombie_t zombies[maxZombies];
 
 //int32_t zombieCooldowns[maxZombies] = {0, 0}; //make it an attribute
 
@@ -105,7 +102,7 @@ void Spawn_Zombie(void){
   fix16_t x = rand() % mapHeight << 16;
   fix16_t y = (rand() % mapWidth) << 16;
 
-  zombies[zombieCount] = (zombie_t){100, 15, F16(0.25), 30, 30,zombie1, x, y};
+  zombies[zombieCount] = (zombie_t){100, 8, F16(0.25), 30, 30, zombie1, x, y};
   zombieCount++;
 }
 
@@ -167,13 +164,17 @@ void TIMG12_IRQHandler(void){
     fix16_t zombieDirX = pos.x - zombie->posX;
     fix16_t zombieDirY = pos.y - zombie->posY;
     fix16_t zombieDirMag = fix16_sqrt(fix16_mul(zombieDirX, zombieDirX) + fix16_mul(zombieDirY, zombieDirY));
+
+    if(zombieDirMag <= F16(0.1)){
+      continue;
+    }
     
     //standardize speed by finding unit vector
     zombieDirX = fix16_div(zombieDirX, zombieDirMag);
     zombieDirY = fix16_div(zombieDirY, zombieDirMag);
 
-    fix16_t deltaX = fix16_mul(zombieDirX, F16(0.03333));
-    fix16_t deltaY =fix16_mul(zombieDirY, F16(0.03333));
+    fix16_t deltaX = fix16_mul(zombieDirX, F16(0.03));
+    fix16_t deltaY =fix16_mul(zombieDirY, F16(0.03));
     zombie->posX += deltaX;
     zombie->posY += deltaY;
   }
@@ -182,8 +183,11 @@ void TIMG12_IRQHandler(void){
   if(randNum == 0){
     Spawn_Zombie();
   }
-  
 
+  randNum = rand() % 15000;
+  if(randNum == 0 && spawnCoefficient > 50){
+    spawnCoefficient--;
+  }
   
 }
 

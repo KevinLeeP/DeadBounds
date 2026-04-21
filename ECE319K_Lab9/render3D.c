@@ -64,6 +64,8 @@ extern zombie_t zombies[];
 extern uint32_t zombieCount;
 
 extern player_t Player;
+extern int32_t score;
+char scoreBuffer[16];
 
 void sortSprites(uint32_t *order, uint32_t *distance, int32_t size) {
   int sorted = 1;
@@ -423,6 +425,11 @@ void raycast(void) {
                                        shotgun[frame].h, 1);
   ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth,
                                        crosshairHeight, 1);
+  
+  sprintf(scoreBuffer, "%d", score);
+  ST7735_DrawStringToBuffer(1, 1, "Score: ", ST7735_WHITE, 1);
+  ST7735_DrawStringToBuffer(8, 1, scoreBuffer, ST7735_WHITE, 1);
+                                       
   ST7735_DrawBitmap(0, 127, displayBuffer, 80, 128);
 
   /************const uint16_t *image,
@@ -637,5 +644,7 @@ void raycast(void) {
                                        shotgun[frame].h, 2);
   ST7735_DrawTransparentBitmapOnBuffer(76, 66, crosshair, crosshairWidth,
                                        crosshairHeight, 2);
+
+  ST7735_DrawStringToBuffer(8, 1, scoreBuffer, ST7735_WHITE, 2);
   ST7735_DrawBitmap(80, 127, displayBuffer, 80, 128);
 }
