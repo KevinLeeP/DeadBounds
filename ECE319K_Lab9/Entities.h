@@ -39,10 +39,9 @@ struct zombie{
 
 };
 typedef struct zombie zombie_t;
-
-uint8_t flowField[mapWidth][mapHeight];
-int prevPlayerGridX = -1;
-int prevPlayerGridY = -1;
+extern uint8_t flowField[24][24];
+extern int prevPlayerGridX;
+extern int prevPlayerGridY;
 
 // initialize the player with 100 health and 5 bullets
 void Player_Init(void);
@@ -60,6 +59,8 @@ void Spawn_Zombie(void);
 
 void Zombie_Damaged(zombie_t* zombie, int16_t damage, int32_t index);
 
-void Clear_Zombies(void);
+void Reset_Zombies(void);
+
+void GenerateFlowField(void);
 
 #endif

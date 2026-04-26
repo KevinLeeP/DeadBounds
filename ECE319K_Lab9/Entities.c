@@ -3,14 +3,14 @@
 
 
 #define F16(x) ((fix16_t)(((x) >= 0) ? ((x) * 65536.0 + 0.5) : ((x) * 65536.0 - 0.5)))
-#define maxZombies 16
+#define maxZombies 12
 #define zombieHitbox 0.3
 #define damageDrop 14
 #define zombieMinDistance 0.25
 
 
 extern const uint16_t zombie1[];
-extern const uint16_t zombie1[];
+//extern const uint16_t zombie1[];
 //extern const uint16_t zombieAttack[];
 
 
@@ -37,6 +37,11 @@ uint8_t gunReload = 0;
 uint8_t prevSwitchLang = 0;
 
 zombie_t zombies[maxZombies];
+
+uint8_t flowField[24][24];
+int prevPlayerGridX = -1;
+int prevPlayerGridY = -1;
+
 
 //int32_t zombieCooldowns[maxZombies] = {0, 0}; //make it an attribute
 
@@ -112,10 +117,10 @@ void Spawn_Zombie(void){
   do{
     x = rand() % mapHeight << 16;
     y = (rand() % mapWidth) << 16;
-  } while(worldMap[fix16_to_int(x)][fix16_to_int(y)] != 0);
+  } while(worldMap[fix16_to_int(x)][fix16_to_int(y)] != 0 || fix16_mul((pos.x-x), (pos.x-x)) + fix16_mul(pos.y-y, pos.y-y) < F16(3));
 
 
-  zombies[zombieCount] = (zombie_t){100, 8, F16(0.25), 30, 30, zombie1, x, y};
+  zombies[zombieCount] = (zombie_t){100, 10, F16(0.25), 30, 30, zombie1, x, y};
   zombieCount++;
 }
 
@@ -133,8 +138,54 @@ void Zombie_Damaged(zombie_t* zombie, int16_t damage, int32_t index){
   }
 }
 
-void Clear_Zombies(void){
+void Reset_Zombies(void){
   zombieCount = 0;
+  spawnCoefficient = 175;
+}
+
+void GenerateFlowField(void) {
+    int px = fix16_to_int(pos.x);
+    int py = fix16_to_int(pos.y);
+    
+    if (px == prevPlayerGridX && py == prevPlayerGridY) return;
+    prevPlayerGridX = px; 
+    prevPlayerGridY = py;
+
+    memset(flowField, 255, sizeof(flowField));
+
+    static uint8_t queueX[576]; 
+    static uint8_t queueY[576];
+    int head = 0, tail = 0;
+
+    queueX[tail] = px; 
+    queueY[tail] = py; 
+    tail++;
+    flowField[px][py] = 0; // Player is distance 0
+
+    int dx[4] = {0, 0, -1, 1};
+    int dy[4] = {-1, 1, 0, 0};
+
+    while (head < tail) {
+        int cx = queueX[head];
+        int cy = queueY[head];
+        head++;
+        
+        int currentDist = flowField[cx][cy];
+
+        for (int i = 0; i < 4; i++) {
+            int nx = cx + dx[i];
+            int ny = cy + dy[i];
+
+            if (nx >= 0 && nx < mapWidth && ny >= 0 && ny < mapHeight) {
+                if (worldMap[nx][ny] == 0 && flowField[nx][ny] == 255) {
+                    flowField[nx][ny] = currentDist + 1;
+                    queueX[tail] = nx; 
+                    queueY[tail] = ny; 
+                    tail++;
+                }
+            }
+        }
+    }
 }
 
 void TIMG12_IRQHandler(void){
@@ -161,7 +212,7 @@ void TIMG12_IRQHandler(void){
   }
   prevSwitchLang = Switch_Language();
 
-  //damage checker
+  //player damaged checker
   for(int i = 0; i<zombieCount; i++){
     if((fix16_mul(pos.x-zombies[i].posX, pos.x-zombies[i].posX) + fix16_mul(pos.y-zombies[i].posY, pos.y-zombies[i].posY)) <= zombies[i].hitRadiusSquared){
       if(zombies[i].cooldown <= 0){
@@ -176,41 +227,103 @@ void TIMG12_IRQHandler(void){
   }
 
   //zombie pathfinding algo
+  // for(int i = 0; i<zombieCount; i++){
+  //   zombie_t* zombie = &zombies[i];
+
+    
+
+  //   //find a direction vector to the player if there is a line of sight
+  //   fix16_t zombieDirX = pos.x - zombie->posX;
+  //   fix16_t zombieDirY = pos.y - zombie->posY;
+  //   fix16_t zombieDirMag = fix16_sqrt(fix16_mul(zombieDirX, zombieDirX) + fix16_mul(zombieDirY, zombieDirY));
+
+  //   if(zombieDirMag <= F16(zombieMinDistance)){
+  //     continue;
+  //   }
+    
+  //   //standardize speed by finding unit vector
+  //   zombieDirX = fix16_div(zombieDirX, zombieDirMag);
+  //   zombieDirY = fix16_div(zombieDirY, zombieDirMag);
+
+  //   fix16_t deltaX = fix16_mul(zombieDirX, F16(0.03));
+  //   fix16_t deltaY =fix16_mul(zombieDirY, F16(0.03));
+
+  //   int nextGridX = fix16_to_int(zombie->posX + deltaX);
+  //   int nextGridY = fix16_to_int(zombie->posY + deltaY);
+
+
+  //   //check for collisions
+  //   if(worldMap[nextGridX][fix16_to_int(pos.y)] != 0){
+  //     deltaX = 0;
+  //   }
+  //   if(worldMap[fix16_to_int(pos.x)][nextGridY] != 0){
+  //     deltaY = 0;
+  //   }
+
+  //   zombie->posX += deltaX;
+  //   zombie->posY += deltaY;
+  // }
   for(int i = 0; i<zombieCount; i++){
     zombie_t* zombie = &zombies[i];
 
-    
+    fix16_t losX = pos.x - zombie->posX;
+    fix16_t losY = pos.y - zombie->posY;
+    fix16_t losMag = fix16_sqrt(fix16_mul(losX, losX) + fix16_mul(losY, losY));
 
-    //find a direction vector to the player if there is a line of sight
-    fix16_t zombieDirX = pos.x - zombie->posX;
-    fix16_t zombieDirY = pos.y - zombie->posY;
-    fix16_t zombieDirMag = fix16_sqrt(fix16_mul(zombieDirX, zombieDirX) + fix16_mul(zombieDirY, zombieDirY));
-
-    if(zombieDirMag <= F16(zombieMinDistance)){
+    if(losMag <= F16(zombieMinDistance)){
       continue;
     }
+
+    int zx = fix16_to_int(zombie->posX);
+    int zy = fix16_to_int(zombie->posY);
     
-    //standardize speed by finding unit vector
+    int bestDist = flowField[zx][zy];
+    int targetX = zx;
+    int targetY = zy;
+    
+    int dx[] = {0, 0, 1, -1, 1, -1, 1, -1};
+    int dy[] = {1, -1, 0, 0, 1, 1, -1, -1};
+
+    for(int j=0; j<8; j++) {
+        int nx = zx + dx[j];
+        int ny = zy + dy[j];
+        if(nx >= 0 && nx < mapWidth && ny >= 0 && ny < mapHeight) {
+            if(flowField[nx][ny] < bestDist) {
+                bestDist = flowField[nx][ny];
+                targetX = nx; 
+                targetY = ny;
+            }
+        }
+    }
+
+    fix16_t zombieDirX, zombieDirY;
+
+    if (bestDist == flowField[zx][zy]) {
+        zombieDirX = losX;
+        zombieDirY = losY;
+    } else {
+        fix16_t targetCenterX = (targetX << 16) + F16(0.5);
+        fix16_t targetCenterY = (targetY << 16) + F16(0.5);
+        zombieDirX = targetCenterX - zombie->posX;
+        zombieDirY = targetCenterY - zombie->posY;
+    }
+
+    // Normalize target vector
+    fix16_t zombieDirMag = fix16_sqrt(fix16_mul(zombieDirX, zombieDirX) + fix16_mul(zombieDirY, zombieDirY));
+    if (zombieDirMag == 0) continue;
+    
     zombieDirX = fix16_div(zombieDirX, zombieDirMag);
     zombieDirY = fix16_div(zombieDirY, zombieDirMag);
 
     fix16_t deltaX = fix16_mul(zombieDirX, F16(0.03));
-    fix16_t deltaY =fix16_mul(zombieDirY, F16(0.03));
+    fix16_t deltaY = fix16_mul(zombieDirY, F16(0.03));
 
-    int nextGridX = fix16_to_int(zombie->posX + deltaX);
-    int nextGridY = fix16_to_int(zombie->posY + deltaY);
-
-
-    //check for collisions
-    if(worldMap[nextGridX][fix16_to_int(pos.y)] != 0){
-      deltaX = 0;
+    if (worldMap[fix16_to_int(zombie->posX + deltaX)][fix16_to_int(zombie->posY)] == 0) {
+        zombie->posX += deltaX;
     }
-    if(worldMap[fix16_to_int(pos.x)][nextGridY] != 0){
-      deltaY = 0;
+    if (worldMap[fix16_to_int(zombie->posX)][fix16_to_int(zombie->posY + deltaY)] == 0) {
+        zombie->posY += deltaY;
     }
-
-    zombie->posX += deltaX;
-    zombie->posY += deltaY;
   }
 
   int randNum = rand() % spawnCoefficient;

@@ -8,7 +8,7 @@
 #define __RENDER3D_H__
 
 void sortSprites(uint32_t* order, uint32_t* distances, int32_t size);
-void raycast(void);
+void Raycast(void);
 
 
 #endif

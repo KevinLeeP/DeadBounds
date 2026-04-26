@@ -39,11 +39,12 @@
 
 #define skyColor 0x88a1
 #define borderColor 0x000 
-#define floorColor 0x31e0//0x18c0
+#define floorColor 0x2140
 
 #define materialColor1 0x4920
 #define materialColor2 0x5269
 #define materialColor3 0x9aa5
+#define materialColor4 0x2300
 
 #define texWidth 64
 #define texHeight 118
@@ -113,7 +114,7 @@ void sortSprites(uint32_t *order, uint32_t *distance, int32_t size) {
   // }
 }
 
-void raycast(void) {
+void Raycast(void) {
 
   Language_t lang = myLanguages[currentLanguage];
   
@@ -338,6 +339,9 @@ void raycast(void) {
     case 4:
       color = materialColor3;
       break;
+    case 5:
+      color = materialColor4;
+      break;
     default:
       color = borderColor;
       break;
@@ -380,6 +384,8 @@ void raycast(void) {
 
     fix16_t transformX = fix16_mul(inverseDet, fix16_mul(dir.y, spriteX) - fix16_mul(dir.x, spriteY));
     fix16_t transformY = fix16_mul(inverseDet, fix16_mul(-plane.y, spriteX) + fix16_mul(plane.x, spriteY));
+
+    
 
 
 
@@ -558,6 +564,9 @@ void raycast(void) {
       break;
     case 4:
       color = materialColor3;
+      break;
+    case 5:
+      color = materialColor4;
       break;
     default:
       color = borderColor;
