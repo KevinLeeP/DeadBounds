@@ -82,7 +82,7 @@ const uint8_t worldMap[mapWidth][mapHeight] = {
     {1, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2, 0, 0, 0, 0, 3, 0, 3, 0, 3, 0, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -101,6 +101,8 @@ const uint8_t worldMap[mapWidth][mapHeight] = {
   v2d plane = {F16(0.0), F16(0.666)};
 
   extern player_t Player;
+  extern uint32_t score;
+  extern char scoreBuffer[];
 
 
 int main(void) { // mainDeadBounds
@@ -129,6 +131,7 @@ while(1){
 
   Player_Init();
   __enable_irq();
+  gunShot = 0;
   while(Player.health > 0) {
     raycast();
   }
@@ -136,7 +139,7 @@ while(1){
 
   //death screen stuff
   for(int i = 0; i < 160; i++){
-    ST7735_DrawFastHLine(0, i, screenWidth, 0xF100);
+    ST7735_DrawFastHLine(0, i, screenWidth, 0xa8e1);
     Clock_Delay1ms(20);
   }
 
@@ -146,11 +149,20 @@ while(1){
   ST7735_OutStringTransparent(myLanguages[currentLanguage].phrase1);
   ST7735_SetCursor(myLanguages[currentLanguage].xOffset, 8);
   ST7735_OutStringTransparent(myLanguages[currentLanguage].phrase2);
+
+  ST7735_SetCursor(4,9);
+  ST7735_OutStringTransparent(myLanguages[currentLanguage].scoreInLang);
+  ST7735_SetCursor(4 + myLanguages[currentLanguage].scoreInLangLen, 9);
+  ST7735_OutStringTransparent(scoreBuffer);
+
+  
   
   Clear_Zombies();
+  score = 0;
+  
   while(Switch_Shoot() == 0){
   }
-  gunShot = 0;
+
 
   //reset game
   Player_Init();

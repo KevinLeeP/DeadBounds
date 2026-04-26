@@ -7,7 +7,7 @@
 #define Spanish 1
 
 Language_t myLanguages[2] = {
-    {"Press any button", "to Restart", 4, youDiedEnglish, 70, "Score: ", 7},
+    {"Press shoot to", "Restart", 4, youDiedEnglish, 70, "Score: ", 7},
     {"Presione para ", "Reiniciar", 4, youDiedSpanish, 90, "Puntaje: ", 9}
 };
 

@@ -13,8 +13,10 @@ extern const uint16_t zombie1[];
 extern const uint16_t zombie1[];
 //extern const uint16_t zombieAttack[];
 
+
 extern const uint32_t mapWidth;
 extern const uint32_t mapHeight;
+extern const uint8_t worldMap[][24]; //find best solution later
 extern v2d pos;
 extern v2d dir;
 extern v2d plane;
@@ -22,7 +24,8 @@ extern v2d plane;
 extern zombie_t zombies[maxZombies];
 extern uint32_t spriteOrder[];
 uint32_t zombieCount = 0;
-uint32_t spawnCoefficient = 200; //spawn % chance (per 1/30s) = 1/spawnCoefficient
+uint32_t spawnCoefficient = 175; //spawn % chance (per 1/30s) = 1/
+uint32_t difficultyRate = 100;
 uint32_t score;
 
 
@@ -102,8 +105,15 @@ void Spawn_Zombie(void){
     return;
   }
 
-  fix16_t x = rand() % mapHeight << 16;
-  fix16_t y = (rand() % mapWidth) << 16;
+  // fix16_t x = rand() % mapHeight << 16;
+  // fix16_t y = (rand() % mapWidth) << 16;
+  fix16_t x;
+  fix16_t y;
+  do{
+    x = rand() % mapHeight << 16;
+    y = (rand() % mapWidth) << 16;
+  } while(worldMap[fix16_to_int(x)][fix16_to_int(y)] != 0);
+
 
   zombies[zombieCount] = (zombie_t){100, 8, F16(0.25), 30, 30, zombie1, x, y};
   zombieCount++;
@@ -169,7 +179,9 @@ void TIMG12_IRQHandler(void){
   for(int i = 0; i<zombieCount; i++){
     zombie_t* zombie = &zombies[i];
 
-    //find a direction vector to the player
+    
+
+    //find a direction vector to the player if there is a line of sight
     fix16_t zombieDirX = pos.x - zombie->posX;
     fix16_t zombieDirY = pos.y - zombie->posY;
     fix16_t zombieDirMag = fix16_sqrt(fix16_mul(zombieDirX, zombieDirX) + fix16_mul(zombieDirY, zombieDirY));
@@ -184,6 +196,19 @@ void TIMG12_IRQHandler(void){
 
     fix16_t deltaX = fix16_mul(zombieDirX, F16(0.03));
     fix16_t deltaY =fix16_mul(zombieDirY, F16(0.03));
+
+    int nextGridX = fix16_to_int(zombie->posX + deltaX);
+    int nextGridY = fix16_to_int(zombie->posY + deltaY);
+
+
+    //check for collisions
+    if(worldMap[nextGridX][fix16_to_int(pos.y)] != 0){
+      deltaX = 0;
+    }
+    if(worldMap[fix16_to_int(pos.x)][nextGridY] != 0){
+      deltaY = 0;
+    }
+
     zombie->posX += deltaX;
     zombie->posY += deltaY;
   }
@@ -193,8 +218,8 @@ void TIMG12_IRQHandler(void){
     Spawn_Zombie();
   }
 
-  randNum = rand() % 300;
-  if(randNum == 0 && spawnCoefficient > 10){
+  randNum = rand() % difficultyRate;
+  if(randNum == 0 && spawnCoefficient > 1){
     spawnCoefficient--;
   }
   

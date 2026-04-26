@@ -39,7 +39,7 @@
 
 #define skyColor 0x88a1
 #define borderColor 0x000 
-#define floorColor 0x18c0
+#define floorColor 0x31e0//0x18c0
 
 #define materialColor1 0x4920
 #define materialColor2 0x5269
@@ -72,6 +72,8 @@ extern player_t Player;
 extern int32_t score;
 char scoreBuffer[16];
 
+
+//change to insertion sort
 void sortSprites(uint32_t *order, uint32_t *distance, int32_t size) {
   int sorted = 1;
   for (int i = 0; i < size - 1; i++) {
@@ -97,6 +99,18 @@ void sortSprites(uint32_t *order, uint32_t *distance, int32_t size) {
       }
     }
   }
+  // int highestVal;
+  // for(int i = 0; i<size-1; i++){
+  //   highestVal = i;
+  //   for(int j = i; j<size; j++){
+  //     if(distance[order[j]] > highestVal){
+  //       highestVal = j;
+  //     }
+  //   }
+  //   int temp = highestVal;
+  //   order[i] = highestVal;
+  //   order[highestVal] = i;
+  // }
 }
 
 void raycast(void) {
@@ -185,23 +199,25 @@ void raycast(void) {
     pos.y -= fix16_mul(dir.x, walkSpeedY);
   }
 
-  uint32_t testX = fix16_to_int(pos.x);
-  uint32_t testY = fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX));
-  uint32_t test = worldMap[testX][testY];
+  // uint32_t testX = fix16_to_int(pos.x);
+  // uint32_t testY = fix16_to_int(pos.y - fix16_mul(dir.y, walkSpeedX));
+  // uint32_t test = worldMap[testX][testY];
 
   // calc direction
   fix16_t tempDirX;
   fix16_t tempPlaneX;
-  tempDirX = fix16_mul(dir.x, fix16_fast_cos(rotSpeed)) -
-             fix16_mul(dir.y, fix16_fast_sin(rotSpeed));
-  dir.y = fix16_mul(dir.x, fix16_fast_sin(rotSpeed)) +
-          fix16_mul(dir.y, fix16_fast_cos(rotSpeed));
+  fix16_t cosRotSpeed = fix16_fast_cos(rotSpeed);
+  fix16_t sinRotSpeed = fix16_fast_sin(rotSpeed);
+  tempDirX = fix16_mul(dir.x, cosRotSpeed) -
+             fix16_mul(dir.y, sinRotSpeed);
+  dir.y = fix16_mul(dir.x, sinRotSpeed) +
+          fix16_mul(dir.y, cosRotSpeed);
   dir.x = tempDirX;
 
-  tempPlaneX = fix16_mul(plane.x, fix16_fast_cos(rotSpeed)) -
-               fix16_mul(plane.y, fix16_fast_sin(rotSpeed));
-  plane.y = fix16_mul(plane.x, fix16_fast_sin(rotSpeed)) +
-            fix16_mul(plane.y, fix16_fast_cos(rotSpeed));
+  tempPlaneX = fix16_mul(plane.x, cosRotSpeed) -
+               fix16_mul(plane.y, sinRotSpeed);
+  plane.y = fix16_mul(plane.x, sinRotSpeed) +
+            fix16_mul(plane.y, cosRotSpeed);
   plane.x = tempPlaneX;
 
   for (int i = 0; i < zombieCount; i++) {
@@ -211,6 +227,10 @@ void raycast(void) {
          fix16_mul(pos.y - zombies[i].posY, pos.y - zombies[i].posY));
   }
   sortSprites(spriteOrder, spriteDistance, zombieCount);
+
+  fix16_t det = fix16_mul(plane.x, dir.y) - fix16_mul(dir.x, plane.y);
+  fix16_t inverseDet = (det != 0) ? fix16_div(F16(1), det) : fix16_maximum;
+  
 
   /**********
     FIRST HALF
@@ -358,15 +378,10 @@ void raycast(void) {
     fix16_t spriteX = zombies[spriteOrder[i]].posX - pos.x;
     fix16_t spriteY = zombies[spriteOrder[i]].posY - pos.y;
 
-    // transform sprite image with inverse camera matrix
-    //[planeX dirX] ^-1 => 1/(planeX * dirY - dirX * planeY) [dirY     -dirX]
-    //[planeY dirY]                                         [-planeY planeX]
-    fix16_t inverseDet = fix16_div(
-        F16(1), (fix16_mul(plane.x, dir.y) - fix16_mul(dir.x, plane.y)));
-    fix16_t transformX = fix16_mul(inverseDet, fix16_mul(dir.y, spriteX) +
-                                                   fix16_mul(-dir.x, spriteY));
-    fix16_t transformY = fix16_mul(inverseDet, fix16_mul(-plane.y, spriteX) +
-                                                   fix16_mul(plane.x, spriteY));
+    fix16_t transformX = fix16_mul(inverseDet, fix16_mul(dir.y, spriteX) - fix16_mul(dir.x, spriteY));
+    fix16_t transformY = fix16_mul(inverseDet, fix16_mul(-plane.y, spriteX) + fix16_mul(plane.x, spriteY));
+
+
 
     if (transformY <= 0) continue; // Prevent rendering behind player
 
@@ -583,10 +598,10 @@ void raycast(void) {
     fix16_t spriteX = zombies[spriteOrder[i]].posX - pos.x;
     fix16_t spriteY = zombies[spriteOrder[i]].posY - pos.y;
 
-    fix16_t det = fix16_mul(plane.x, dir.y) - fix16_mul(dir.x, plane.y);
+    // fix16_t det = fix16_mul(plane.x, dir.y) - fix16_mul(dir.x, plane.y);
     if(det == 0) continue; // Prevent divide by zero
 
-    fix16_t inverseDet = fix16_div(F16(1), det);
+    // fix16_t inverseDet = fix16_div(F16(1), det);
     fix16_t transformX = fix16_mul(inverseDet, fix16_mul(dir.y, spriteX) - fix16_mul(dir.x, spriteY));
     fix16_t transformY = fix16_mul(inverseDet, fix16_mul(-plane.y, spriteX) + fix16_mul(plane.x, spriteY));
 

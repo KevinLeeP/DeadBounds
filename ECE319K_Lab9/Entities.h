@@ -40,7 +40,9 @@ struct zombie{
 };
 typedef struct zombie zombie_t;
 
-
+uint8_t flowField[mapWidth][mapHeight];
+int prevPlayerGridX = -1;
+int prevPlayerGridY = -1;
 
 // initialize the player with 100 health and 5 bullets
 void Player_Init(void);

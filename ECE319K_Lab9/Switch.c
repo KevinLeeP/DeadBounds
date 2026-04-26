@@ -29,7 +29,7 @@ void Switch_Init(void){
 // 11 means both 
 uint32_t Switch_In(void){
   return (((GPIOB->DIN31_0 & 0x100000) >> 20) || ((GPIOA->DIN31_0 & 0x800) >> 10)); 
-}
+}//outdated
 
 uint32_t Switch_Shoot(void){
   return ((GPIOB->DIN31_0 & 0x100000) >> 20); 
