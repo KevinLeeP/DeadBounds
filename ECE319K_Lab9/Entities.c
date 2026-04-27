@@ -117,7 +117,8 @@ void Spawn_Zombie(void){
   do{
     x = rand() % mapHeight << 16;
     y = (rand() % mapWidth) << 16;
-  } while(worldMap[fix16_to_int(x)][fix16_to_int(y)] != 0 || fix16_mul((pos.x-x), (pos.x-x)) + fix16_mul(pos.y-y, pos.y-y) < F16(3));
+  } while(worldMap[fix16_to_int(x)][fix16_to_int(y)] != 0 || 
+          fix16_mul((pos.x-x), (pos.x-x)) + fix16_mul(pos.y-y, pos.y-y) < F16(3));
 
 
   zombies[zombieCount] = (zombie_t){100, 10, F16(0.25), 30, 30, zombie1, x, y};

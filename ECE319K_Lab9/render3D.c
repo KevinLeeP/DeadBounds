@@ -76,42 +76,58 @@ char scoreBuffer[16];
 
 //change to insertion sort
 void sortSprites(uint32_t *order, uint32_t *distance, int32_t size) {
-  int sorted = 1;
-  for (int i = 0; i < size - 1; i++) {
-    if (distance[order[i]] < distance[order[i + 1]]) {
-      sorted = 0;
-      break;
-    }
-  }
-  while (sorted == 0) {
-    for (int i = 0; i < size - 1; i++) {
-      if (distance[order[i]] < distance[order[i + 1]]) {
-        int temp = order[i];
-        order[i] = order[i + 1];
-        order[i + 1] = temp;
-      }
-    }
-
-    sorted = 1;
-    for (int i = 0; i < size - 1; i++) {
-      if (distance[order[i]] < distance[order[i + 1]]) {
-        sorted = 0;
-        break;
-      }
-    }
-  }
-  // int highestVal;
-  // for(int i = 0; i<size-1; i++){
-  //   highestVal = i;
-  //   for(int j = i; j<size; j++){
-  //     if(distance[order[j]] > highestVal){
-  //       highestVal = j;
+  // int sorted = 1;
+  // for (int i = 0; i < size - 1; i++) {
+  //   if (distance[order[i]] < distance[order[i + 1]]) {
+  //     sorted = 0;
+  //     break;
+  //   }
+  // }
+  // while (sorted == 0) {
+  //   for (int i = 0; i < size - 1; i++) {
+  //     if (distance[order[i]] < distance[order[i + 1]]) {
+  //       int temp = order[i];
+  //       order[i] = order[i + 1];
+  //       order[i + 1] = temp;
   //     }
   //   }
-  //   int temp = highestVal;
-  //   order[i] = highestVal;
-  //   order[highestVal] = i;
+
+  //   sorted = 1;
+  //   for (int i = 0; i < size - 1; i++) {
+  //     if (distance[order[i]] < distance[order[i + 1]]) {
+  //       sorted = 0;
+  //       break;
+  //     }
+  //   }
   // }
+
+  //selection sort
+  // int highestIndex;
+  // for(int i = 0; i<size-1; i++){
+  //   highestIndex = i;
+  //   for(int j = i+1; j<size; j++){
+  //     if(distance[order[j]] > highestIndex){
+  //       highestIndex = j;
+  //     }
+  //   }
+    
+  //   int temp = order[i];
+  //   order[i] = order[highestIndex];
+  //   order[highestIndex] = temp;
+  // }
+
+
+  //insertion sort
+
+  for(int i=1; i<size; i++){
+    uint32_t key = order[i];
+    int index = i;
+    while(index >= 1 && distance[key] > distance[order[index-1]]){  
+      order[index] = order[index-1];
+      index--;  
+    }
+    order[index] = key;
+  }
 }
 
 void Raycast(void) {
