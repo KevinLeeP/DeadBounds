@@ -35,7 +35,6 @@
 #include "AMDAC4.h"
 #include "HPDAC4.h"
 #include "Language.h"
-#include "entities.h"
 // ****note to ECE319K students****
 // the data sheet says the ADC does not work when clock is 80 MHz
 // however, the ADC seems to work on my boards at 80 MHz

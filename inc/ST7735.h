@@ -918,6 +918,10 @@ void ST7735_SetX(int32_t newX);
 
 void ST7735_DrawBitmapTransparent(int16_t x, int16_t y, uint16_t *image, int16_t w, int16_t h);
 
-void ST7735_DrawTransparentBitmapOnBuffer(uint32_t x, uint32_t y, const uint16_t *image, uint32_t w, uint32_t h, uint8_t half);
+void ST7735_DrawTransparentBitmapToBuffer(uint32_t x, uint32_t y, const uint16_t *image, uint32_t w, uint32_t h, uint8_t half);
+
+void ST7735_DrawCharToBuffer(int8_t x, int8_t y, char c, uint16_t  color, uint8_t half);
+
+void ST7735_DrawStringToBuffer(int8_t x, int8_t y, char *pt, uint16_t color, uint8_t half);
 #endif
 /** @}*/
