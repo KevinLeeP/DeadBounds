@@ -60,7 +60,7 @@ void Player_Damaged(int16_t damage){
     }
 };
 
-void Player_Shoot(void){//change this for raytracing
+void Player_Shoot(void){
     Player.ammo = Player.ammo - 1;
 
     int hitZombieIndex = -1;

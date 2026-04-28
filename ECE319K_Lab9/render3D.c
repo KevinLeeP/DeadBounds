@@ -20,7 +20,6 @@
 #include "Entities.h"
 #include "JoystickLeft.h"
 #include "JoystickRight.h"
-#include "LED.h"
 #include "SmallFont.h"
 #include "Sound.h"
 #include "Switch.h"

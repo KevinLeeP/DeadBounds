@@ -9,7 +9,6 @@
 "./HPDAC4.o"
 "./JoystickLeft.o"
 "./JoystickRight.o"
-"./LED.o"
 "./Lab9Main.o"
 "./Language.o"
 "./LaunchPad.o"

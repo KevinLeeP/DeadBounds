@@ -20,7 +20,6 @@ C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/DAC5.c \
 ../HPDAC4.c \
 ../JoystickLeft.c \
 ../JoystickRight.c \
-../LED.c \
 ../Lab9Main.c \
 ../Language.c \
 C:/Users/kevin/Desktop/S2026/ECE\ 319K/ValvanoWare/inc/LaunchPad.c \
@@ -45,7 +44,6 @@ C_DEPS += \
 ./HPDAC4.d \
 ./JoystickLeft.d \
 ./JoystickRight.d \
-./LED.d \
 ./Lab9Main.d \
 ./Language.d \
 ./LaunchPad.d \
@@ -70,7 +68,6 @@ OBJS += \
 ./HPDAC4.o \
 ./JoystickLeft.o \
 ./JoystickRight.o \
-./LED.o \
 ./Lab9Main.o \
 ./Language.o \
 ./LaunchPad.o \
@@ -95,7 +92,6 @@ OBJS__QUOTED += \
 "HPDAC4.o" \
 "JoystickLeft.o" \
 "JoystickRight.o" \
-"LED.o" \
 "Lab9Main.o" \
 "Language.o" \
 "LaunchPad.o" \
@@ -120,7 +116,6 @@ C_DEPS__QUOTED += \
 "HPDAC4.d" \
 "JoystickLeft.d" \
 "JoystickRight.d" \
-"LED.d" \
 "Lab9Main.d" \
 "Language.d" \
 "LaunchPad.d" \
@@ -144,7 +139,6 @@ C_SRCS__QUOTED += \
 "../HPDAC4.c" \
 "../JoystickLeft.c" \
 "../JoystickRight.c" \
-"../LED.c" \
 "../Language.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/LaunchPad.c" \
 "C:/Users/kevin/Desktop/S2026/ECE 319K/ValvanoWare/inc/SPI.c" \

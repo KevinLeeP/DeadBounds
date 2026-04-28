@@ -26,7 +26,6 @@
 #include "Sound.h"
 #include "../inc/Arabic.h"
 #include "SmallFont.h"
-#include "LED.h"
 #include "Switch.h"
 #include "Sound.h"
 #include "JoystickLeft.h"
