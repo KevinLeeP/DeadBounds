@@ -7,12 +7,12 @@
             "request": "launch"
         },
         {
-            "name": "ECE319K_Lab9",
+            "name": "DeadBounds",
             "type": "ccs-debug",
             "request": "launch",
             "projectInfo": {
-                "name": "ECE319K_Lab9",
-                "resourceId": "/ECE319K_Lab9"
+                "name": "DeadBounds",
+                "resourceId": "/DeadBounds"
             },
             "debuggerSettings": {
                 "targetConfigs/MSPM0G3507.ccxml": {
